@@ -1,4 +1,4 @@
-## .configs  
+> ## .configs  
 
 copy the .config folder in the home directory 
 
@@ -18,9 +18,7 @@ copy the .config folder in the home directory
 | vim, neovim | code editors                 |
 | yazi        | terminal file manager        |
 
----
-
-## .fonts
+> ## .fonts
 
 copy the .local folder in the home directory  
 run in terminal for reload fonts  
