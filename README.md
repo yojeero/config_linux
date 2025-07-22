@@ -1,5 +1,4 @@
-#### .configs
-
+### .configs
 
 | pkg         |                              |
 | ------------- | ------------------------------ |
@@ -17,16 +16,14 @@
 | vim, neovim | code editors                 |
 | yazi        | terminal file manager        |
 
-#### .fonts
+### .fonts
 
 copy .local folder in the home directory
-
 run in terminal for reload fonts
 
-`sudo fc-cache -f -v
-
+`sh
+sudo fc-cache -f -v
 `
-
 
 | fonts                 | nerd fonts              |
 | ----------------------- | ------------------------- |
@@ -38,12 +35,10 @@ run in terminal for reload fonts
 | Operator Mono Font    |                         |
 
 
-.icons and .themes
+### .icons and .themes
 
 copy .icons and .themes folders in the home directory
-
 extract all them
-
 
 | icons                | themes                            |
 | ---------------------- | ----------------------------------- |
