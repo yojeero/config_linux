@@ -22,9 +22,11 @@ copy the .config folder in the home directory
 
 copy the .local folder in the home directory  
 run in terminal for reload fonts  
+
 `
 sudo fc-cache -f -v
-`  
+`   
+ 
 select font in the setings
 
 | fonts                 | nerd fonts              |
