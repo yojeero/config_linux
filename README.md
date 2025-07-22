@@ -16,7 +16,6 @@
 | vim, neovim | code editors                 |
 | yazi        | terminal file manager        |
 
-
 ### .fonts
 
 copy .local folder in home directory  
@@ -32,9 +31,6 @@ sudo fc-cache -f -v
 | Torus Font            | FontAwesome             |
 | Liberation Mono Font  | Symbols Nerd Font Mono  |
 | Liberation Serif Font |                         |
-| Operator Mono Font    |                         |
-
-
 
 ### .icons and .themes
 
