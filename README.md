@@ -18,7 +18,7 @@
 
 ### .fonts
 
-copy .local folder in the home directory
+copy .local folder in home directory  
 run in terminal for reload fonts
 
 `
@@ -37,8 +37,8 @@ sudo fc-cache -f -v
 
 ### .icons and .themes
 
-copy .icons and .themes folders in the home directory
-extract all them
+copy .icons and .themes folders in home directory  
+extract all *.tar.xz archives
 
 | icons                | themes                            |
 | ---------------------- | ----------------------------------- |
