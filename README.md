@@ -18,6 +18,8 @@ copy the .config folder in the home directory
 | vim, neovim | code editors                 |
 | yazi        | terminal file manager        |
 
+---
+
 ### .fonts
 
 copy the .local folder in the home directory  
