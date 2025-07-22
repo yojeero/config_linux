@@ -1,4 +1,6 @@
-### .configs
+### .configs  
+
+copy the .config folder in the home directory 
 
 | pkg         |              about                |
 | ------------ | --------------------------- |
@@ -18,11 +20,12 @@
 
 ### .fonts
 
-copy .local folder in home directory  
+copy the .local folder in the home directory  
 run in terminal for reload fonts  
 `
 sudo fc-cache -f -v
-`
+`  
+select font in the setings
 
 | fonts                 | nerd fonts              |
 | ----------------------- | -------------------- |
@@ -34,8 +37,9 @@ sudo fc-cache -f -v
 
 ### .icons and .themes
 
-copy .icons and .themes folders in home directory  
-extract all *.tar.xz archives
+copy the .icons and .themes folders in the home directory  
+extract all *.tar.xz archives  
+select the icons and theme in the setings
 
 | icons                | themes                            |
 | ---------------------- | ------------------------------- |
