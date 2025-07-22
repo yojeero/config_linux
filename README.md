@@ -21,7 +21,7 @@
 copy .local folder in the home directory
 run in terminal for reload fonts
 
-`sh
+`
 sudo fc-cache -f -v
 `
 
