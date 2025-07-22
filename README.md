@@ -1,7 +1,7 @@
 ### .configs
 
-| pkg         |                              |
-| ------------- | --------------------------- |
+| pkg         |              about                |
+| ------------ | --------------------------- |
 | btop        | monitor of resources         |
 | cava        | audio visualizer             |
 | fastfetch   | system information tool      |
@@ -16,10 +16,11 @@
 | vim, neovim | code editors                 |
 | yazi        | terminal file manager        |
 
+
 ### .fonts
 
 copy .local folder in home directory  
-run in terminal for reload fonts
+run in terminal for reload fonts  
 `
 sudo fc-cache -f -v
 `
@@ -32,6 +33,7 @@ sudo fc-cache -f -v
 | Liberation Mono Font  | Symbols Nerd Font Mono  |
 | Liberation Serif Font |                         |
 | Operator Mono Font    |                         |
+
 
 
 ### .icons and .themes
