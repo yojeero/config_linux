@@ -1,0 +1,17 @@
+        XTerm*faceName: Liberation Mono:size=12
+        XTerm*renderFont: true
+
+	UXTerm*faceName: Liberation Mono:size=12
+	UXTerm*renderFont: true
+
+        Xft.dpi: 96
+        Xft.antialias: true
+        Xft.hinting: true
+        Xft.rgba: rgb
+        Xft.autohint: false
+        Xft.hintstyle: hintslight
+        Xft.lcdfilter: lcddefault
+
+#     xrdb -merge ~/.Xresources
+
+       

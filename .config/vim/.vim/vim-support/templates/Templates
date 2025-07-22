@@ -1,0 +1,16 @@
+§ =============================================================
+§  User Macros
+§ =============================================================
+
+SetMacro( 'AUTHOR',      'Marco Wang' )
+SetMacro( 'AUTHORREF',   '' )
+SetMacro( 'COMPANY',     '' )
+SetMacro( 'COPYRIGHT',   'Copyright (c) 2019, aesophor' )
+SetMacro( 'EMAIL',       'm.aesophor@gmail.com' )
+SetMacro( 'LICENSE',     'GNU General Public License' )
+SetMacro( 'ORGANIZATION','' )
+
+§ =============================================================
+§  File Includes and Shortcuts
+§ =============================================================
+
