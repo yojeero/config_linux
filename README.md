@@ -37,7 +37,7 @@ select font in the setings
 | Liberation Mono Font  | Symbols Nerd Font Mono  |
 | Liberation Serif Font |                         |
 
-### .icons and .themes
+> .icons and .themes
 
 copy the .icons and .themes folders in the home directory  
 extract all *.tar.xz archives  
