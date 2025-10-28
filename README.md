@@ -2,7 +2,7 @@
 
 ### Wallpapers
 
-Wallpapers in different resolutions: from 1920x1080 to 3840x2160 resolution. Copy in the home directory. Select wallpaper in the setings.
+Wallpapers in different resolutions: from 1920x1080px to 3840x2160px. Copy in the home directory. Select wallpaper in the setings.
 
 ### Music
  
