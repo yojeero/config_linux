@@ -1,12 +1,11 @@
 
 # Alpine Linux
 
-# =========================================
+# ================================
 # xfce  
 # 1) setup-basic-postinstal 
 # 2) setup-xfce4 (any wm)
-# =========================================
-
+# ================================
 # BASIC
 ./setup-basic-postinstal >> 
 wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/setup-basic-postinstal | sh

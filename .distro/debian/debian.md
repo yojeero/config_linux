@@ -38,8 +38,8 @@ sudo apt install yazi poppler fd eww qt5-wayland networkmanager \
 # set fish to shell
 fish
 
-# =============================================
+# ===================================
 # bspwm 
-# =============================================
+# ===================================
 sudo apt install bspwm sxhkd rofi picom polybar
 

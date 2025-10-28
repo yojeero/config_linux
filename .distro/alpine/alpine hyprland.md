@@ -1,7 +1,7 @@
 
-# ======================================
+# ============================
 # hyprland install
-# ======================================
+# ============================
 apk add hyprland waybar rofi-wayland nwg-look \ 
         kitty kitty-kitten
 

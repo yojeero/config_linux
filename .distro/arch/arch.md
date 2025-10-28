@@ -1,8 +1,7 @@
 
-# ======================================
+# ================================
 # arch installing
-# ======================================
-archinstall
+# ================================
 
 # update 
 sudo pacman -Syuu
@@ -36,9 +35,7 @@ yay -S lxappearance gtk-murrine-engine gtk2-engine-murrine
 # set fish to shell
 chsh -s `which fish`
 
-# packagers remove ----------------
-yay -R 
-
+# packagers remove -------------
 # wps office arch
 git clone https://aur.archlinux.org/snapd.git
 cd snapd

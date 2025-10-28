@@ -9,9 +9,9 @@ sudo dnf remove yelp gnome-tour gnome-software gnome-weather \
 # reload fonts
 sudo fc-cache -f -v
 
-# ===============================================
+# ======================================
 # install Gnome Extensions
-# ===============================================
+# ======================================
 sudo dnf install gnome-shell-extension-manager
 
 sudo dnf install blueprint-compiler gettext libadwaita-1-dev \ 
@@ -52,9 +52,9 @@ sudo dnf install bspwm sxhkd rofi picom polybar
 # =======================================
 sudo dnf copr enable solopasha/hyprland
 
-# ========================================
+# =======================================
 # GDM to lightdm
-# ========================================
+# =======================================
 sudo dnf install lightdm
 sudo systemctl disable gdm.service
 sudo systemctl enable lightdm.service

@@ -36,8 +36,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 df -h
 
 reboot
----------------------------------------
-
+------------------------------
 # Create a new partition table (GPT for UEFI, MBR for BIOS systems).
 
 # list disk
@@ -51,7 +50,7 @@ sda
 ├─sda2 	ext4   	root	 20GiB   	 /
 └─sda3 	                  2GiB  	  SWAP
 
-----------------------------------
+-----------------------------
 
 # fedora                                                      
 sda                                                                            
@@ -66,7 +65,7 @@ zram0                [SWAP]
 3a: create a subvolume label=@ 			 mount=/
 3b: create a subvolume label=@home 			 mount=/home
 
-----------------------------------------------
+--------------------------------
 
 ## Create partitions
 EFI Partition: Select free space → New Partition → 512MB → Format as FAT32 → Mount at /boot/efi.

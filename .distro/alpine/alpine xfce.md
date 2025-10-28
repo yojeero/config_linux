@@ -1,7 +1,7 @@
 
-# =========================================
+# ================================
 # Base Alpine installing
-# =========================================
+# ================================
 
 # вход в командную оболочку
 root
@@ -42,8 +42,7 @@ y
 
 reboot
 
-# enter like root / not user -------------------------
-root
+# enter like root / not user ------------
 
 pass
 
@@ -72,9 +71,9 @@ yopy	ALL=(ALL:ALL) ALL
 # установка графического интерфейса
 setup-xorg-base
 
-# ===========================================
+# ===============================
 #  xfce install
-# ===========================================
+# ===============================
 apk add xfce4 xf86-video-fbdev xf86-video-vesa  \ 
         font-terminus firefox xfce4-terminal xfce4-screensaver \ 
         lightdm-gtk-greeter mousepad thunar thunar-volman thunar-archive-plugin \ 
@@ -109,9 +108,9 @@ sudo reboot
 
 startx
 
-# =========================================
+# ==============================
 # LightDM to tty
-# =========================================
+# ==============================
 sudo systemctl disable lightdm
 sudo systemctl set-default multi-user.target
 sudo systemctl enable getty@tty1.service
@@ -122,8 +121,8 @@ nomodesetв GRUB_CMDLINE_LINUX_DEFAULT
 # перегенерировать с помощью 
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# ===========================================
+# ================================
 # vscode / zed / librewolf  
-# ===========================================
+# ================================
 apk add gcompat libuser bash
 apk add code-oss zed librewolf

@@ -5,13 +5,13 @@ sudo rm -rf /tmp/*           							# Очистка временных файл
 
 sudo apt-get update && sudo apt-get upgrade -y
 
-------------------------------------------------------------------
+-----------------------------------
 
 # list your disks
 
 sudo fdisk -l
 
-# dd backup ------------------------------------------
+# dd backup -----------------------
 
 # create a partition image of whole disk
 
@@ -22,13 +22,12 @@ sudo dd if=/dev/sda of=/dev/sdb bs=64K conv=noerror,sync status=progress
 
 sudo dd if=/dev/sda conv=sync,noerror bs=128K status=progress | gzip -c > /media/disk2/images/SSD_image.gz
 
-# dd restore -----------------------------------------------------------------
-
+# dd restore -------------------------
 # restore compressed image to a new disk
 
 sudo gunzip -c SSD_image.gz | dd of=/dev/sda status=progress
 
------------------------------------------------
+--------------------------------------
 
 # восстановление загрузочного сектора (если требуется)
 

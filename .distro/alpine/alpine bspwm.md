@@ -1,7 +1,7 @@
 
-# ====================================
+# =========================
 # Bspwm install
-# ====================================
+# =========================
 apk add bspwm sxhkd rofi picom polybar
 apk add xterm xf86-video-fbdev xf86-video-vesa font-terminus
 
