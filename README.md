@@ -36,7 +36,7 @@ Copy the .icons folder in the home directory.
 Extract all *.tar.xz archives.  
 Select the icons in the setings.
 
-### Themes gtk
+### Themes 
 
 Copy the .icons folder in the home directory.  
 Extract all *.tar.xz archives.   
