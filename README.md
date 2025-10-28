@@ -40,4 +40,8 @@ Select the icons in the setings.
 
 Copy the .icons folder in the home directory.  
 Extract all *.tar.xz archives.   
-Select the theme in the setings.
+Select the theme in the setings.  
+
+### Distro   
+
+Some Linux commands by distros.
