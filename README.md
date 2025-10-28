@@ -15,7 +15,7 @@ Video files in different formats: mp4, mkv. Copy in the home directory.
 All rights reserved to their respective authors.   
 Posted for audio and video testing purposes only.
 
-### config  
+### configs / dots  
 
 Copy the .config folder in the home directory. 
 
