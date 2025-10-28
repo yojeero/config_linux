@@ -15,11 +15,11 @@ Video files in different formats: mp4, mkv. Copy in the home directory.
 All rights reserved to their respective authors.   
 Posted for audio and video testing purposes only.
 
-### configs / dots  
+### Configs / dots  
 
 Copy the .config folder in the home directory. 
 
-### fonts
+### Fonts
 
 Copy the .local folder in the home directory.  
 Run in terminal for reload fonts.  
@@ -30,13 +30,13 @@ sudo fc-cache -f -v
  
 Select font in the setings.
 
-### icons 
+### Icons 
 
 Copy the .icons folder in the home directory.  
 Extract all *.tar.xz archives.  
 Select the icons in the setings.
 
-### themes
+### Themes gtk
 
 Copy the .icons folder in the home directory.  
 Extract all *.tar.xz archives.   
