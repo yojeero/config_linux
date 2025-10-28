@@ -1,14 +1,14 @@
-<img src="Wallpapers/skate.jpg width=830 ">
+<img src="Wallpapers/skate.jpg">
 
-> ### Wallpapers
+### Wallpapers
 
 Wallpapers in different resolutions: from 1920x1080 to 3840x2160 resolution. Copy in the home directory. Select wallpaper in the setings.
 
-> ### Music
+### Music
  
 Audio files in different formats: ogg, pls radio stations, flac. Copy in the home directory. 
 
-> ### Video
+### Video
 
 Video files in different formats: mp4, mkv. Copy in the home directory.
 
