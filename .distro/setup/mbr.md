@@ -4,17 +4,17 @@
 # in lmde
 sudo su -
 parted /dev/sda
+p
 set 1 boot off
 
-# gparted
+gparted
 # create new efi partition
 512mb
 
 # select new efi partition for installation
-# mount point /boot/efi
+mount point /boot/efi
 
 # after installation Lmde go to terminal
-
 parted /dev/sda
 p
 set 1 boot on
@@ -22,7 +22,6 @@ set 1 boot on
 # exit and reboot
 
 # enter Lmde, terminal
-
 sudo su -
 nano /etc/default/grub
 
@@ -30,13 +29,14 @@ nano /etc/default/grub
 GRUB_DISABLE_OS_PROBER=false
 
 # save and exit
-
 os-prober
 grub-mkconfig -o /boot/grub/grub.cfg
 df -h
 
 reboot
+
 ------------------------------
+
 # Create a new partition table (GPT for UEFI, MBR for BIOS systems).
 
 # list disk
