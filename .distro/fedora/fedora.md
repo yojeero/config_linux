@@ -2,9 +2,8 @@
 
 dnf -q ls --installed
 
-sudo dnf remove yelp gnome-tour gnome-software gnome-weather \ 
-                gnome-characters gnome-maps libreoffice libreoffice-* \ 
-                libreoffice-common
+sudo dnf remove yelp gnome-tour gnome-software gnome-weather gnome-characters gnome-maps gnome-contacts       
+sudo dnf remove yelp libreoffice libreoffice-core libreoffice-common       
 
 # reload fonts
 sudo fc-cache -f -v
@@ -12,11 +11,9 @@ sudo fc-cache -f -v
 # ======================================
 # install Gnome Extensions
 # ======================================
-sudo dnf install gnome-shell-extension-manager
-
-sudo dnf install blueprint-compiler gettext libadwaita-1-dev \ 
-                libgtk-4-dev libjson-glib-dev libsoup-3.0-dev \ 
-                libxml2-dev meson
+sudo flatpak install com.mattjakeman.ExtensionManager
+# or
+sudo dnf install gnome-extensions-app
  
 Dash in Panel
 User Themes
@@ -26,13 +23,13 @@ Removable Drive Menu
 Screenshot Window Sizer
 
 # packagers ===========================
-sudo dnf install thunar thunar-archive-plugin thunar-volman mousepad \ 
-                kitty foot firefox fish fastfetch \ 
-                wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g gnome-tweaks \ 
-                ffmpeg 7zip jq poppler fd ripgrep fzf zoxide \ 
-                feh cava dunst imv scrot grim slurp celluloid rhythmbox \ 
-                qt6ct qt5ct blueman brightnessctl NetworkManager \ 
-                lxappearance gtk-murrine-engine lxappearance
+sudo dnf install thunar thunar-archive-plugin thunar-volman mousepad
+sudo dnf install kitty foot firefox fish fastfetch 
+sudo dnf install kitty wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g gnome-tweaks 
+sudo dnf install ffmpeg 7zip jq poppler fd ripgrep fzf zoxide
+sudo dnf install feh cava dunst imv scrot grim slurp celluloid rhythmbox
+sudo dnf install qt6ct qt5ct blueman brightnessctl NetworkManager 
+sudo dnf install lxappearance gtk-murrine-engine lxappearance
 
 # betterlockscreen 
 sudo dnf copr enable balamurali27/betterlockscreen
@@ -59,4 +56,3 @@ sudo dnf install lightdm
 sudo systemctl disable gdm.service
 sudo systemctl enable lightdm.service
 reboot
-

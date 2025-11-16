@@ -1,5 +1,12 @@
 
 # ===================================
+#  dank linux / niri + hyprland + DankMaterialShell   
+# https://danklinux.com/
+# ===================================
+
+curl -fsSL https://install.danklinux.com | sh
+
+# ===================================
 #  sway     
 # ===================================
 yay -Sy sway swaybg swayidle swayshot swaylock \ 
