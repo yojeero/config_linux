@@ -14,9 +14,6 @@ dnf -q ls --installed
 sudo dnf remove yelp gnome-tour gnome-software gnome-weather gnome-characters gnome-maps gnome-contacts       
 sudo dnf remove yelp libreoffice libreoffice-core libreoffice-common       
 
-# reload fonts
-sudo fc-cache -f -v
-
 # ======================================
 # install Gnome Extensions
 # ======================================
@@ -52,6 +49,13 @@ fish
 # bspwm
 # =======================================
 sudo dnf install bspwm sxhkd rofi picom polybar 
+
+# ===================================
+# https://danklinux.com/
+# (niri or hyprland) + DankMaterialShell
+# ===================================
+sudo dnf copr enable avengemedia/dms
+sudo dnf install dms
 
 # =======================================
 # GDM to lightdm

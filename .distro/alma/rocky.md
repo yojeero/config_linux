@@ -14,9 +14,6 @@ dnf -q ls --installed
 sudo dnf remove yelp gnome-tour gnome-software gnome-weather gnome-characters gnome-maps gnome-contacts       
 sudo dnf remove yelp libreoffice libreoffice-core libreoffice-common       
 
-# reload fonts
-sudo fc-cache -f -v
-
 # ======================================
 # install Gnome Extensions
 # ======================================
@@ -32,13 +29,13 @@ Removable Drive Menu
 Screenshot Window Sizer
 
 # packagers ===========================
-sudo dnf install thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor
-sudo dnf install kitty foot firefox fish fastfetch 
-sudo dnf install wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g 
-sudo dnf install ffmpeg 7zip jq poppler fd fzf zoxide
-sudo dnf install feh cava dunst imv scrot grim slurp celluloid rhythmbox
-sudo dnf install qt6ct qt5ct blueman brightnessctl NetworkManager 
-sudo dnf install lxappearance gtk-murrine-engine lxappearance
+sudo dnf install thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor \ 
+                kitty foot firefox fish fastfetch \ 
+                wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g \ 
+                ffmpeg 7zip jq poppler fd fzf zoxide \ 
+                feh cava dunst imv scrot grim slurp celluloid rhythmbox \ 
+                qt6ct qt5ct blueman brightnessctl NetworkManager \ 
+                lxappearance gtk-murrine-engine lxappearance
 
 # betterlockscreen 
 sudo dnf copr enable balamurali27/betterlockscreen
@@ -52,6 +49,13 @@ fish
 # bspwm
 # =======================================
 sudo dnf install bspwm sxhkd rofi picom polybar 
+
+# ===================================
+# https://danklinux.com/
+# (niri or hyprland) + DankMaterialShell
+# ===================================
+sudo dnf copr enable avengemedia/dms
+sudo dnf install dms
 
 # =======================================
 # GDM to lightdm
