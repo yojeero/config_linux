@@ -26,9 +26,10 @@ sudo apt autoremove yelp evolution thunderbird gnome-tour \
                     libreoffice libreoffice-common xfburn xfce4-dict
 
 # install packagers 
-sudo apt install kitty foot fish fastfetch \ 
+sudo apt install thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor \ 
+                kitty foot firefox fish fastfetch \ 
                 wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g \ 
-                neovim ffmpeg 7zip jq ripgrep fzf zoxide imagemagick lxappearance \ 
+                neovim ffmpeg 7zip jq fzf zoxide imagemagick lxappearance \ 
                 feh cava dunst imv scrot grim slurp celluloid rhythmbox \ 
                 qt6ct qt5ct qt6-wayland blueman brightnessctl
 
@@ -42,4 +43,3 @@ fish
 # bspwm 
 # ===================================
 sudo apt install bspwm sxhkd rofi picom polybar
-

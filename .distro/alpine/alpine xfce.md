@@ -76,9 +76,9 @@ setup-xorg-base
 # ===============================
 apk add xfce4 xf86-video-fbdev xf86-video-vesa  \ 
         font-terminus firefox xfce4-terminal xfce4-screensaver \ 
-        lightdm-gtk-greeter mousepad thunar thunar-volman thunar-archive-plugin \ 
+        lightdm-gtk-greeter thunar thunar-volman thunar-archive-plugin \ 
         p7zip 7zip unzip tar gzip xarchiver gvfs udisks2 ntfs-3g wget git \ 
-        celluloid rhythmbox
+        celluloid rhythmbox gedit gnome-text-editor
 
 # dm
 setup-devd udev

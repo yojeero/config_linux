@@ -1,17 +1,9 @@
 
 # ===================================
-#  dank linux / niri + hyprland + DankMaterialShell   
 # https://danklinux.com/
+# (niri or hyprland) + DankMaterialShell
 # ===================================
-
 curl -fsSL https://install.danklinux.com | sh
-
-# ===================================
-#  sway     
-# ===================================
-yay -Sy sway swaybg swayidle swayshot swaylock \ 
-        wofi waybar eza cbonsai bemenu mako \ 
-        wl-clipboard nwg-look multitail 
 
 # ====================================
 #  bspwm 
@@ -19,16 +11,9 @@ yay -Sy sway swaybg swayidle swayshot swaylock \
 yay -S bspwm sxhkd rofi picom polybar
 
 # ====================================
-#  hyprland      
-# https://github.com/Maciejonos/dotfiles
+# hyprland    
 # ====================================
 
-curl -fsSL https://raw.githubusercontent.com/Maciejonos/dotfiles/master/setup.sh | bash
-
-# ====================================
-#  hyprland      
-# https://github.com/mdillondc/hyprland/
-# ====================================
 # Core Hyprland & Session
 yay -S hyprland hyprpaper swaylock-effects swayidle
 

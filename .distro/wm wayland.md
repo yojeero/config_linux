@@ -40,17 +40,20 @@ wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/in
 # install Gnome Extensions
 # =====================================
 sudo apt-get install
-sudo dnf install
 sudo apk add
 sudo pacman -S
-sudo xbps-install
-sudo eopkg install
-                  gnome-shell-extension-manager \
-                  blueprint-compiler gettext libadwaita-1-dev \
-                  libgtk-4-dev libjson-glib-dev libsoup-3.0-dev \
-                  libxml2-dev meson
+          gnome-shell-extension-manager \
+          blueprint-compiler gettext libadwaita-1-dev \
+          libgtk-4-dev libjson-glib-dev libsoup-3.0-dev \
+          libxml2-dev meson
 
-# search and install extensions
+
+# install in rpm
+sudo flatpak install com.mattjakeman.ExtensionManager
+# or
+sudo dnf install gnome-extensions-app
+
+# extensions 
 Dash in Panel
 User Themes
 Auto Move Windows

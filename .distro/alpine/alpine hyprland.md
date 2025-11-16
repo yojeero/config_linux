@@ -26,12 +26,12 @@ doas setup-devd udev && doas rc-update add elogind && doas rc-update add polkit 
 # volume and brightness will work just good.
 
 # packagers
-apk add thunar thunar-archive-plugin thunar-volman mousepad \ 
+apk add thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor \ 
                 kitty firefox fish fastfecth \ 
-                neovim ffmpeg jq poppler fd ripgrep fzf zoxide imagemagick \ 
+                neovim ffmpeg jq poppler fd fzf zoxide imagemagick \ 
                 xrandr setxkbmap feh dbus btop celluloid rhythmbox \ 
                 font-inter font-liberation font-terminus-nerd font-jetbrains-mono-nerd \ 
                 lxappearance p7zip 7zip unzip tar gzip xarchiver \ 
                 gvfs udisks2 ntfs-3g wget git
 
-apk add yazi gtk-murrine-engine xfce4-power-manager 
+apk add yazi gtk-murrine-engine xfce4-power-manager

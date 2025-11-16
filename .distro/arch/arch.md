@@ -10,21 +10,16 @@ sudo pacman -Syuu
 sudo fc-cache -f -v
 
 # install yay -----------------
-sudo pacman -Syy
-sudo pacman -S --needed base-devel git
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-yay --version
+sudo pacman -S yay
 
 # refresh the system packages and upgrade
 yay -Syu
 
 # packagers --------------------
-yay -S thunar thunar-archive-plugin thunar-volman mousepad \ 
+yay -S thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor \ 
         kitty foot firefox fish fastfetch \ 
         wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g \ 
-        neovim yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide imagemagick \ 
+        neovim yazi ffmpeg 7zip jq poppler fd fzf zoxide imagemagick \ 
         feh cava dunst eww imv scrot grim slurp celluloid rhythmbox \ 
         qt6ct qt5ct qt5-wayland qt6-wayland blueman brightnessctl networkmanager 
         
@@ -35,7 +30,6 @@ yay -S lxappearance gtk-murrine-engine gtk2-engine-murrine
 # set fish to shell
 chsh -s `which fish`
 
-# packagers remove -------------
 # wps office arch
 git clone https://aur.archlinux.org/snapd.git
 cd snapd
