@@ -1,3 +1,8 @@
+# list installed packagers
+pacman -Qe
+
+# list packages to list
+pacman -Qqe > package_list.txt
 
 # view video card used
 lspci -v
