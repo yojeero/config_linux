@@ -16,9 +16,10 @@ yay -Sy kitty foot firefox fish fastfetch
 chsh -s `which fish` 
 
 yay -Sy wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g 
-yay -Sy neovim yazi ffmpeg 7zip jq poppler fd fzf zoxide imagemagick
-yay -Sy feh cava dunst eww imv scrot grim slurp celluloid rhythmbox 
-yay -Sy qt6ct qt5ct qt5-wayland qt6-wayland blueman brightnessctl networkmanager 
+yay -Sy neovim yazi ffmpeg 7zip jq poppler fd fzf imagemagick
+yay -Sy feh cava dunst imv scrot grim slurp celluloid rhythmbox 
+yay -Sy qt6ct qt5ct qt5-wayland qt6-wayland blueman 
+yay -Sy brightnessctl networkmanager eww
         
 yay -Sy lxappearance gtk-murrine-engine gtk2-engine-murrine
 
@@ -33,12 +34,3 @@ Auto Move Windows
 Light Style
 Removable Drive Menu
 Screenshot Window Sizer
-
-# wps office arch
-git clone https://aur.archlinux.org/snapd.git
-cd snapd
-makepkg -si
-
-sudo systemctl enable --now snapd.socket
-
-sudo ln -s /var/lib/snapd/snap /snap

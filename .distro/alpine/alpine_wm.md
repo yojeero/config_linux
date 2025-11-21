@@ -12,8 +12,8 @@ wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/mast
 
 # DESKTOP WM
 
-# BSPWM 
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/bspwm/setup-bspwm | bash
+# GNOME 
+wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/gnome/setup-gnome | bash
 
 # PLASMA 
 wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/kde-plasma/setup-kde | bash
@@ -21,8 +21,8 @@ wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/mast
 # XFCE4 
 wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/xfce4/setup-xfce4 | bash
 
-# GNOME 
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/gnome/setup-gnome | bash
+# BSPWM 
+wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/bspwm/setup-bspwm | bash
 
 # UTILS DESKTOP
 

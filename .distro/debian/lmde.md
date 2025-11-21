@@ -11,16 +11,15 @@ curl -f https://zed.dev/install.sh | sh
 sudo apt autoremove yelp thunderbird libreoffice-common 
 
 # install packagers 
-sudo apt install thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor \ 
-        firefox kitty foot fish fastfetch \ 
-         wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g \ 
-         neovim ffmpeg 7zip jq fzf zoxide imagemagick lxappearance \ 
-         feh cava dunst imv scrot grim slurp celluloid rhythmbox \ 
-         qt6ct qt5ct qt6-wayland blueman brightnessctl
+sudo apt install thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor
+sudo apt install firefox kitty foot fish fastfetch
+sudo apt install wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g
+sudo apt install neovim ffmpeg 7zip jq fzf imagemagick lxappearance
+sudo apt install feh cava dunst imv scrot grim slurp celluloid rhythmbox
+sudo apt install qt6ct qt5ct qt6-wayland blueman brightnessctl
 
-sudo apt install yazi poppler fd eww qt5-wayland \ 
-                networkmanager gtk-murrine-engine gtk2-engine-murrine \ 
-                quodlibet exfalso
+sudo apt install yazi poppler fd eww qt5-wayland networkmanager
+sudo apt install gtk-murrine-engine gtk2-engine-murrine quodlibet exfalso
 
 # set fish to shell
 fish
@@ -29,41 +28,3 @@ fish
 # bspwm 
 # ==================================
 sudo apt install bspwm sxhkd rofi picom polybar
-
-# =================================
-# Windows + Lmde dualboot
-# ==================================
-
-# in lmde
-sudo su -
-parted /dev/sda
-p
-set 1 boot off
-
-gparted
-# create new efi partition
-512mb
-
-# select new efi partition for installation
-mount point /boot/efi
-
-# after installation Lmde go to terminal
-parted /dev/sda
-p
-set 1 boot on
-
-# exit and reboot
-
-# enter Lmde, terminal
-sudo su -
-nano /etc/default/grub
-
-# insert on down stroke
-GRUB_DISABLE_OS_PROBER=false
-
-# save and exit
-os-prober
-grub-mkconfig -o /boot/grub/grub.cfg
-df -h
-
-reboot

@@ -35,28 +35,3 @@ playerctl pastel python-pywal rofi pulsemixer
 # betterlockscreen
 # =====================================
 wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
-
-# =====================================
-# install Gnome Extensions
-# =====================================
-sudo apt-get install
-sudo apk add
-sudo pacman -S
-          gnome-shell-extension-manager \
-          blueprint-compiler gettext libadwaita-1-dev \
-          libgtk-4-dev libjson-glib-dev libsoup-3.0-dev \
-          libxml2-dev meson
-
-
-# install in rpm
-sudo flatpak install com.mattjakeman.ExtensionManager
-# or
-sudo dnf install gnome-extensions-app
-
-# extensions 
-Dash in Panel
-User Themes
-Auto Move Windows
-Light Style
-Removable Drive Menu
-Screenshot Window Sizer

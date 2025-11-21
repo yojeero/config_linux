@@ -1,7 +1,7 @@
 
-sudo apt-get clean           							# Очистка кэша пакетного менеджера
-sudo apt-get autoremove      				# Удаление ненужных пакетов
-sudo rm -rf /tmp/*           							# Очистка временных файлов
+sudo apt-get clean # Clear package manager cache
+sudo apt-get autoremove # Remove unnecessary packages
+sudo rm -rf /tmp/* # Clear temporary files
 
 sudo apt-get update && sudo apt-get upgrade -y
 
@@ -25,9 +25,9 @@ sudo gunzip -c SSD_image.gz | dd of=/dev/sda status=progress
 
 --------------------------------------
 
-# восстановление загрузочного сектора (если требуется)
+# restore boot sector (if required)
 
-#  после восстановления может потребоваться восстановить загрузчик с помощью утилиты grub-install
+# after recovery you may need to restore the bootloader using the grub-install utility
 sudo mount /dev/sda1 /mnt
 sudo mount --bind /dev /mnt/dev
 sudo mount --bind /proc /mnt/proc
