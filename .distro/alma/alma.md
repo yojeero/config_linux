@@ -5,8 +5,8 @@ sudo yum -y install epel-release
 sudo yum repolist
 
 # packagers
-sudo dnf install thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor 
-sudo dnf install kitty firefox fish fastfecth 
+sudo dnf install thunar thunar-archive-plugin thunar-volman
+sudo dnf install kitty fish fastfecth gnome-text-editor 
 sudo dnf install neovim ffmpeg jq poppler fd fzf imagemagick 
 sudo dnf install xrandr setxkbmap feh dbus btop celluloid rhythmbox 
 sudo dnf install font-inter font-liberation font-terminus-nerd font-jetbrains-mono-nerd 
@@ -17,12 +17,6 @@ sudo dnf install yazi gtk-murrine-engine xfce4-power-manager
 
 # set fish to shell
 fish
-
-# set Picom to autostart
-mkdir -p ~/.config/picom
-
-# add this line to your i3 config (.config/i3/config) to autostart Picom
-exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # install in rpm
 sudo flatpak install com.mattjakeman.ExtensionManager

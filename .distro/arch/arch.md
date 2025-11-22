@@ -9,13 +9,13 @@ sudo pacman -S yay
 yay -Syu
 
 # packagers --------------------
-yay -Sy thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor 
-yay -Sy kitty foot firefox fish fastfetch
+yay -Sy thunar thunar-archive-plugin thunar-volman
+yay -Sy kitty foot fish fastfetch gnome-text-editor 
 
 # set fish to shell
 chsh -s `which fish` 
 
-yay -Sy wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g 
+yay -Sy wget git gparted btop gvfs udisks2 ntfs-3g 
 yay -Sy neovim yazi ffmpeg 7zip jq poppler fd fzf imagemagick
 yay -Sy feh cava dunst imv scrot grim slurp celluloid rhythmbox 
 yay -Sy qt6ct qt5ct qt5-wayland qt6-wayland blueman 

@@ -78,7 +78,7 @@ apk add xfce4 xf86-video-fbdev xf86-video-vesa
 apk add font-terminus firefox xfce4-terminal xfce4-screensaver
 apk add lightdm-gtk-greeter thunar thunar-volman thunar-archive-plugin
 apk add p7zip 7zip unzip tar gzip xarchiver gvfs udisks2 ntfs-3g wget git
-apk add celluloid rhythmbox gedit gnome-text-editor
+apk add celluloid rhythmbox gnome-text-editor
 
 # dm
 setup-devd udev

@@ -8,11 +8,6 @@ Yes
 # add user to sudo 
 usermod –a –G sudo yopy
 
-# local deb install
-sudo dpkg -i code_1.102.0-1752099874_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-curl -f https://zed.dev/install.sh | sh
-
 # gnome remove
 sudo apt autoremove yelp evolution thunderbird gnome-tour 
 sudo apt autoremove gnome-software gnome-weather gnome-klotski 
@@ -23,10 +18,10 @@ sudo apt autoremove gnome-contacts gnome-2048 swell-foop aisleriot shotwell
 sudo apt autoremove libreoffice libreoffice-common xfburn xfce4-dict
 
 # install packagers 
-sudo apt install thunar thunar-archive-plugin thunar-volman gedit gnome-text-editor 
-sudo apt install kitty foot firefox fish fastfetch 
-sudo apt install wget git gparted gnome-system-monitor btop gvfs udisks2 ntfs-3g 
-sudo apt install neovim ffmpeg 7zip jq fzf zoxide imagemagick lxappearance 
+sudo apt install thunar thunar-archive-plugin thunar-volman
+sudo apt install kitty foot fish fastfetch gnome-text-editor 
+sudo apt install wget git gparted btop gvfs udisks2 ntfs-3g 
+sudo apt install neovim ffmpeg 7zip jq fzf imagemagick lxappearance 
 sudo apt install feh cava dunst imv scrot grim slurp celluloid rhythmbox 
 sudo apt install qt6ct qt5ct qt6-wayland blueman brightnessctl
 
@@ -40,3 +35,8 @@ fish
 # bspwm 
 # ===================================
 sudo apt install bspwm sxhkd rofi picom polybar
+
+# local deb install
+sudo dpkg -i code_1.102.0-1752099874_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+curl -f https://zed.dev/install.sh | sh
