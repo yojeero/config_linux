@@ -11,6 +11,7 @@
     "type": "small",
     "color": {"1": "red"},
     // "source": "~/.config/fastfetch/pop.jpg",
+    // "source": "~/.config/fastfetch/ticket.jpg",
     // "type": "kitty",
     "height": 10,
     "padding": {
