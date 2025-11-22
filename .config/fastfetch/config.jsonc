@@ -10,8 +10,9 @@
   "logo": {  
     "type": "small",
     "color": {"1": "red"},
-    // "source": "~/.config/fastfetch/blond.jpg",
-    // "source": "~/.config/fastfetch/cosmo.jpg",
+    // "source": "~/.config/fastfetch/leman.jpg",
+    // "source": "~/.config/fastfetch/girl.jpg",
+    // "source": "~/.config/fastfetch/pop.jpg",
     // "type": "kitty",
     "height": 10,
     "padding": {
