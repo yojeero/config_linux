@@ -2,35 +2,35 @@
 # =======================================
 # Hyprland
 # =======================================
-hyprland swaybg swayidle swaylock wlroots wl-clipboard \
-waybar wofi mako grim slurp wf-recorder light yad mpv \
-mpd mpc viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
-playerctl pastel python-pywal rofi pulsemixer
+sudo xbps-install hyprland swaybg swayidle swaylock wlroots wl-clipboard \   
+                waybar wofi mako grim slurp wf-recorder light yad mpv \
+               viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
+                playerctl pastel python-pywal rofi pulsemixer mpd mpc 
 
 # ========================================
 # Niri
 # ========================================
-niri hyprlock hyprpicker swaybg swaylock wl-clipboard \
-waybar mako grim slurp wf-recorder light yad mpv mpd \
-mpc viewnior xfce-polkit xwayland-satellite xdg-desktop-portal \
-xdg-desktop-portal-gtk xdg-desktop-portal-gnome gnome-keyring \
-xorg-xwayland playerctl pastel python-pywal rofi pulsemixer
+sudo xbps-install niri hyprlock hyprpicker swaybg swaylock wl-clipboard \
+                waybar mako grim slurp wf-recorder light yad mpv mpd \
+                mpc viewnior xfce-polkit xwayland-satellite \
+                xdg-desktop-portal-gnome gnome-keyring pulsemixer \
+                xorg-xwayland playerctl pastel python-pywal rofi 
 
 # =====================================
 # Sway
 # =====================================
-sway swaybg swayidle swaylock wlroots wl-clipboard waybar \
-wofi kanshi mako grim slurp wf-recorder light yad wlogout \
-mpv mpd mpc viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
-playerctl pastel python-pywal rofi pulsemixer
+sudo xbps-install sway swaybg swayidle swaylock wlroots wl-clipboard waybar \
+                wofi kanshi mako grim slurp wf-recorder light yad wlogout \
+                mpv mpd mpc viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
+                playerctl pastel python-pywal rofi pulsemixer
 
 # =====================================
 # River
 # =====================================
-river lua lua-posix wlr-randr swaybg swayidle swaylock wlroots \
-wl-clipboard waybar wofi mako grim slurp wf-recorder light yad \
-mpv mpd mpc viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
-playerctl pastel python-pywal rofi pulsemixer
+sudo xbps-install river lua lua-posix wlr-randr swaybg swayidle swaylock wlroots \
+                wl-clipboard waybar wofi mako grim slurp wf-recorder light yad \
+                mpv mpd mpc viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
+                playerctl pastel python-pywal rofi pulsemixer
 
 # =====================================
 # betterlockscreen
