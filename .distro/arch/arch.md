@@ -34,3 +34,4 @@ Auto Move Windows
 Light Style
 Removable Drive Menu
 Screenshot Window Sizer
+Blur my Shell

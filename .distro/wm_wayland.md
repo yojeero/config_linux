@@ -1,5 +1,5 @@
 # =======================================
-# Hyprland
+# Hyprland 
 # =======================================
 hyprland swaybg swayidle swaylock wlroots wl-clipboard \
 waybar wofi mako grim slurp wf-recorder light yad mpv \
