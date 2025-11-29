@@ -123,7 +123,7 @@ require("yatline"):setup({
 -- #############################################################
 -- yatline-catppuccin
 
-local catppuccin_theme = require("yatline-catppuccin"):setup("macchiato") -- or "latte" | "frappe" | "macchiato" | "mocha"
+local catppuccin_theme = require("yatline-catppuccin"):setup("frappe") -- or "latte" | "frappe" | "macchiato" | "mocha"
 require("yatline"):setup({
 	-- ===
 

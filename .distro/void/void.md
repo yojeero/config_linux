@@ -1,5 +1,7 @@
-# login - anon, root
-# pass - voidlinux
+# anon, root
+# voidlinux
+
+void-installer
 
 # -------------------------------------------------
 # Void Linux system is using Musl or Glibc
@@ -10,6 +12,22 @@ ldd --version
 # If the package is listed, it's likely you're running a Musl-based system. 
 bash
 xbps-query -Rs musl
+
+# -------------------------------------------------
+# Install Visual Studio Code on Void Linux
+# --------------------------------------------------
+wget https://update.code.visualstudio.com/latest/linux-x64/stable -O vscode.tar.gz
+tar -xzf vscode.tar.gz
+sudo mv VSCode-linux-x64 /opt/vscode
+sudo ln -s /opt/vscode/bin/code /usr/local/bin/code
+
+code
+
+# Install Node.js and npm on Void Linux
+sudo xbps-install -S nvm
+nvm install --lts
+nvm use --lts
+npm install -g pnpm serve vite
 
 # -------------------------------------------------
 # XBPS
@@ -92,47 +110,20 @@ xbps-reconfigure - XBPS utility for configuring installed packages
 xbps-remove - XBPS utility for removing packages
 xbps-rindex - XBPS utility for processing local binary package repositories
 
-# --------------------------------
-# Bash aliases
-# --------------------------------
-sudo nano ~/.bash_aliases
-
-# Add this script
-alias xu='sudo xbps-install xbps && sudo xbps-install -Suv'
-alias xin='sudo xbps-install'
-alias xr='sudo xbps-remove -Rcon'
-alias xl='xbps-query -l'
-alias xf='xl | grep'
-alias xs='xbps-query -Rs'
-alias xd='xbps-query -x'
-alias clrk='sudo vkpurge rm all && sudo rm -rf /var/cache/xbps/*'
-alias halt='sudo halt'
-alias poweroff='sudo poweroff'
-alias reboot='sudo reboot'
-alias shutdown='sudo shutdown'
-
-# Open bash config file
-sudo nano ~/.bashrc
-
-# Add this line
-if [ -f ~/.bash_aliases ]; then 
-    . ~/.bash_aliases;
-fi
-
 # -------------------------------------------------
 # Install packages from sources
 # --------------------------------------------------
-# The build process started after installing the “curl” package.
+One of the reasons for choosing this distribution was the ability to build from source, like in Arch & Gentoo, but my packages did not want to be built. While I was editing, I found something wrong and xbps-src started working - in the downloaded folder there is a file README.md, which contains the requirements (Requirements), this process is described in more detail. The build process started after installing the “curl” package.
 
-# The xbps-src tool itself is a Bash shell script that allows you to build packages from the Void repository on GitHub into binaries that you can install using XBPS. 
+The xbps-src tool itself is a Bash shell script that allows you to build packages from the Void repository on GitHub into binaries that you can install using XBPS. You will mainly use it to install packages that are not available in the official Void repositories. First of all, make sure you have git. If not, run this command in a terminal. According to the remark above, I’ll also add curl here
 
 doas xbps-install -S git curl
-# Then you will need to clone the Void package repository from GitHub
+Then you will need to clone the Void package repository from GitHub
 
 git clone https://github.com/void-linux/void-packages.git
-# This will create a void-packages directory with a source tree of all the Void packages in srcpkgs.
+This will create a void-packages directory with a source tree of all the Void packages in srcpkgs.
 
-# Then go to the created directory and install the binary loader needed to build binary packages in isolation.
+Then go to the created directory and install the binary loader needed to build binary packages in isolation.
 
 cd void-packages
 ./xbps-src binary-bootstrap
@@ -142,7 +133,7 @@ echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
 
 #start the operation
 ./xbps-src pkg name-package
-# The process described above places the built binary package into a directory. You can then install it using the xbps-install command with the --repository option pointing to that directory.
+The process described above places the built binary package into a directory. The assembled package is also installed via XBPS
 
 #Here are the binary files
 /home/user/void-packages/hostdir/binpkgs

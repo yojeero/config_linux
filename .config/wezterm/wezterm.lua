@@ -11,7 +11,7 @@ config.audible_bell = "Disabled"
 
 -- Fonts configuration
 
-config.font = wezterm.font 'JetBrains Maple Mono ExtraBold'
+config.font = wezterm.font 'Victor Mono'
 config.font_size = 11.0
 config.warn_about_missing_glyphs = false
 
@@ -23,8 +23,9 @@ config.switch_to_last_active_tab_when_closing_tab = true
 config.show_new_tab_button_in_tab_bar = false
 
 --- Window configuration
+--- https://wezterm.org/colorschemes/index.html
 
-config.color_scheme = 'Catppuccin Mocha'
+config.color_scheme = 'Belafonte Night'
 config.window_background_opacity = 0.84
 config.adjust_window_size_when_changing_font_size = true
 config.initial_rows = 24

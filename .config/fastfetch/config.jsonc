@@ -10,17 +10,17 @@
   "logo": {  
     "type": "small",
     "color": {"1": "red"},
-    // "source": "~/.config/fastfetch/pop.jpg",
-    // "source": "~/.config/fastfetch/ticket.jpg",
+    // "source": "~/.config/fastfetch/bash.png",
+    // "source": "~/.config/fastfetch/bashw.png",
     // "type": "kitty",
     "height": 10,
     "padding": {
-      "top": 4,
-      "left": 2
+    "top": 4,
+    "left": 2
     }
   },
     "display": {
-        "separator": "  "  
+    "separator": "  "  
     },
   "modules": [
     "break",
@@ -64,7 +64,7 @@
     },
     {
       "type": "display",
-	"format": "{1}x{2}",
+	    "format": "{1}x{2}",
       "key": " ├ Display",
       "keyColor": "green"
     },
