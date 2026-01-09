@@ -1,6 +1,6 @@
-<img src="Wallpapers/sakura.jpg" wight=830>
+<img src="Wallpapers/sakura.jpg" wight=830>   
 
-<small>
+<img alt="" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="20"/><img alt="" src="https://img.shields.io/badge/Alpine_Linux-%230D597F.svg?style=for-the-badge&logo=alpine-linux&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge" height="20"/><img alt="" src="https://img.shields.io/badge/Debian-D70A53?style=for-the-badge&logo=debian&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/-Slackware-%231357BD?style=for-the-badge&logo=slackware&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/Gentoo-54487A?style=for-the-badge&logo=gentoo&logoColor=white" height="20"/>   
 
 ### Wallpapers
 
@@ -48,6 +48,4 @@ Select the theme in the setings.
 
 Some Linux commands by distros.
 
-</small>
 
-<img alt="" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="20"/><img alt="" src="https://img.shields.io/badge/Alpine_Linux-%230D597F.svg?style=for-the-badge&logo=alpine-linux&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge" height="20"/><img alt="" src="https://img.shields.io/badge/Debian-D70A53?style=for-the-badge&logo=debian&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/-Slackware-%231357BD?style=for-the-badge&logo=slackware&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/Gentoo-54487A?style=for-the-badge&logo=gentoo&logoColor=white" height="20"/>
