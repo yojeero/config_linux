@@ -1,11 +1,12 @@
 
 # =======================================
 # Hyprland
+# https://github.com/void-land/hyprland-void-packages
 # =======================================
-sudo xbps-install hyprland swaybg swayidle swaylock wlroots wl-clipboard \   
-                waybar wofi mako grim slurp wf-recorder light yad mpv \
-               viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
-                playerctl pastel python-pywal rofi pulsemixer mpd mpc 
+echo 'repository=https://github.com/void-land/hyprland-void-packages/releases/latest/download/' | sudo tee /etc/xbps.d/hyprland-packages.conf
+
+sudo xbps-install -S
+sudo xbps-install -Sy hyprland hyprland-devel aquamarine hyprcursor hypridle hyprland-protocols hyprlang hyprlock hyprpaper hyprutils hyprwayland-scanner xdg-desktop-portal-hyprland
 
 # ========================================
 # Niri
@@ -15,14 +16,6 @@ sudo xbps-install niri hyprlock hyprpicker swaybg swaylock wl-clipboard \
                 mpc viewnior xfce-polkit xwayland-satellite \
                 xdg-desktop-portal-gnome gnome-keyring pulsemixer \
                 xorg-xwayland playerctl pastel python-pywal rofi 
-
-# =====================================
-# Sway
-# =====================================
-sudo xbps-install sway swaybg swayidle swaylock wlroots wl-clipboard waybar \
-                wofi kanshi mako grim slurp wf-recorder light yad wlogout \
-                mpv mpd mpc viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
-                playerctl pastel python-pywal rofi pulsemixer
 
 # =====================================
 # River
