@@ -38,12 +38,6 @@ sudo pacman -S sway swaybg swayidle swaylock hyprpicker hyprlock wl-clipboard wa
 sudo pacman -S river wlr-randr swaybg swayidle swaylock hyprpicker hyprlock wl-clipboard waybar wofi foot mako grim slurp wf-recorder light yad thunar geany mpv mpd mpc viewnior imagemagick xfce-polkit xorg-xwayland xdg-desktop-portal-wlr playerctl pastel python-pywal alacritty rofi pulsemixer
 
 # =====================================
-# hyprland
-# https://wiki.archcraft.io/docs/wayland-compositors/hyprland
-# =====================================
-sudo pacman -S hyprland, hyprlock hypridle hyprpicker hyprpaper hyprsunset hyprland-qtutils wl-clipboard waybar wofi foot mako grim slurp wf-recorder light yad thunar geany mpv mpd mpc viewnior imagemagick xfce-polkit xorg-xwayland xdg-desktop-portal-hyprland xdg-desktop-portal xdg-desktop-portal-gtk playerctl pastel python-pywal alacritty rofi pulsemixer
-
-# =====================================
 # niri
 # https://wiki.archcraft.io/docs/wayland-compositors/niri
 # =====================================

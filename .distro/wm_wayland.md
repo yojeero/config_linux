@@ -1,12 +1,4 @@
 
-# =======================================
-# Hyprland
-# =======================================
-hyprland swaybg swayidle swaylock wlroots wl-clipboard \
-waybar wofi mako grim slurp wf-recorder light yad mpv \
-mpd mpc viewnior xfce-polkit xorg-xwayland xdg-desktop-portal-wlr \
-playerctl pastel python-pywal rofi pulsemixer
-
 # ========================================
 # Niri
 # ========================================
@@ -36,3 +28,14 @@ playerctl pastel python-pywal rofi pulsemixer
 # betterlockscreen
 # =====================================
 wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
+
+# =====================================
+# arch dwl
+# =====================================
+sudo pacman -S wayland wayland-protocols wlroots_0_19 foot base-devel git wmenu wl-clipboard grim slurp swaybg firefox ttf-jetbrains-mono-nerd
+
+# =====================================
+# gentoo dwl
+# =====================================
+sudo emerge -av dev-libs/wayland dev-libs/wayland-protocols gui-libs/wlroots x11-terms/foot sys-devel/base-devel dev-vcs/git gui-apps/wmenu gui-apps/wl-clipboard media-gfx/grim gui-apps/slurp gui-apps/swaybg www-client/firefox media-fonts/jetbrains-mono
+
