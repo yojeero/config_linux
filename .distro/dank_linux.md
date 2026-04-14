@@ -2,15 +2,6 @@ danklinux.com
 
 Dank Linux
 
-██████╗ ███╗   ███╗███████╗
-██╔══██╗████╗ ████║██╔════╝
-██║  ██║██╔████╔██║███████╗
-██║  ██║██║╚██╔╝██║╚════██║
-██████╔╝██║ ╚═╝ ██║███████║
-╚═════╝ ╚═╝     ╚═╝╚══════╝
-
-This guide covers installation of DankMaterialShell across different Linux distributions and methods.
-
 # Dependencies​
 Quickshell (required) - The core framework
 cava (optional) - Audio visualizer widget
@@ -22,19 +13,10 @@ niri (optional) - DMS Team's choice of Wayland compositor
 qt6-multimedia (optional) - System sound feedback
 For pre-built packages on Fedora, Debian, Ubuntu, and OpenSUSE, see the DankLinux Repository page.
 
-# note
-Only Quickshell is required. All other dependencies are optional and enable specific features.
-
 # Arch & Derivatives​
-dms is available in the official Arch repositories (extra).
-
 sudo pacman -S dms-shell
-These packages ship the shell, widgets, and CLI. Pair them with niri, hyprland, sway, mangowc, labwc, or miracle-wm packages from the official repositories for a complete desktop stack.
 
 # Fedora & CentOS​
-DankMaterialShell is available through COPR repositories for Fedora 41/42/43 rawhide and CentOS 10. Enable the COPR repositories managed by the team to install prebuilt packages:
-
-# Stable Release​
 sudo dnf copr enable avengemedia/dms
 sudo dnf install dms
 
@@ -42,12 +24,7 @@ sudo dnf install dms
 sudo dnf copr enable avengemedia/dms-git
 sudo dnf install dms
 
-# The COPR repositories also provide companion packages such as quickshell-git, cliphist, matugen, and other utilities used by the default configuration.
-
 # Debian & Ubuntu​
-DankMaterialShell is available through Open Build Service (OBS) for Debian and Launchpad PPA for Ubuntu.
-
-# Debian​
 For Debian 13 (Trixie):
 
 # DankLinux repository
@@ -88,7 +65,8 @@ curl -fsSL https://download.opensuse.org/repositories/home:/AvengeMedia:/dms-git
 echo "deb [signed-by=/etc/apt/keyrings/avengemedia-dms-git.gpg] https://download.opensuse.org/repositories/home:/AvengeMedia:/dms-git/Debian_Testing/ /" | \
   sudo tee /etc/apt/sources.list.d/avengemedia-dms-git.list
 sudo apt update
-For Debian Sid:
+
+# For Debian Sid
 
 # DankLinux repository
 curl -fsSL https://download.opensuse.org/repositories/home:AvengeMedia:danklinux/Debian_Unstable/Release.key | \
