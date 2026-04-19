@@ -1,4 +1,4 @@
-# В Pentoo Linux 
+# Pentoo Linux 
 
 
 # The NetworkManager service is typically managed through the OpenRC init system.
@@ -16,26 +16,26 @@ rc-service NetworkManager status
 sudo emerge --ask net-misc/networkmanager
 
 
-# 1. Установить PipeWire и утилиты
+# 1. Install PipeWire and utilities
 sudo emerge --ask media-video/pipewire media-video/wireplumber media-sound/alsa-utils
 
-# 2. Добавить пользователя в группу audio
+# 2. Add a user to the audio group
 sudo gpasswd -a $USER audio
 
-# После этого перелогинься.
+# After that, log out.
 
 # 3. Запустить PipeWire
 pipewire &
 wireplumber &
 
-# 👉 Или добавить в автозапуск через DE/WM автозагрузку.
+# Or add autoload to autorun via DE/WM.
 
 # bspwm
 sudo emerge --ask x11-wm/bspwm x11-misc/sxhkd x11-base/xorg-server x11-apps/xinit x11-apps/xrandr x11-misc/rofi
 
 chmod +x ~/.config/bspwm/bspwmrc
 
-# Запуск через .xinitrc
+# start via .xinitrc
 nano ~/.xinitrc
 
 sxhkd &
@@ -55,10 +55,9 @@ DISPLAYMANAGER="lightdm"
 [Seat:*]
 greeter-session=lightdm-gtk-greeter
 
-# LightDM запускает WM через .desktop файл
+# LightDM launches WM via .desktop file
 
-# Создай
-
+# make
 sudo nano /usr/share/xsessions/bspwm.desktop
 
 [Desktop Entry]
@@ -67,7 +66,7 @@ Comment=Binary space partitioning window manager
 Exec=/usr/config/bspwm
 Type=Application
 
-# LightDM НЕ запускает sxhkd автоматически.
+# LightDM does NOT launch sxhkd automatically.
 
 ~/.xprofile
 

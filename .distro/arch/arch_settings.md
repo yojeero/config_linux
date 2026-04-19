@@ -32,22 +32,22 @@ lspci -k
 lsusb -v
 lsusb
 
-# узнать размер кэша:
+# cache size
 du -sh /var/cache/pacman/pkg/
 
-# установка утилиты paccache
+# cache util
 sudo pacman -S pacman-contrib
 
-# очистка кэша, удалить все кэшированные пакеты, кроме 3 последних для каждого пакета
+# clear cache, remove all cached packages except the last 3 for each package
 sudo paccache -r
 
-# удалим все кэшированные пакеты, но оставим по две последних версии
+# delete all cached packages, but leave the two latest versions
 sudo paccache -rk2
 
-# удалить все кэшированные пакеты, которых уже нет в системе
+# remove all cached packages that are no longer in the system
 sudo paccache -ruk0
 
-# можно создать хук который сам будет после обновлений очищать кэш
+# you can create a hook that will clear the cache after updates
 #  /etc/pacman.d/hooks/remove_old_cache.hook
 
 [Trigger]
@@ -62,12 +62,12 @@ Description = Purning package cache...
 When = PostTransaction
 Exec = /usr/bin/paccache -rk2
 
-# И в /etc/pacman.conf раскоментировать строку
+# And in /etc/pacman.conf uncomment the line
 HookDir = /etc/pacman.d/hooks/
 
-# встроенная утилита очистки кэша
-# удалит кеш пакетов, оставив последние версии
+# built-in cache clearing utility
+# will remove the package cache, leaving the latest versions
 sudo pacman -Sc
 
-# удалит кеш всех пакетов 
+# will delete the cache of all packages
 sudo pacman -Scc

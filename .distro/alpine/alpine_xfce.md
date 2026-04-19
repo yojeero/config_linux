@@ -17,19 +17,19 @@ us
 alpine-laptop
 
 # network setup
-пропускаем Enter 
+skip - Enter 
 
 # user password / If it is 6 digits, you will receive a warning, but this does not prevent installation.
 1231231
 
 # setting proxy
-пропускаем Enter
+skip - Enter
  
 # repository mirrors
 http://mirror.ungleich.ch/mirror/packages/alpine/
 
 # setup SSH
-пропускаем Enter 
+skip - Enter 
 
 # installation location
 sda
@@ -43,7 +43,6 @@ y
 reboot
 
 # enter like root / not user ------------
-
 pass
 
 # install nano
@@ -118,7 +117,7 @@ sudo systemctl enable getty@tty1.service
 # in /etc/default/grub input
 nomodesetв GRUB_CMDLINE_LINUX_DEFAULT 
 
-# перегенерировать с помощью 
+# grub 
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # ================================
