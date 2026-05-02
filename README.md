@@ -2,20 +2,9 @@
 
 <img alt="" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="20"/><img alt="" src="https://img.shields.io/badge/Alpine_Linux-%230D597F.svg?style=for-the-badge&logo=alpine-linux&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge" height="20"/><img alt="" src="https://img.shields.io/badge/Debian-D70A53?style=for-the-badge&logo=debian&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/-Slackware-%231357BD?style=for-the-badge&logo=slackware&logoColor=white" height="20"/><img alt="" src="https://img.shields.io/badge/Gentoo-54487A?style=for-the-badge&logo=gentoo&logoColor=white" height="20"/>   
 
-### Wallpapers
+### wallpapers
 
 Wallpapers in different resolutions: from 1920x1080px to 3840x2160px. Copy in the home directory. Select wallpaper in the settings.
-
-### Music
- 
-Audio files in different formats: ogg, pls radio stations, flac. Copy in the home directory. 
-
-### Video
-
-Video files in different formats: mp4, mkv. Copy in the home directory.
-
-All rights reserved to their respective authors.   
-Posted for audio and video testing purposes only.
 
 ### Configs / dots  
 
@@ -47,5 +36,3 @@ Select the theme in the setings.
 ### Distro   
 
 Some Linux commands by distros.
-
-

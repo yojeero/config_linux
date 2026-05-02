@@ -1,70 +1,3 @@
-NixOS + Home Manager + bspwm
-
-# 1. Добавляем Home Manager в систему
-
-# В configuration.nix добавь:
-
-{ config, pkgs, ... }:
-
-{
-imports = [
-./hardware-configuration.nix
-
-# подключаем Home Manager
-<home-manager/nixos>
-
-];
-
-# канал должен быть установлен отдельно:
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-
-home-manager.useGlobalPkgs = true;
-home-manager.useUserPackages = true;
-
-home-manager.users.user = import ./home.nix;
-
-=== BOOT ===
-boot.loader.grub = {
-enable = true;
-device = "/dev/sda";
-efiSupport = false;
-};
-
-=== X11 + bspwm ===
-services.xserver = {
-enable = true;
-layout = "us";
-
-displayManager.lightdm.enable = true;
-windowManager.bspwm.enable = true;
-displayManager.defaultSession = "none+bspwm";
-
-videoDrivers = [ "intel" ];
-
-};
-
-=== звук / сеть ===
-services.pipewire.enable = true;
-networking.networkmanager.enable = true;
-
-=== пользователь ===
-users.users.user = {
-isNormalUser = true;
-extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
-initialPassword = "changeme";
-};
-
-=== базовые пакеты ===
-environment.systemPackages = with pkgs; [
-git vim wget curl
-];
-
-system.stateVersion = "24.11";
-}
-
-# 2. Файл home.nix вся магия тут
-
-# Создай /etc/nixos/home.nix
 { config, pkgs, ... }:
 
 {
@@ -78,6 +11,7 @@ nerd-fonts.jetbrains-mono
 ];
 
 # === bspwm ===
+
 xsession.windowManager.bspwm = {
 enable = true;
 
@@ -104,6 +38,7 @@ startupPrograms = [
 };
 
 # === sxhkd ===
+
 services.sxhkd = {
 enable = true;
 keybindings = {
@@ -116,7 +51,8 @@ keybindings = {
 };
 };
 
-# === kitty Catppuccin ===
+# === kitty (Catppuccin) ===
+
 programs.kitty = {
 enable = true;
 settings = {
@@ -156,6 +92,7 @@ font_size = 11;
 };
 
 # === rofi ===
+
 programs.rofi = {
 enable = true;
 theme = ''
@@ -168,6 +105,7 @@ selected: #89b4fa;
 };
 
 # === picom ===
+
 services.picom = {
 enable = true;
 backend = "glx";
@@ -181,6 +119,7 @@ inactive-opacity = 0.9;
 };
 
 # === polybar ===
+
 xdg.configFile."polybar/config.ini".text = ''
 [bar/main]
 width = 100%
@@ -214,11 +153,7 @@ format = RAM %percentage_used%%
 '';
 
 # === bash ===
+
 programs.bash.enable = true;
 }
 
-# 3. Установка
-sudo nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-sudo nix-channel --update
-
-sudo nixos-rebuild switch

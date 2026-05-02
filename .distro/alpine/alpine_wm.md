@@ -1,37 +1,66 @@
 
-# Alpine Linux
+# ================================
+# xfce
+# Base Alpine installation via alpine_xfce.sh
+# ================================
+chmod +x alpine_xfce.sh
+./install-xfce.sh
+
+The script assumes that the user has already been created via setup-alpine
+chmod +x install-sway.sh
+./install-sway.sh
+reboot
 
 # ================================
-# xfce  
-# 1) setup-basic-postinstal 
-# 2) setup-xfce4 (any wm)
+# bspwm
+# Base Alpine installation via alpine_bspwm.sh
 # ================================
-# BASIC
-./setup-basic-postinstal >> 
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/setup-basic-postinstal | sh
+chmod +x install-bspwm.sh
+./install-bspwm.sh
+reboo
 
-# DESKTOP WM
+# after enter
+startx
 
-# GNOME 
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/gnome/setup-gnome | bash
+# black screen / does not start X
+startx /usr/bin/bspwm
 
-# PLASMA 
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/kde-plasma/setup-kde | bash
+# Wi-Fi
+nmtui
 
-# XFCE4 
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/xfce4/setup-xfce4 | bash
+# keyboard ru
+# insert in ~/.xinitrc
+setxkbmap -layout us,ru -option grp:alt_shift_toggle
 
-# BSPWM 
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/bspwm/setup-bspwm | bash
+# touchpad
+apk add xf86-input-libinput
 
-# UTILS DESKTOP
+# ================================
+# sway
+# Base Alpine installation via alpine_sway.sh
+# ================================
 
-# FLATPACK 
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/utils/setup-flatpak | bash
+chmod +x alpine_sway.sh
+./install-sway.sh
+reboot
 
-# alpine-linux LXC (Proxmox)
-./setup-basic-postinstal-lxc >> Configuraciones basicas para Alpine LXC (Proxmox)
-wget --no-cache -O - https://raw.githubusercontent.com/afimpel/alpine-linux/master/setup-basic-postinstal-lxc | sh
+# after enter
+sway
 
-# betterlockscreen
-wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
+
+# if sway does not start
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+
+# enter without root
+
+# look
+rc-service seatd status
+
+# and USER in seatd
+
+# Wi-Fi
+nmtui
+
+# light
+brightnessctl set 50%
+

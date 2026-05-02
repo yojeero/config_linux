@@ -3,24 +3,25 @@
 sudo pacman -Syuu
 
 # packagers --------------------
-sudo pacman -S thunar thunar-archive-plugin thunar-volman kitty foot fish fastfetch gnome-text-editor 
+sudo pacman -S kitty foot fastfetch mousepad firefox lf vifm micro
+
+# sudo pacman -S thunar thunar-archive-plugin thunar-volman
+sudo pacman -Sy yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick
 
 # set fish to shell
-chsh -s `which fish` 
+sudo pacman -S fish
+chsh -s $(command -v fish) 
 
-sudo pacman -Sy wget git gparted btop gvfs udisks2 ntfs-3g 
-sudo pacman -Sy neovim yazi ffmpeg 7zip jq poppler fd fzf imagemagick
-sudo pacman -Sy feh cava dunst imv scrot grim slurp celluloid rhythmbox 
-sudo pacman -Sy qt6ct qt5ct qt5-wayland qt6-wayland blueman 
-sudo pacman -Sy brightnessctl networkmanager eww
-        
-sudo pacman -Sy lxappearance gtk-murrine-engine gtk2-engine-murrine
+sudo pacman -Sy wget git gparted btop gvfs udisks2 ntfs-3g
+sudo pacman -Sy feh cava dunst imv scrot grim slurp 
+sudo pacman -Sy celluloid rhythmbox 
 
-sudo pacman -Sy --noconfirm google-chrome visual-studio-code-bin zed-git
+sudo pacman -Sy qt6ct qt5ct qt5-wayland qt6-wayland lxappearance gtk-murrine-engine gtk2-engine-murrine
+sudo pacman -Sy brightnessctl networkmanager eww blueman 
+
+sudo pacman -Sy google-chrome visual-studio-code-bin 
 
 # install Gnome extensions
-
-# extensions 
 Dash in Panel
 User Themes
 Auto Move Windows
