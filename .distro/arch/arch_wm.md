@@ -20,7 +20,7 @@ sudo pacman -S sway swaybg swayidle swaylock wlroots wl-clipboard kanshi grim sl
 # =====================================
 sudo pacman -S river swaybg jq findutils mpd ncmpcpp swayidle brightnessctl cliphist grim slurp pamixer polkit-gnome xdg-utils gvfs gvfs-mtp gvfs-nfs playerctl network-manager-applet grimshot starship xdg-user-dirs wl-clipboard wf-recorder wlr-randr swaylock hyprpicker hyprlock light yad mpv mpd mpc viewnior imagemagick xfce-polkit xorg-xwayland xdg-desktop-portal-wlr playerctl pastel python-pywal pulsemixer waybar foot fuzzel
 
-sudo pacman -S tela-circle-icon-theme-manjaro tokyonight-gtk-theme-git ttf-jetbrains-mono-nerd rofi-lbonn-wayland swaylock-effects nwg-look rivercarro wl-clipboard-history-git mpdris2 
+sudo pacman -S ttf-jetbrains-mono-nerd rofi-lbonn-wayland swaylock-effects nwg-look rivercarro wl-clipboard-history-git mpdris2 
 
 # =====================================
 # niri

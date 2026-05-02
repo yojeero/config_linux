@@ -15,7 +15,6 @@ sudo fdisk -l
 # create a partition image of whole disk
 sudo dd if=/dev/sda of=/dev/sdb bs=64K conv=noerror,sync status=progress
 
-
 # sometimes you can see different names of disk, eg. nvme for SSD M.2
 sudo dd if=/dev/sda conv=sync,noerror bs=128K status=progress | gzip -c > /media/disk2/images/SSD_image.gz
 

@@ -10,9 +10,6 @@
   "logo": {  
     "type": "small",
     "color": {"1": "red"},
-    // "source": "~/.config/fastfetch/bash.png",
-    // "source": "~/.config/fastfetch/bashw.png",
-    // "type": "kitty",
     "height": 10,
     "padding": {
     "top": 4,
