@@ -9,7 +9,7 @@ cfdisk /dev/sda
 50G	ext4 Linux root   / 
 
 # format
-mkfs.vfat -F 32 /dev/sda1
+mkfs.vfat -F32 /dev/sda1
 mkfs.ext4 /dev/sda2
 
 # mount
@@ -70,31 +70,34 @@ source /etc/profile
 export PS1="(chroot) $PS1"
 
 # sync
-emaint sync -r gentoo
+emerge --sync
 
 # profile
-eselect profile set default/linux/amd64/23.0/desktop/systemd
+eselect profile list
+eselect profile set X  
 
-# kernel + firmware
-emerge --ask sys-kernel/linux-firmware
-emerge --ask sys-kernel/gentoo-kernel-bin
+# world
+emerge -avuDN @world
 
-# fstab
-nano /etc/fstab
-/dev/sda1  /boot  vfat  defaults  0 2
-/dev/sda2  /      ext4  noatime   0 1
+# locale
+echo "Europe/Moscow" > /etc/timezone
+emerge --config sys-libs/timezone-data
 
-# lang
 nano /etc/locale.gen
-
 en_US.UTF-8 UTF-8
 ru_RU.UTF-8 UTF-8
 
 locale-gen
 eselect locale set en_US.utf8
+env-update && source /etc/profile
 
-# time
-ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+# kernel + firmware
+emerge --ask sys-kernel/linux-firmware sys-kernel/gentoo-kernel-bin
+
+# fstab
+nano /etc/fstab
+/dev/sda1  /boot  vfat  defaults  0 2
+/dev/sda2  /      ext4  noatime   0 1
 
 # Hostname
 echo "gentoo" > /etc/hostname
@@ -111,13 +114,13 @@ systemctl enable dbus
 emerge --ask gui-wm/sway x11-terms/foot x11-misc/waybar gui-apps/wl-clipboard media-gfx/grimshot
 
 # GRUB BIOS Legacy 
-emerge --ask sys-boot/grub
+emerge sys-boot/grub
 
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # GRUB UEFI
-emerge --ask sys-boot/grub
+emerge sys-boot/grub
 
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Gentoo
 grub-mkconfig -o /boot/grub/grub.cfg
