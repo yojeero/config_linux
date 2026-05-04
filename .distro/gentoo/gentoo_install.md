@@ -13,8 +13,9 @@ mkfs.vfat -F 32 /dev/sda1
 mkfs.ext4 /dev/sda2
 
 # mount
+mkdir -p /mnt/gentoo
 mount /dev/sda2 /mnt/gentoo
-mkdir -p /mnt/boot
+mkdir -p /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
 
 # disk info
