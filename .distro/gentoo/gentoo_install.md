@@ -28,6 +28,8 @@ wget https://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64
 tar xpvf stage3-*.tar.xz --xattrs-include='*' --numeric-owner
 
 # or local stage3
+cp gentoo.tar.xz /mnt/gentoo/
+cd /mnt/gentoo
 tar xpvf gentoo.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # make

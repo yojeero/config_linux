@@ -36,3 +36,9 @@ sudo pacman -S mangowc-git hyprlock hypridle hyprpicker swaybg swaylock wl-clipb
 # betterlockscreen
 # =====================================
 wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
+
+# =====================================
+# arch to cachy os
+# =====================================
+sudo pacman -S linux-cachyos linux-cachyos-headers linux-cachyos-nvidia-open
+sudo pacman -S cachyos-kernel-manager cachyos-settings chwd cachyos-hooks
