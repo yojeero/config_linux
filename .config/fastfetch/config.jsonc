@@ -9,10 +9,10 @@
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",	
   "logo": {  
     "type": "small",
-    "color": {"1": "red"},
+    "color": {"2": "yellow"},
     "height": 10,
     "padding": {
-    "top": 4,
+    "top": 2,
     "left": 2
     }
   },
@@ -29,45 +29,85 @@
     "break",
     {
       "type": "os",
-      "key": "  Distro",
+      "key": "╭─{icon} Distro",
       "keyColor": "green"
     },
     {
       "type": "kernel",
-      "key": " ├ Kernel",
+      "key": "├─ Kernel",
       "keyColor": "green"
     },
     {
       "type": "packages",
-      "key": " ├ Pkg",
+      "key": "├─ Packages",
       "keyColor": "green"
     },
     {
       "type": "shell",
       "format": "{1}",
-      "key": " ├ Shell",
+      "key": "├─ Shell",
+      "keyColor": "green"
+    },
+    {
+      "type": "de",
+      "key": "├─ DE",
+      "keyColor": "green"
+    },
+    {
+      "type": "wm",
+      "key": "├─ WM",
       "keyColor": "green"
     },
     {
       "type": "terminal",
       "format": "{1}",
-      "key": " ├ Terminal",
+      "key": "├─ Terminal",
       "keyColor": "green"
     },
     {
-      "type": "wm",
-      "key": " ├ WM",
+      "type": "terminalfont",
+      "key": "├─ Font",
+      "keyColor": "green"
+    },
+    {
+      "type": "theme",
+      "key": "├─ Theme",
+      "keyColor": "green"
+    },
+    {
+      "type": "icons",
+      "key": "├─ Icons",
       "keyColor": "green"
     },
     {
       "type": "display",
 	    "format": "{1}x{2}",
-      "key": " ├ Display",
+      "key": " ├─ Display",
+      "keyColor": "green"
+    },
+    {
+      "type": "cpu",
+      "key": "├─ CPU",
+      "keyColor": "green"
+    },
+    {
+      "type": "gpu",
+      "key": "├─ GPU",
+      "keyColor": "green"
+    },
+    {
+      "type": "disk",
+      "key": "├─ Disk",
+      "keyColor": "green"
+    },
+    {
+      "type": "swap",
+      "key": "├─ Swap",
       "keyColor": "green"
     },
     {
       "type": "memory",
-      "key": " └ Memory",
+      "key": "╰─ Memory",
       "keyColor": "green"
     },
     "break",

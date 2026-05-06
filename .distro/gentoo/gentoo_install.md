@@ -1,4 +1,4 @@
-# GGentoo systemd + Sway Wayland + binpkg
+# Gentoo systemd + Sway Wayland + binpkg
 
 # MBR
 lsblk
