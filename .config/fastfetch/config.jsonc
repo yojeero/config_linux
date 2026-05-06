@@ -6,117 +6,104 @@
 //  GitHub: https://github.com/yojeero
 
 {
-  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",	
-  "logo": {  
-    "type": "small",
-    "color": {"2": "yellow"},
-    "height": 10,
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  // "logo": {
+  //   "type": "none"
+  // },
+  "logo": {
+    "source": "printf '\\033[1;32m%s\\033[0m\\n' \"$(grep PRETTY_NAME /etc/os-release | cut -d '\"' -f2)\"",
+    "position": "top",
     "padding": {
-    "top": 2,
-    "left": 2
+      "top": 1
     }
   },
     "display": {
-    "separator": "  "  
+        "separator": " "
     },
-  "modules": [
-    "break",
-    "break",
-    {
-      "type": "title",
-      "keyWidth": 10
-    },
-    "break",
-    {
-      "type": "os",
-      "key": "╭─{icon} Distro",
-      "keyColor": "green"
-    },
-    {
-      "type": "kernel",
-      "key": "├─ Kernel",
-      "keyColor": "green"
-    },
-    {
-      "type": "packages",
-      "key": "├─ Packages",
-      "keyColor": "green"
-    },
-    {
-      "type": "shell",
-      "format": "{1}",
-      "key": "├─ Shell",
-      "keyColor": "green"
-    },
-    {
-      "type": "de",
-      "key": "├─ DE",
-      "keyColor": "green"
-    },
-    {
-      "type": "wm",
-      "key": "├─ WM",
-      "keyColor": "green"
-    },
-    {
-      "type": "terminal",
-      "format": "{1}",
-      "key": "├─ Terminal",
-      "keyColor": "green"
-    },
-    {
-      "type": "terminalfont",
-      "key": "├─ Font",
-      "keyColor": "green"
-    },
-    {
-      "type": "theme",
-      "key": "├─ Theme",
-      "keyColor": "green"
-    },
-    {
-      "type": "icons",
-      "key": "├─ Icons",
-      "keyColor": "green"
-    },
-    {
-      "type": "display",
-	    "format": "{1}x{2}",
-      "key": " ├─ Display",
-      "keyColor": "green"
-    },
-    {
-      "type": "cpu",
-      "key": "├─ CPU",
-      "keyColor": "green"
-    },
-    {
-      "type": "gpu",
-      "key": "├─ GPU",
-      "keyColor": "green"
-    },
-    {
-      "type": "disk",
-      "key": "├─ Disk",
-      "keyColor": "green"
-    },
-    {
-      "type": "swap",
-      "key": "├─ Swap",
-      "keyColor": "green"
-    },
-    {
-      "type": "memory",
-      "key": "╰─ Memory",
-      "keyColor": "green"
-    },
-    "break",
-    {
-      "type": "custom", 
-      "key": " pacman", 
-      "format": "\u001b[31m󰮯  \u001b[32m󰊠  \u001b[33m󰊠  \u001b[34m󰊠  \u001b[30m󰊠 "      
-    },
-    "break",
-    "break"
-  ]
+    "modules": [
+        {
+            "key": "╭───────────╮",
+            "type": "custom"
+        },
+        {
+            "key": "│ {#34}{icon} distro  {#keys}│",
+            "type": "os",
+            "format": "{2}"
+        },
+        {
+            "key": "│ {#35} kernel     {#keys}│",
+            "type": "kernel",
+            "format": "{2}"
+        },
+        {
+            "key": "│ {#32} pkgs     {#keys}│",
+            "type": "packages",
+            "format": "{1}"
+        },
+        {
+            "key": "│ {#36} wm     {#keys}│",
+            "type": "wm"
+        },
+        {
+            "key": "│ {#36}󰇄 de     {#keys}│",
+            "type": "de"
+        },
+        {
+            "key": "│ {#31} term     {#keys}│",
+            "type": "terminal",
+            "format": "{1}"
+        },
+        {
+            "key": "│ {#32} font     {#keys}│",
+            "type": "terminalfont"
+        },
+        {
+            "key": "│ {#32} theme      {#keys}│",
+            "type": "theme"
+        },
+        {
+            "key": "│ {#32} icons      {#keys}│",
+            "type": "icons"
+        },
+        {
+            "key": "│ {#33}󰍛 cpu      {#keys}│",
+            "type": "cpu",
+            "showPeCoreCount": true
+        },
+        {
+            "key": "│ {#33}󰍛 display      {#keys}│",
+            "type": "display",
+            "format": "{1}x{2}"
+        },
+        {
+            "key": "│ {#33}󰢮 gpu      {#keys}│",
+            "type": "gpu"
+        },
+        {
+            "key": "│ {#34}󰉉 disk     {#keys}│",
+            "type": "disk",
+            "folders": "/"
+        },
+        {
+            "key": "│ {#36} swap     {#keys}│",
+            "type": "swap"
+        },
+        {
+            "key": "│ {#36} memory     {#keys}│",
+            "type": "memory"
+        },
+        {
+            "key": "├───────────┤",
+            "type": "custom"
+        },
+        {
+            "key": "│ {#39} colors     {#keys}│",
+            "type": "colors",
+            "symbol": "circle"
+        },
+        {
+            "key": "╰───────────╯",
+            "type": "custom"
+        }
+    ]
 }
