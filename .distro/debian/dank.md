@@ -4,7 +4,9 @@
 # ===================================
 curl -fsSL https://install.danklinux.com | sh
 
-# Debian 13 Trixie
+# -------------------------------------
+# Debian Trixie Dank
+# --------------------------------------
 
 # DankLinux repository
 curl -fsSL https://download.opensuse.org/repositories/home:AvengeMedia:danklinux/Debian_13/Release.key | \
@@ -20,7 +22,9 @@ echo "deb [signed-by=/etc/apt/keyrings/avengemedia-dms.gpg] https://download.ope
 
 sudo apt update
 
-# Debian Sid
+# -------------------------------------
+# Debian Sid Dank
+# --------------------------------------
 
 # DankLinux repository
 curl -fsSL https://download.opensuse.org/repositories/home:AvengeMedia:danklinux/Debian_Unstable/Release.key | \
@@ -41,7 +45,23 @@ sudo apt update
 # stable release
 sudo apt install dms
 
-# Ubuntu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -------------------------------------------
+# Ubuntu Dank 
+# ------------------------------------------- 
 sudo add-apt-repository ppa:avengemedia/danklinux
 sudo add-apt-repository ppa:avengemedia/dms
 sudo apt update
