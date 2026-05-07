@@ -60,11 +60,6 @@
       "keyColor": "3"
     },
     {
-      "type": "disk",
-      "key": "Disk",
-      "keyColor": "3"
-    },
-    {
       "type": "memory",
       "key": "Memory",
       "keyColor": "3"
