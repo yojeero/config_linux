@@ -9,9 +9,10 @@ sudo apt autoremove gnome-contacts gnome-2048 swell-foop aisleriot shotwell
 sudo apt autoremove libreoffice libreoffice-common xfburn xfce4-dict
 
 # install packagers 
-sudo apt install kitty foot fastfetch gnome-text-editor firefox lf vifm micro
+sudo apt install kitty firefox lf vifm micro
 
 # sudo apt install thunar thunar-archive-plugin thunar-volman
+sudo apt install nemo nemo-fileroller xed fastfetch foot
 sudo apt install ffmpeg 7zip jq poppler-utils fd-find ripgrep fzf zoxide imagemagick
 
 sudo apt install wget git gparted btop gvfs udisks2 ntfs-3g 

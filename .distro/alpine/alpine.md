@@ -80,9 +80,10 @@ setup-xorg-base
 # ===============================
 #  xfce install
 # ===============================
-apk add foot fastfetch mousepad firefox lf vifm micro 
+apk add kitty firefox lf vifm micro 
 
 # apk add thunar thunar-archive-plugin thunar-volman
+apk add nemo nemo-fileroller xed fastfetch foot
 apk add yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick
 
 apk add xfce4 xf86-video-fbdev xf86-video-vesa 

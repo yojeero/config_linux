@@ -9,9 +9,10 @@ sudo emerge --ask --depclean gnome-contacts gnome-2048 swell-foop aisleriot shot
 sudo emerge --ask --depclean libreoffice libreoffice-common xfburn xfce4-dict
 
 # install packagers 
-sudo emerge --ask kitty foot fastfetch gnome-text-editor lf vifm micro
+sudo emerge --ask kitty lf vifm micro
 
 # sudo zypper thunar thunar-archive-plugin thunar-volman
+sudo emerge --ask nemo nemo-fileroller xed fastfetch foot
 sudo zypper yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick
 
 sudo emerge --ask wget git gparted btop gvfs udisks2 ntfs-3g 

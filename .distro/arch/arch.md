@@ -25,9 +25,10 @@ sudo fdisk -l /dev/sda
 sudo pacman -Syuu
 
 # packagers --------------------
-sudo pacman -S kitty foot fastfetch mousepad firefox lf vifm micro
+sudo pacman -S kitty foot firefox lf vifm micro
 
 # sudo pacman -S thunar thunar-archive-plugin thunar-volman
+sudo pacman -S nemo nemo-fileroller xed fastfetch
 sudo pacman -Sy yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick
 
 # set fish to shell

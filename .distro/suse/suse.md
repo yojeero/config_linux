@@ -9,9 +9,10 @@ sudo zypper remove gnome-contacts gnome-2048 swell-foop aisleriot shotwell
 sudo zypper remove libreoffice libreoffice-common xfburn xfce4-dict
 
 # install packagers 
-sudo zypper install kitty foot fastfetch gnome-text-editor lf vifm micro
+sudo zypper install kitty lf vifm micro
 
-# sudo zypper thunar thunar-archive-plugin thunar-volman
+# sudo zypper install thunar thunar-archive-plugin thunar-volman
+sudo zypper install nemo nemo-fileroller xed fastfetch foot 
 sudo zypper yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick
 
 sudo zypper install wget git gparted btop gvfs udisks2 ntfs-3g 

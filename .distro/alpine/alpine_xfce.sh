@@ -26,7 +26,7 @@ apk add firefox font-terminus
 apk add xf86-video-vesa xf86-video-fbdev
 apk add gvfs udisks2 ntfs-3g
 apk add wget git tar gzip 7zip 
-apk add celluloid rhythmbox mousepad
+apk add celluloid rhythmbox xed
 
 echo "===> Installing elogind + dbus"
 apk add elogind polkit-elogind dbus
