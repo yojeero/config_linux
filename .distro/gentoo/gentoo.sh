@@ -23,8 +23,6 @@ sudo emerge --ask \
 # SHELL
 sudo emerge --ask fish eza fzf fd
 
-chsh -s $(command -v zsh)
-
 # local rpm install
 sudo emerge --ask vscode.rpm google-chrome.rpm
 
@@ -38,9 +36,18 @@ sudo emerge --ask \
             yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound \
             yaru-theme-unity gnome-package-updater gnome-packagekit
 
+# fist starship
+sudo emerge --ask app-shells/starship
 
-# BSPWM
-sudo emerge --ask bspwm sxhkd rofi picom polybar
+mkdir -p ~/.config/fish
+nano ~/.config/fish/config.fish
+
+# Инициализация Starship промпта
+starship init fish | source
+
+
+
+
 
 
 
