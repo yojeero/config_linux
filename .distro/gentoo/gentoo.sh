@@ -11,9 +11,9 @@ sudo emerge --ask --depclean \
 
 # pkgs
 sudo emerge --ask \
-        firefox kitty alacritty \
-        nautilus file-roller lf vifm yazi \
-        mousepad micro neovim fastfetch bottom \
+        firefox kitty ghostty \
+        nautilus file-roller yazi \
+        mousepad fastfetch bottom \
         zip unzip p7zip unrar ouch \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib ripgrep zoxide \
@@ -21,9 +21,7 @@ sudo emerge --ask \
         adwaita-icon-theme mint-y-icons
 
 # SHELL
-sudo emerge --ask \
-            zsh zsh-autosuggestions zsh-syntax-highlighting \
-            eza fzf fd
+sudo emerge --ask fish eza fzf fd
 
 chsh -s $(command -v zsh)
 

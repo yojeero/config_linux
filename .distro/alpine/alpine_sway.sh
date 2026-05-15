@@ -2,7 +2,7 @@
 set -e
 
 # --------------------------------
-# 🐧 Alpine Sway Setup Script
+# Alpine Sway Setup Script
 # --------------------------------
 
 echo "===> Configure repositories"
@@ -43,7 +43,7 @@ echo "===> Install Sway environment"
 
 apk add \
     sway swaybg swaylock swayidle \
-    foot waybar fuzzel \
+    ghostty waybar fuzzel \
     wl-clipboard grim slurp \
     mako
 
@@ -77,9 +77,9 @@ echo "===> Install utilities"
 
 apk add \
     thunar thunar-archive-plugin thunar-volman \
-    bottom fastfetch unzip zip ouch vifm lf \
+    bottom fastfetch unzip zip ouch yazi \
     ripgrep eza fd fzf imv mpv zathura \
-    micro mousepad neovim font-terminus \
+    mousepad \
     lightdm lightdm-gtk-greeter xfce4-power-manager \
     mesa mesa-dri-gallium mesa-va-gallium mesa-vdpau-gallium
 

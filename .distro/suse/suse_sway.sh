@@ -28,3 +28,13 @@ sudo systemctl disable display-manager
 
 # Finally enable the greetd login manager and reboot
 sudo systemctl enable greetd
+
+# ----------------------------------
+# sway
+# ----------------------------------
+
+sudo zypper in -y \
+        ghostty waybar \
+        fuzzel mako xdg-desktop-portal-gtk \
+        grim slurp wl-clipboard \
+        swaylock swayidle swaybg  swaylock-effects

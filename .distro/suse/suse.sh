@@ -11,9 +11,9 @@ sudo zypper remove \
 
 # pkgs
 sudo zypper install \
-        firefox kitty alacritty \
-        nautilus file-roller lf vifm yazi \
-        mousepad micro neovim fastfetch bottom \
+        firefox kitty ghostty \
+        nautilus file-roller yazi \
+        mousepad fastfetch bottom \
         zip unzip p7zip unrar ouch \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib ripgrep zoxide \
@@ -21,11 +21,9 @@ sudo zypper install \
         adwaita-icon-theme mint-y-icons
 
 # SHELL
-sudo zypper install \
-            zsh zsh-autosuggestions zsh-syntax-highlighting \
-            eza fzf fd
+sudo zypper install fish eza fzf fd
 
-chsh -s $(command -v zsh) 
+chsh -s $(command -v fish) 
 
 # local rpm install
 sudo zypper install vscode.rpm google-chrome.rpm

@@ -13,9 +13,9 @@ sudo apt autoremove -y \
 # pkgs
 sudo apt update
 sudo apt install -y \
-            firefox kitty alacritty \
-            nautilus file-roller lf vifm \
-            mousepad micro neovim fastfetch bottom \
+            firefox kitty ghostty \
+            nautilus file-roller yazi \
+            mousepad fastfetch bottom \
             zip unzip p7zip unrar ouch \
             wget git curl gvfs udisks2 ntfs-3g \
             xdg-utils glib ripgrep zoxide \
@@ -23,11 +23,9 @@ sudo apt install -y \
             adwaita-icon-theme mint-y-icons
 
 # SHELL
-sudo apt install -y \
-            zsh zsh-autosuggestions zsh-syntax-highlighting \
-            eza fzf fd
+sudo apt install -y fish eza fzf fd
 
-chsh -s $(command -v zsh)
+chsh -s $(command -v fish)
 
 # ubuntu look
 sudo apt install -y \

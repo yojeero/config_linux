@@ -1,16 +1,12 @@
 #!/bin/sh
 set -e
 
-# --------------------------------
-# Alpine BSPWM Setup Script
-# --------------------------------
-
 echo "--------------------------------"
 echo " Alpine BSPWM setup"
 echo "--------------------------------"
 
 # --------------------------------
-# Repositories
+# Repo
 # --------------------------------=
 
 echo "===> Configure repositories"
@@ -141,11 +137,10 @@ apk add \
     thunar thunar-archive-plugin thunar-volman \
     bottom fastfetch \
     unzip zip gzip \
-    vifm lf \
+    yazi ghostty \
     ripgrep fd fzf \
     git curl wget \
-    micro mousepad \
-    font-terminus 
+    mousepad font-terminus 
 
 # --------------------------------
 # User setup

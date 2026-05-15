@@ -49,9 +49,9 @@ setup-xorg-base
 apk add \
     xfce4 xfce4-terminal firefox \
     thunar thunar-archive-plugin thunar-volman \
-    bottom fastfetch unzip zip ouch vifm lf \
+    bottom fastfetch unzip zip ouch yazi \
     ripgrep fd fzf eza imv mpv \
-    micro mousepad neovim font-terminus \
+    mousepad ghostty font-terminus \
     lightdm lightdm-gtk-greeter xfce4-power-manager
 
 rc-update add lightdm default

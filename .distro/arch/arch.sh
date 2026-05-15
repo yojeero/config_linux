@@ -28,9 +28,9 @@ sudo pacman -Syuu
 
 # pkgs
 sudo pacman -Sy \
-        firefox kitty alacritty \
-        nautilus file-roller lf vifm yazi \
-        mousepad micro neovim fastfetch bottom \
+        firefox kitty ghostty \
+        nautilus file-roller yazi \
+        mousepad fastfetch bottom \
         zip unzip p7zip unrar ouch \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib ripgrep zoxide \
@@ -38,11 +38,9 @@ sudo pacman -Sy \
         adwaita-icon-theme mint-y-icons
 
 # SHELL
-sudo pacman -Sy \
-            zsh zsh-autosuggestions zsh-syntax-highlighting \
-            eza fzf fd
+sudo pacman -Sy fish eza fzf fd
 
-chsh -s $(command -v zsh) 
+chsh -s $(command -v fish) 
 
 # chrome vscode
 sudo pacman -Sy google-chrome visual-studio-code-bin 

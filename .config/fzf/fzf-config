@@ -1,0 +1,209 @@
+#!/usr/bin/env zsh
+
+# Set PATH
+if [[ ! "$PATH" == */Users/rockyzhang/gitrepos/fzf/bin* ]]; then
+    PATH="${PATH:+${PATH}:}/Users/rockyzhang/gitrepos/fzf/bin"
+fi
+
+# Enable auto-completion and keybindings
+eval "$(fzf --zsh)"
+
+# Default fd command
+FD="fd --hidden --follow $FD_EXCLUDE"
+
+# Use fd instead of default find
+export FZF_DEFAULT_COMMAND="$FD --type f --type l"
+
+# Theme
+theme_arctic="`
+`dark,`
+`fg:-1,bg:-1,`
+`fg+:#ffffff:bold,bg+:#04395e,`
+`hl:#ffdd33:bold,`
+`hl+:#ffdd33:bold,`
+`query:-1,`
+`disabled:#808080,`
+`border:-1,`
+`separator:#454545,`
+`label:#4ec9b0,`
+`header:#f9ae28:underline:bold \
+"
+
+theme_monokai="`
+`dark,`
+`fg:-1,bg:-1,`
+`fg+:#ffffff:bold,bg+:#414339,`
+`hl:#ffdd33:bold,`
+`hl+:#ffdd33:bold,`
+`query:-1,`
+`disabled:#808080,`
+`border:-1,`
+`separator:#454545,`
+`label:#4ec9b0,`
+`header:#f9ae28:underline:bold \
+"
+
+theme_nvim_default_light="`
+`light,`
+`fg:-1,bg:-1,`
+`bg+:#9b9ea4,`
+`hl:#8f6a00:bold,`
+`hl+:#8f6a00:bold,`
+`query:-1,`
+`disabled:#590008:strikethrough,`
+`border:-1,`
+`separator:-1,`
+`label:-1:bold,`
+`header:-1:underline:bold \
+"
+
+theme_gruvbox_dark="`
+`dark,`
+`fg:-1,bg:-1,`
+`fg+:#b8bb26:regular,` # green
+`bg+:#504945,` # bg2
+`hl:#689d6a:bold,` # neutral_aqua
+`hl+:#689d6a:bold,`
+`gutter:#3c3836,` # bg1
+`query:-1,`
+`disabled:#665c54,` # bg3
+`border:-1,`
+`separator:-1,`
+`label:-1:bold,`
+`header:-1:underline:bold \
+"
+
+theme_gruvbox_light="`
+`light,`
+`fg:-1,bg:-1,`
+`fg+:#79740e:regular,` # green
+`bg+:#d5c4a1,` # bg2
+`hl:#689d6a:bold,` # neutral_aqua
+`hl+:#689d6a:bold,`
+`gutter:#ebdbb2,` # bg1
+`query:-1,`
+`disabled:#bdae93,` # bg3
+`border:-1,`
+`separator:-1,`
+`label:-1:bold,`
+`header:-1:underline:bold \
+"
+
+# Config the default options when running fzf
+# Keybindings:
+# - ctrl-j: down
+# - ctrl-k: up
+# - alt-n: down match
+# - alt-p: up match
+# - ctrl-n: next history
+# - ctrl-p: previous history
+# - ctrl-d: move cursor half page down
+# - ctrl-u: move cursor halp page up
+# - alt-d: move preview half page down
+# - alt-u: move preview half page up
+# - ctrl-a: toggle all
+# - ctrl-s: toggle single selection
+# - ctrl-/: toggle preview window
+# - ctrl-w: toggle wrap
+# - alt-w: toggle preview wrap
+# - alt-r: toggle raw mode
+# - ctrl-o: open the selections via default application
+# - ctrl-y: copy the selections to system clipboard
+# - ctrl-e: edit the selections via $EDITOR
+# - alt-x: exclude selected items
+export FZF_DEFAULT_OPTS=" \
+    --reverse \
+    --height 85% \
+    --multi \
+    --scrollbar ┃ \
+    --history /tmp/fzfhistory \
+    --prompt 'FZF> ' \
+    --tabstop=4 \
+    --highlight-line \
+    --tmux 80%,85% \
+    --bind 'ctrl-d:half-page-down,ctrl-u:half-page-up,alt-d:preview-half-page-down,`
+        `alt-u:preview-half-page-up,ctrl-a:toggle-all,`
+        `ctrl-/:toggle-preview,`
+        `ctrl-w:toggle-wrap,`
+        `alt-w:toggle-preview-wrap,`
+        `ctrl-s:toggle,`
+        `alt-r:toggle-raw,`
+        `alt-n:down-match,`
+        `alt-p:up-match,`
+        `ctrl-o:execute(open {+}),`
+        `ctrl-y:execute-silent(echo -n {+} | pbcopy),`
+        `ctrl-e:execute(\$EDITOR {+} < /dev/tty > /dev/tty 2>&1),`
+        `alt-x:exclude-multi,`
+        `change:first' \
+    --bind 'focus:transform-preview-label:echo ┨ {} ┠' \
+    --preview '~/.config/fzf/fzf-previewer.sh {}' \
+    --preview-window 'right,60%,nowrap' \
+    --color=$theme_gruvbox_dark \
+"
+
+# Use fd for FZF completion
+# 1). listing files and dirs ($1 is the base path to start search) such as "vim ~/.config/**<TAB>"
+_fzf_compgen_path() {
+    fd --hidden --follow ${(z)FD_EXCLUDE} . "$1"
+}
+# 2). listing dirs such as "cd **<TAB>"
+_fzf_compgen_dir() {
+    fd --type d --hidden --follow ${(z)FD_EXCLUDE} . "$1"
+}
+
+# CTRL-T to paste the selected files and directories onto the command-line
+# - ALT-/: toggling listing items under HOME and CWD
+# - ALT-R: list items under system root
+export FZF_CTRL_T_COMMAND="$FD"
+export FZF_CTRL_T_OPTS=" \
+    --prompt 'Fzf [Current]> ' \
+    --header ':: ALT-/ (toggle HOME/CWD), ALT-R (Root)' \
+    --bind 'alt-r:reload($FD . /)+change-prompt(Fzf [Root]> )' \
+    --bind 'alt-/:transform: \
+        [[ ! \$FZF_PROMPT =~ HOME ]] && { \
+            echo \"reload($FD . $HOME)+change-prompt(Fzf [HOME]> )\"; \
+        } || { \
+            echo \"reload($FD)+change-prompt(Fzf [CWD]> )\"; \
+        }' \
+"
+
+# CTRL-R to search the command history
+export FZF_CTRL_R_OPTS=" \
+    --prompt 'Command History> ' \
+    --preview 'echo {}' \
+    --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)' \
+    --header ':: CTRL-Y (copy to clipboard)' \
+"
+
+# CTRL-Z to cd into the selected dir
+# - ALT-/: toggle listing dirs under HOME and CWD
+# - ALT-R: list dirs under system root
+# - ALT-.: list dirs under cwd's parent
+bindkey '^z' fzf-cd-widget
+export FZF_ALT_C_COMMAND="$FD --type d"
+export FZF_ALT_C_OPTS=" \
+    --preview '[[ \$(command -v eza) ]] && eza -la --color=always --icons -g --group-directories-first {} || tree -C {} | head -200' \
+    --header ':: ALT-/ (toggle HOME/CWD), ALT-R (Root), ALT-. (Parent)' \
+    --prompt 'SubDirs [Current]> ' \
+    --bind 'alt-r:reload($FD --type d . /)+change-prompt(SubDirs [Root]> )' \
+    --bind 'alt-.:reload(print-parent-dirs)+change-prompt(SubDirs [Parent]> )' \
+    --bind 'alt-/:transform: \
+        [[ ! \$FZF_PROMPT =~ HOME ]] && { \
+            echo \"reload($FD --type d . $HOME)+change-prompt(SubDirs [HOME]> )\"; \
+        } || { \
+            echo \"reload($FD --type d)+change-prompt(SubDirs [CWD]> )\"; \
+        }' \
+"
+
+# fzf + git
+# Reference: https://github.com/junegunn/fzf-git.sh
+# CTRL-G F for files
+# CTRL-G B for branches
+# CTRL-G T for tags
+# CTRL-G R for remotes
+# CTRL-G H for commit hashes
+# CTRL-G S for stashes
+# CTRL-G L for Reflogs
+# CTRL-G E for Each ref (git for-each-ref)
+# CTRL-G W for Worktrees
+source ~/.config/fzf/fzf-git.sh

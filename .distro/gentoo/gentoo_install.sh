@@ -112,7 +112,7 @@ systemctl enable dbus
 
 # Sway Wayland
 sudo emerge --ask \
-        gui-wm/sway x11-terms/foot \
+        gui-wm/sway x11-terms/ghostty \
         x11-misc/waybar gui-apps/wl-clipboard \
         media-gfx/grimshot
 
