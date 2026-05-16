@@ -6,7 +6,7 @@
 lsblk
 
 # Запуск утилиты разметки (выберите DOS)
-cfdisk /dev/sda
+sudo cfdisk /dev/sda
 # Создайте два раздела:
 # /dev/sda1 — 1G (тип Linux, для /boot)
 # /dev/sda2 — Все оставшееся пространство (тип Linux, для /)
@@ -28,7 +28,7 @@ sudo fdisk -l /dev/sda
 cd /mnt/gentoo
 
 # Скачивание актуального архива Stage3 (обязательно с desktop-systemd)
-sudo wget https://gentoo.org
+sudo wget https://distfiles.gentoo.org/releases/amd64/autobuilds/20260510T170106Z/stage3-amd64-desktop-systemd-20260510T170106Z.tar.xz
 
 # Распаковка
 sudo tar xpvf stage3-*.tar.xz --xattrs-include='*' --numeric-owner
@@ -78,9 +78,7 @@ emerge --sync
 # Проверка и выбор правильного профиля (ищите номер с systemd/merged-usr)
 eselect profile list
 # Установите подходящий номер, например:
-default/linux/amd64/23.0/desktop/systemd
-
-emerge --sync
+eselect profile set 4
 
 echo "Europe/Moscow" > /etc/timezone
 emerge --config sys-libs/timezone-data
@@ -94,6 +92,9 @@ locale-gen
 eselect locale set en_US.utf8
 env-update && source /etc/profile
 
+# gpg keys generate - need to do some actions on device (open,close,read and ...)
+getuto
+
 # Обновление базовой системы
 emerge -avuDN @world --getbinpkg=n
 
@@ -101,16 +102,9 @@ emerge -avuDN @world --getbinpkg=n
 echo "media-libs/mesa amber" >> /etc/portage/package.use/mesa
 emerge --ask --buildpkg=n media-libs/mesa
 
-# Установка ядра, микрокода, прошивок и dracut для генерации initramfs
-emerge --ask --depclean
-emerge @preserved-rebuild
-
+# Установка ядра
 emerge --ask sys-kernel/linux-firmware
 emerge --ask sys-kernel/gentoo-kernel-bin
-emerge --ask sys-kernel/dracut
-emerge --ask sys-boot/grub
-
-ls /boot
 
 # Настройка fstab
 nano /etc/fstab
