@@ -1,192 +1,154 @@
-# Gentoo systemd + bspwm X11 + binpkg
+# === Run any LiveCD - openSuse ===
 
-# MBR
-
-# Проверка имени диска
+# MBR partitioning and formatting
 lsblk
-
-# Запуск утилиты разметки (выберите DOS)
 sudo cfdisk /dev/sda
-# Создайте два раздела:
-# /dev/sda1 — 1G (тип Linux, для /boot)
-# /dev/sda2 — Все оставшееся пространство (тип Linux, для /)
-
-# Форматирование разделов
 sudo mkfs.ext4 /dev/sda1
 sudo mkfs.ext4 /dev/sda2
 
-# Монтирование
+# Mounting
 sudo mkdir -p /mnt/gentoo
 sudo mount /dev/sda2 /mnt/gentoo
 sudo mkdir -p /mnt/gentoo/boot
 sudo mount /dev/sda1 /mnt/gentoo/boot
 
-# disk info
-sudo fdisk -l /dev/sda
-
-# Stage3
 cd /mnt/gentoo
 
-# Скачивание актуального архива Stage3 (обязательно с desktop-systemd)
+# Download and extract Stage3 (desktop-systemd)
 sudo wget https://distfiles.gentoo.org/releases/amd64/autobuilds/20260510T170106Z/stage3-amd64-desktop-systemd-20260510T170106Z.tar.xz
 
-# Распаковка
-sudo tar xpvf stage3-*.tar.xz --xattrs-include='*' --numeric-owner
+# extract stage3
+sudo tar xpvf stage3-amd64-desktop-systemd-20260510T170106Z.tar.xz --xattrs-include='*' --numeric-owner
 
-# or local stage3
-sudo cp gentoo.tar.xz /mnt/gentoo/
-sudo cd /mnt/gentoo
-sudo tar xpvf gentoo.tar.xz --xattrs-include='*.*' --numeric-owner
+# or download via browser or from USB
+# copy to /mnt/gentoo
+sudo cp /home/linux/stage3.tar.xz /mnt/gentoo
+cd /mnt/gentoo
+sudo tar xpvf stage3.tar.xz --xattrs-include='*' --numeric-owner
 
-# make
+# Setting up make.conf (added support for binary packages)
 sudo nano /mnt/gentoo/etc/portage/make.conf
-
+# Paste
 COMMON_FLAGS="-O2 -pipe"
-ACCEPT_KEYWORDS="amd64"
-
 FEATURES="getbinpkg"
 EMERGE_DEFAULT_OPTS="--usepkg --binpkg-respect-use=y"
+USE="-wayland"
+VIDEO_CARDS="intel i915"
 
-USE="X systemd dbus jpeg png -wayland -elogind"
-VIDEO_CARDS="intel"
+# Copy DNS
+# echo "nameserver 8.8.8.8" | sudo tee /mnt/gentoo/etc/resolv.conf
+echo "nameserver 1.1.1.1" | sudo tee /mnt/gentoo/etc/resolv.conf
+cat /mnt/gentoo/etc/resolv.conf
 
-sudo mkdir -p /mnt/gentoo/etc/portage/binrepos.conf
-sudo nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
-
-[gentoo]
-priority = 9999
-sync-uri = https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
-
-# Копирование настроек DNS
-sudo cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
-
-# Монтирование системных псевдофайловых систем
+# Mounting virtual systems (Important: BEFORE chroot!)
 sudo mount --types proc /proc /mnt/gentoo/proc
 sudo mount --rbind /sys /mnt/gentoo/sys
 sudo mount --make-rslave /mnt/gentoo/sys
 sudo mount --rbind /dev /mnt/gentoo/dev
 sudo mount --make-rslave /mnt/gentoo/dev
+sudo mount --bind /run /mnt/gentoo/run
+sudo mount --make-slave /mnt/gentoo/run
 
-# Переход в chroot (обратите внимание: без sudo внутри chroot)
-chroot /mnt/gentoo /bin/bash
+# add this for systemd/grub:
+sudo mount --bind /sys/fs/cgroup /mnt/gentoo/sys/fs/cgroup
+
+# ENTER CHROOT
+sudo chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) $PS1"
 
-# Синхронизация дерева портежей
+# === INSIDE CHROOT (without sudo) ===
+
+# Key initialization and synchronization
 emerge --sync
+getuto
 
-# Проверка и выбор правильного профиля (ищите номер с systemd/merged-usr)
+# Profile selection (Look for desktop/systemd/merged-usr)
 eselect profile list
-# Установите подходящий номер, например:
-eselect profile set 4
+eselect profile set 4 # Replace with your desktop/systemd profile number
 
+# Setting up locales
 echo "Europe/Moscow" > /etc/timezone
 emerge --config sys-libs/timezone-data
 
 nano /etc/locale.gen
-# Раскомментируйте или добавьте строки:
-en_US.UTF-8 UTF-8
-ru_RU.UTF-8 UTF-8
-
+# Uncomment en_US.UTF-8 and ru_RU.UTF-8
 locale-gen
 eselect locale set en_US.utf8
 env-update && source /etc/profile
 
-# gpg keys generate - need to do some actions on device (open,close,read and ...)
-getuto
+# Updating the World (using binary packages)
+emerge -avuDN @world
 
-# Обновление базовой системы
-emerge -avuDN @world --getbinpkg=n
+# Installing the Kernel and firmware
+emerge sys-kernel/linux-firmware sys-kernel/gentoo-kernel-bin
 
-# Принудительная локальная сборка графического драйвера Mesa с флагом amber
-echo "media-libs/mesa amber" >> /etc/portage/package.use/mesa
-emerge --ask --buildpkg=n media-libs/mesa
-
-# Установка ядра
-emerge --ask sys-kernel/linux-firmware
-emerge --ask sys-kernel/gentoo-kernel-bin
-
-# Настройка fstab
+# Setting up fstab
 nano /etc/fstab
-# Добавьте строки:
+
 /dev/sda1  /boot  ext4  defaults  0 2
 /dev/sda2  /      ext4  noatime   0 1
 
 echo "gentoo-z570" > /etc/hostname
 
-# Установка и активация NetworkManager
-emerge --ask net-misc/networkmanager
-# systemctl enable NetworkManager
+# pkgs installation
+emerge net-misc/networkmanager app-admin/sudo sys-apps/dbus x11-base/xorg-server emerge x11-wm/bspwm x11-misc/sxhkd x11-terms/alacritty x11-misc/rofi x11-misc/polybar media-gfx/feh x11-misc/picom app-shells/fish www-client/firefox-bin x11-apps/xinit emerge media-video/pipewire media-sound/pipewire-alsa media-sound/wireplumber
 
-# Системные утилиты
-emerge --ask app-admin/sudo sys-apps/dbus x11-base/xorg-server
+# Enabling services via the --root flag
+systemctl enable NetworkManager
 systemctl enable dbus
 
-emerge --ask \
-    x11-wm/bspwm x11-misc/sxhkd \
-    x11-terms/alacritty x11-misc/rofi \
-    x11-misc/polybar media-gfx/feh \
-    x11-misc/picom app-shells/fish \
-    www-client/firefox-bin 
-
-# PipeWire Установка аудиосервера
-emerge --ask media-video/pipewire media-sound/pipewire-alsa media-sound/wireplumber
-
-mkdir -p /etc/pipewire/pipewire.conf.d
-ln -s /usr/share/pipewire/pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
-
-# run service
-# systemctl --user enable pipewire pipewire-pulse wireplumber
-
-# grub install
-emerge --ask sys-boot/grub os-prober
+# Setting up GRUB
+echo "sys-boot/grub mount" >> /etc/portage/package.use/grub
+emerge --ask sys-boot/grub sys-boot/os-prober
 grub-install --target=i386-pc /dev/sda
+
+# for UEFI
+# grub-install --target=x86_64-efi --efi-directory=/boot
+
 grub-mkconfig -o /boot/grub/grub.cfg   
 
+# Setting up users
 passwd
+useradd -m -G wheel,video,audio,input -s /bin/bash USER
+passwd USER
 
-useradd -m -G wheel,video,audio,input -s /bin/bash user
-passwd user
+EDITOR=nano visudo 
+# Uncomment %wheel
 
-# Разрешение использовать sudo для группы wheel
-EDITOR=nano visudo
-# Раскомментируйте строку: %wheel ALL=(ALL:ALL) ALL
-
-# Переключаемся на обычного пользователя внутри chroot для создания конфигов
-su - user
-
-# Создание директорий для конфигурации bspwm
+# User setup (bspwm)
+su - USER
 mkdir -p ~/.config/bspwm ~/.config/sxhkd
 cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
 cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
 chmod +x ~/.config/bspwm/bspwmrc
-
-# Настройка запуска сессии X11
 echo "exec bspwm" > ~/.xinitrc
 
-# Автоматический запуск Иксов при входе на первой виртуальной консоли (TTY1)
 nano ~/.bash_profile
-# Добавьте в конец файла:
-[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+    exec startx -- -keeptty > ~/.xsession-errors 2>&1
+fi
 
-# сделать исполняемым
-chmod +x ~/.config/bspwm/bspwmrc
-chmod +x ~/.config/polybar/powermenu
-chmod +x ~/.config/polybar/launch.sh
+nano /home/USER/.xinitrc
+#!/bin/sh
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    eval $(dbus-launch --sh-syntax --exit-with-session)
+fi
 
-# Выход из сессии пользователя обратно в root chroot
-exit
+export XDG_CURRENT_DESKTOP=bspwm
+export XDG_SESSION_DESKTOP=bspwm
+export XDG_SESSION_TYPE=x11
 
-# Выход из chroot
-exit
+chmod +x /home/USER/.xinitrc
 
-# Размонтирование разделов
+# Запуск bspwm через dbus для работы PipeWire и флешек
+exec dbus-run-session bspwm
+
+exit # Exit user back to root chroot
+exit # Exit chroot to the host system
+
+# === AGAIN ON THE LiveCD SYSTEM ===
 sudo umount -l /mnt/gentoo/dev{/shm,/pts,}
 sudo umount -R /mnt/gentoo
-
-# Перезагрузка системы
 sudo reboot
-
-
-
 
