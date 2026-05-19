@@ -1,4 +1,10 @@
-# === Run any LiveCD - openSuse ===
+# ----------------------------------
+# Gentoo Installing via any LiveCD 
+# @yojeero
+# ----------------------------------
+
+# reset MBR
+sudo dd if=/dev/zero of=/dev/sda bs=512 count=1 conv=notrunc
 
 # MBR partitioning and formatting
 lsblk
@@ -6,41 +12,49 @@ sudo cfdisk /dev/sda
 sudo mkfs.ext4 /dev/sda1
 sudo mkfs.ext4 /dev/sda2
 
-# Mounting
+# Mounting ROOT first
 sudo mkdir -p /mnt/gentoo
 sudo mount /dev/sda2 /mnt/gentoo
-sudo mkdir -p /mnt/gentoo/boot
-sudo mount /dev/sda1 /mnt/gentoo/boot
-
 cd /mnt/gentoo
 
-# Download and extract Stage3 (desktop-systemd)
+# ======= web stage ========
+
+# download and extract Stage3 (desktop-systemd)
 sudo wget https://distfiles.gentoo.org/releases/amd64/autobuilds/20260510T170106Z/stage3-amd64-desktop-systemd-20260510T170106Z.tar.xz
 
 # extract stage3
 sudo tar xpvf stage3-amd64-desktop-systemd-20260510T170106Z.tar.xz --xattrs-include='*' --numeric-owner
 
-# or download via browser or from USB
-# copy to /mnt/gentoo
+# ======= end web stage ========
+
+# OR use
+
+# ======= local stage ========
+
+# copy to /mnt/gentoo from USB
+
+# Copy and extract Stage3 (DO THIS BEFORE MOUNTING BOOT!)
 sudo cp /home/linux/stage3.tar.xz /mnt/gentoo
-cd /mnt/gentoo
 sudo tar xpvf stage3.tar.xz --xattrs-include='*' --numeric-owner
 
-# Setting up make.conf (added support for binary packages)
+# ======= end local stage ========
+
+# NOW mount BOOT partition over the extracted structure
+sudo mount /dev/sda1 /mnt/gentoo/boot
+
+# make.conf configuration
 sudo nano /mnt/gentoo/etc/portage/make.conf
-# Paste
+# Paste:
 COMMON_FLAGS="-O2 -pipe"
 FEATURES="getbinpkg"
 EMERGE_DEFAULT_OPTS="--usepkg --binpkg-respect-use=y"
 USE="-wayland"
-VIDEO_CARDS="intel i915"
+VIDEO_CARDS="intel"
 
-# Copy DNS
-# echo "nameserver 8.8.8.8" | sudo tee /mnt/gentoo/etc/resolv.conf
+# DNS
 echo "nameserver 1.1.1.1" | sudo tee /mnt/gentoo/etc/resolv.conf
-cat /mnt/gentoo/etc/resolv.conf
 
-# Mounting virtual systems (Important: BEFORE chroot!)
+# Mounting virtual filesystems
 sudo mount --types proc /proc /mnt/gentoo/proc
 sudo mount --rbind /sys /mnt/gentoo/sys
 sudo mount --make-rslave /mnt/gentoo/sys
@@ -48,107 +62,146 @@ sudo mount --rbind /dev /mnt/gentoo/dev
 sudo mount --make-rslave /mnt/gentoo/dev
 sudo mount --bind /run /mnt/gentoo/run
 sudo mount --make-slave /mnt/gentoo/run
-
-# add this for systemd/grub:
 sudo mount --bind /sys/fs/cgroup /mnt/gentoo/sys/fs/cgroup
+sudo mount --types tmpfs shm /mnt/gentoo/dev/shm
 
-# ENTER CHROOT
+# Enter CHROOT
 sudo chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) $PS1"
 
-# === INSIDE CHROOT (without sudo) ===
+# ==============================
+# INSIDE CHROOT
+# ==============================
 
-# Key initialization and synchronization
+# Sync and Portage keys
 emerge --sync
 getuto
 
-# Profile selection (Look for desktop/systemd/merged-usr)
-eselect profile list
-eselect profile set 4 # Replace with your desktop/systemd profile number
+# Set Profile (Ensure it is merged-usr!)
+# When selecting a profile (eselect profile list): Look for the line where it says desktop/systemd/merged-usr (or desktop/systemd/plasma/merged-usr, if you want KDE). The merged-usr flag is now critical for the correct operation of the binary kernel and dracut.
 
-# Setting up locales
+eselect profile list
+eselect profile set 4 
+
+# Timezone and Locales
 echo "Europe/Moscow" > /etc/timezone
 emerge --config sys-libs/timezone-data
 
 nano /etc/locale.gen
-# Uncomment en_US.UTF-8 and ru_RU.UTF-8
+# Uncomment: en_US.UTF-8 UTF-8 and ru_RU.UTF-8 UTF-8
+
 locale-gen
 eselect locale set en_US.utf8
 env-update && source /etc/profile
 
-# Updating the World (using binary packages)
+# Update World
 emerge -avuDN @world
 
-# Installing the Kernel and firmware
+# Kernel setup
+echo "sys-kernel/installkernel dracut grub" >> /etc/portage/package.use/installkernel
+mkdir -p /etc/kernel
+echo "layout=grub" > /etc/kernel/install.conf
+
 emerge sys-kernel/linux-firmware sys-kernel/gentoo-kernel-bin
 
-# Setting up fstab
+# FSTAB configuration
 nano /etc/fstab
-
-/dev/sda1  /boot  ext4  defaults  0 2
-/dev/sda2  /      ext4  noatime   0 1
+# Paste:
+/dev/sda1   /boot        ext4    noatime              1 2
+/dev/sda2   /            ext4    noatime              0 1
 
 echo "gentoo-z570" > /etc/hostname
 
-# pkgs installation
-emerge net-misc/networkmanager app-admin/sudo sys-apps/dbus x11-base/xorg-server emerge x11-wm/bspwm x11-misc/sxhkd x11-terms/alacritty x11-misc/rofi x11-misc/polybar media-gfx/feh x11-misc/picom app-shells/fish www-client/firefox-bin x11-apps/xinit emerge media-video/pipewire media-sound/pipewire-alsa media-sound/wireplumber
+# Install Base Software and Desktop Environment
+emerge net-misc/networkmanager \
+       app-admin/sudo \
+       x11-base/xorg-server \
+       x11-base/xorg-drivers \
+       x11-wm/bspwm \
+       x11-misc/sxhkd \
+       x11-terms/alacritty \
+       x11-misc/rofi \
+       x11-misc/polybar \
+       x11-misc/picom \
+       media-gfx/feh \
+       www-client/firefox-bin \
+       media-video/pipewire \
+       media-sound/wireplumber \
+       x11-apps/xinit \
+       x11-apps/xauth \
+       sys-auth/seatd \
+       gui-apps/greetd \
+       gui-libs/tuigreet \
+       app-shells/bash-completion \
+       sys-process/htop \
+       app-editors/neovim \
+       x11-misc/xdg-utils
 
-# Enabling services via the --root flag
+# System Services
 systemctl enable NetworkManager
-systemctl enable dbus
+systemctl enable greetd
+systemctl enable seatd
 
-# Setting up GRUB
+# GRUB Installation (Guaranteed to find kernel now)
 echo "sys-boot/grub mount" >> /etc/portage/package.use/grub
 emerge --ask sys-boot/grub sys-boot/os-prober
 grub-install --target=i386-pc /dev/sda
-
-# for UEFI
-# grub-install --target=x86_64-efi --efi-directory=/boot
-
 grub-mkconfig -o /boot/grub/grub.cfg   
 
-# Setting up users
+# User Creation & Permissions
 passwd
 useradd -m -G wheel,video,audio,input -s /bin/bash USER
 passwd USER
+gpasswd -a USER seat
 
+# Fix greetd permissions for X11/tuigreet
+gpasswd -a greeter video
+gpasswd -a greeter seat
+
+# Sudo Configuration
 EDITOR=nano visudo 
-# Uncomment %wheel
+# Uncomment 
+%wheel ALL=(ALL:ALL) ALL
 
-# User setup (bspwm)
-su - USER
-mkdir -p ~/.config/bspwm ~/.config/sxhkd
-cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
-cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
-chmod +x ~/.config/bspwm/bspwmrc
-echo "exec bspwm" > ~/.xinitrc
+# BSPWM & SXHKD Configs for User
+mkdir -p /home/USER/.config/bspwm /home/USER/.config/sxhkd
+cp /usr/share/doc/bspwm/examples/bspwmrc /home/USER/.config/bspwm/
+cp /usr/share/doc/bspwm/examples/sxhkdrc /home/USER/.config/sxhkd/
+chmod +x /home/USER/.config/bspwm/bspwmrc
 
-nano ~/.bash_profile
-if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    exec startx -- -keeptty > ~/.xsession-errors 2>&1
-fi
+# Greetd Configuration
+mkdir -p /etc/greetd
+nano /etc/greetd/config.toml
+# Paste:
+[terminal]
+vt = 1
+[default_session]
+command = "tuigreet --cmd startx"
+user = "greeter"
 
+# Create .xinitrc for User securely
 nano /home/USER/.xinitrc
+# Paste:
 #!/bin/sh
-if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
-    eval $(dbus-launch --sh-syntax --exit-with-session)
-fi
-
 export XDG_CURRENT_DESKTOP=bspwm
 export XDG_SESSION_DESKTOP=bspwm
 export XDG_SESSION_TYPE=x11
-
-chmod +x /home/USER/.xinitrc
-
-# Запуск bspwm через dbus для работы PipeWire и флешек
 exec dbus-run-session bspwm
 
-exit # Exit user back to root chroot
-exit # Exit chroot to the host system
+chmod +x /home/USER/.xinitrc
+chown -R USER:USER /home/USER/
 
-# === AGAIN ON THE LiveCD SYSTEM ===
-sudo umount -l /mnt/gentoo/dev{/shm,/pts,}
+# Exit Chroot
+exit 
+
+# Unmounting and Reboot
+sudo umount -l /mnt/gentoo/dev/shm
+sudo umount -l /mnt/gentoo/proc
 sudo umount -R /mnt/gentoo
 sudo reboot
 
+# ==========================================
+# AFTER FIRST BOOT (Run as USER)
+# ==========================================
+systemctl --user enable pipewire pipewire-pulse wireplumber
