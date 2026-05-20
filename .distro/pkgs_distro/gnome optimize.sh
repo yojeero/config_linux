@@ -162,12 +162,6 @@ systemctl --user mask org.gnome.SettingsDaemon.Sharing.service
 #Smartcard
 systemctl --user mask org.gnome.SettingsDaemon.Smartcard.service
 
-#Housekeeping
-systemctl --user mask org.gnome.SettingsDaemon.Housekeeping.service
-
-# Power plugin
-systemctl --user mask org.gnome.SettingsDaemon.Power.service
-
 # Evolution background services
 systemctl --user mask\
 evolution-addressbook-factory.service\
@@ -205,6 +199,7 @@ gsettings set org.gnome.mutter check-alive-timeout 0
 
 # Disable hot corner
 gsettings set org.gnome.desktop.interface enable-hot-corners false
+
 # Disable auto-lock
 gsettings set org.gnome.desktop.session idle-delay 0
 
