@@ -46,3 +46,7 @@ sudo apt-add-repository -y non-free contrib
 sudo apt install -y linux-headers-amd64
 
 sudo systemctl enable --now fstrim.timer
+
+
+# disable gnome support us
+gsettings set org.gnome.desktop.privacy disable-donation-notifications true

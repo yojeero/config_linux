@@ -24,7 +24,7 @@ mkdir -p /mnt/gentoo/home /mnt/gentoo/tmp
 # time
 timedatectl set-ntp true
 
-# (20 May 2026 17:30)
+# (20 May 17:30 2026 )
 date 052017302026
 
 # STAGE3
@@ -75,7 +75,7 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 
 # sync
-emerge-webrsync
+emerge --sync
 
 # profile
 eselect profile list 
@@ -237,3 +237,7 @@ gsettings set org.gnome.desktop.interface enable-hot-corners false
 gsettings set org.gnome.desktop.session idle-delay 0
 gsettings set org.gnome.mutter check-alive-timeout 0
 gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'never
+
+
+# disable gnome support us
+gsettings set org.gnome.desktop.privacy disable-donation-notifications true

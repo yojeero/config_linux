@@ -44,5 +44,8 @@ sudo zypper install \
 
 sudo zypper install bspwm sxhkd rofi picom polybar
 
+# disable gnome support us
+gsettings set org.gnome.desktop.privacy disable-donation-notifications true
+
 
 

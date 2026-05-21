@@ -3,6 +3,10 @@
 # Minimal and optimized installation
 # ----------------------------------
 
+# disable gnome support us
+gsettings set org.gnome.desktop.privacy disable-donation-notifications true
+
+
 # Suitable for:
 # -Arch Linux
 # -Fedora

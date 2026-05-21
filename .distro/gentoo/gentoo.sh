@@ -46,6 +46,10 @@ nano ~/.config/fish/config.fish
 starship init fish | source
 
 
+# disable gnome support us
+gsettings set org.gnome.desktop.privacy disable-donation-notifications true
+
+
 
 
 
