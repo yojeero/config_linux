@@ -1,8 +1,8 @@
 # ============================================
-# Gentoo Binary Install (i3 + Polybar + LightDM)
+# Gentoo Binary Install (i3 + LightDM)
 # Legacy BIOS / MBR / OpenRC
-# on every step after chroot look for your command made in chroot
-# (chroot) gentoo / #
+# On every step after chroot look for your command made in chroot
+# (chroot) localhost / #
 # ============================================
 
 # --------------------------------------------
@@ -48,9 +48,6 @@ lsblk
 # FILESYSTEMS
 # --------------------------------------------
 
-mkfs.ext4 /dev/sda1
-mkfs.ext4 /dev/sda2
-
 mkdir -p /mnt/gentoo
 mount /dev/sda2 /mnt/gentoo
 
@@ -65,7 +62,7 @@ timedatectl set-ntp true
 date
 
 # date MMDDhhmmYYYY
-date 052712342026
+date 060201012026
 
 # --------------------------------------------
 # STAGE3 LOCAL
@@ -73,7 +70,7 @@ date 052712342026
 
 cd /mnt/gentoo
 
-cp /home/live/stage3.tar.xz /mnt/gentoo
+cp /home/linux/stage3.tar.xz /mnt/gentoo
 
 tar xJvpf stage3.tar.xz --xattrs --numeric-owner
 
@@ -101,8 +98,8 @@ MAKEOPTS="-j$(nproc)"
 VIDEO_CARDS="intel"
 INPUT_DEVICES="libinput"
 GRUB_PLATFORMS="pc"
+ACCEPT_LICENSE="*"
 
-# Включение использования бинарных пакетов
 FEATURES="getbinpkg"
 USE="X dbus elogind pipewire sound-server policykit -systemd"
 EOF
@@ -151,8 +148,6 @@ eselect profile list
 
 eselect profile set default/linux/amd64/23.0/desktop/openrc
 
-emerge -avuDN @world
-
 # --------------------------------------------
 # TIMEZONE
 # --------------------------------------------
@@ -192,32 +187,24 @@ EOF
 echo "gentoo" > /etc/hostname
 
 # --------------------------------------------
-# KERNEL + GRUB
+# KERNEL + FIRMWARE + GRUB
 # --------------------------------------------
 
-emerge sys-kernel/linux-firmware
-emerge sys-kernel/gentoo-kernel-bin
+# Configure installkernel to use dracut in backwards compatibility mode (compat)
+mkdir -p /etc/portage/package.use
+echo "sys-kernel/installkernel dracut" >> /etc/portage/package.use/installkernel
 
-emerge sys-boot/grub
+# Prevent dracut from crashing inside chroot (create an empty cmdline file)
+touch /etc/cmdline
 
+# Install firmware, binary kernel and GRUB
+emerge --binpkg-respect-use=n sys-kernel/linux-firmware sys-kernel/gentoo-kernel-bin sys-boot/grub
+
+# Installing the bootloader in the MBR and generating the config
 grub-install --target=i386-pc /dev/sda
-
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# --------------------------------------------
-# Check Kernel
-# --------------------------------------------
-
-ls -l /boot
-# You should see files like: vmlinuz-6.x.x-gentoo-dist and initramfs-6.x.x-gentoo-dist.img
-# If they are not there, then they remain under the “unmounted” folder in the root.
-
-# Checking integration with installkernel
-echo "sys-kernel/installkernel grub" > /etc/portage/package.use/installkernel
-emerge -uND @world
-
-# Генерируем конфиг заново
-grub-mkconfig -o /boot/grub/grub.cfg
+ls -lh /boot
 
 # --------------------------------------------
 # NETWORK
@@ -232,22 +219,29 @@ rc-update add NetworkManager default
 # --------------------------------------------
 
 rc-update add udev default
+rc-update add dbus default
+rc-update add elogind default
 
 # --------------------------------------------
-# USERS
+# USERS & SUDO
 # --------------------------------------------
 
 passwd
 
+getent group networkmanager
+
+# Networkmanager and plugdev groups 
 useradd -m \
-    -G wheel,audio,video,input,usb,portage,networkmanager,storage \
-    -s /bin/bash USER
+-G wheel,audio,video,input,networkmanager \
+-s /bin/bash USER
 
 passwd USER
 
+# Install and immediately configure sudo
 emerge app-admin/sudo
-
+mkdir -p /etc/sudoers.d
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
+chmod 0440 /etc/sudoers.d/wheel
 
 # --------------------------------------------
 # XORG + GPU
@@ -268,32 +262,16 @@ EndSection
 EOF
 
 # --------------------------------------------
-# AUDIO
+# i3 & LIGHTDM ENVIRONMENT
 # --------------------------------------------
-
-echo "media-video/pipewire sound-server" \
-> /etc/portage/package.use/pipewire
-
-emerge \
-    media-video/pipewire \
-    media-video/wireplumber \
-    media-sound/alsa-utils
-
-# --------------------------------------------
-# i3
-# --------------------------------------------
-
-mkdir -p /etc/portage/package.license
-
-echo "www-client/firefox-bin Mozilla" \
-    >> /etc/portage/package.license/firefox
 
 emerge \
     x11-wm/i3 \
+    x11-misc/lightdm \
+    x11-themes/lightdm-gtk-greeter \
+    x11-misc/xdm \
     x11-terms/kitty \
     x11-misc/dmenu \
-    x11-misc/polybar \
-    x11-misc/picom \
     media-fonts/noto \
     media-fonts/noto-emoji \
     media-fonts/dejavu \
@@ -301,17 +279,9 @@ emerge \
     media-fonts/terminus-font \
     media-fonts/jetbrains-mono \
     media-fonts/fontawesome \
-    xfce-base/thunar \
-    xfce-base/thunar-volman \
-    xfce-extra/thunar-archive-plugin \
     sys-fs/udisks \
-    x11-misc/xdg-user-dirs \
-    x11-misc/xdg-utils \
-    lxqt-base/lxqt-policykit \
-    x11-themes/adwaita-icon-theme \
-    www-client/firefox-bin \
-    app-shells/bash-completion \
-    x11-apps/setxkbmap
+    x11-apps/setxkbmap \
+    x11-misc/networkmanager-applet
 
 # --------------------------------------------
 # APPS
@@ -330,9 +300,6 @@ emerge \
     sys-process/btop \
     dev-vcs/git \
     net-misc/curl \
-    sys-fs/udisks \
-    media-video/celluloid \
-    media-video/ffmpeg \
     media-gfx/imagemagick \
     media-video/mpv \
     media-gfx/feh \
@@ -340,149 +307,59 @@ emerge \
     gnome-base/dconf
 
 # --------------------------------------------
-# i3 CONFIG
+# i3 CONFIG (Running as root, but paths point to USER)
 # --------------------------------------------
 
-su - USER
+# Create a folder structure for the USER user directly
+mkdir -p /home/USER/.config/i3
+mkdir -p /home/USER/wallpapers
 
-mkdir -p ~/.config/i3
-mkdir -p ~/.config/polybar
-mkdir -p ~/wallpapers
+# Copy the default config created by the newly installed i3 package
+cp /etc/i3/config /home/USER/.config/i3/config
 
-cp /etc/i3/config ~/.config/i3/config
+# Filling the config with autostarts
+cat <<EOF >> /home/USER/.config/i3/config
 
-cat <<EOF >> ~/.config/i3/config
-
-exec --no-startup-id pipewire
-exec --no-startup-id pipewire-pulse
-exec --no-startup-id wireplumber
-exec --no-startup-id lxqt-policykit-agent
 exec --no-startup-id nm-applet
-exec --no-startup-id thunar --daemon
-exec --no-startup-id ~/.config/polybar/launch.sh
-exec --no-startup-id picom
 exec --no-startup-id setxkbmap -layout us,ru -option grp:alt_shift_toggle
 exec_always --no-startup-id feh --bg-fill ~/wallpapers/skate.jpg
-
 EOF
 
-# --------------------------------------------
-# polybar
-# --------------------------------------------
-
-cat <<EOF > ~/.config/polybar/launch.sh
-#!/bin/sh
-
-killall polybar 2>/dev/null
-
-sleep 1
-
-polybar main -c ~/.config/polybar/config.ini &
-EOF
-
-cat <<EOF > ~/.config/polybar/config.ini
-[bar/main]
-width = 100%
-height = 28
-
-modules-left = i3
-modules-center = date
-modules-right = pulseaudio memory cpu wlan
-
-font-0 = Terminus:size=12
-font-1 = "Font Awesome 6 Free Solid:size=10"
-
-[module/i3]
-type = internal/i3
-
-[module/date]
-type = internal/date
-interval = 1
-date = %H:%M %d.%m.%Y
-
-[module/cpu]
-type = internal/cpu
-interval = 2
-format-prefix = CPU 
-
-[module/memory]
-type = internal/memory
-interval = 2
-format-prefix = RAM 
-
-[module/pulseaudio]
-type = internal/pulseaudio
-
-[module/wlan]
-type = internal/network
-interface = wlp2s0
-interval = 3
-
-EOF
-
-chmod +x ~/.config/polybar/launch.sh
-
-# Find out the Wi-Fi interface
-
-ip a
+# Restoring file rights for a regular user
+chown -R USER:USER /home/USER/
 
 # --------------------------------------------
-# GTK
+# LIGHTDM AUTOSTART
 # --------------------------------------------
 
-echo "gtk-theme-name=Adwaita" > ~/.gtkrc-2.0
+# Set LightDM as the default display manager
+echo 'DISPLAYMANAGER="lightdm"' > /etc/conf.d/xdm
+rc-update add xdm default
+rc-service dbus start
+rc-service elogind start
+rc-service xdm start
 
-mkdir -p ~/.config/gtk-3.0
+# LightDM may require greeter configuration
 
-cat <<EOF > ~/.config/gtk-3.0/settings.ini
-[Settings]
-gtk-theme-name=Adwaita
-gtk-icon-theme-name=Papirus
-EOF
+# If the screen remains black after running rc-service xdm start, check
+grep greeter-session /etc/lightdm/lightdm.conf
 
-# --------------------------------------------
-# LightDM 
-# --------------------------------------------
+# Add if necessary
+nano /etc/lightdm/lightdm.conf
 
-echo "x11-misc/lightdm elogind" \
-> /etc/portage/package.use/lightdm
-
-emerge \
-    x11-misc/lightdm \
-    x11-misc/lightdm-gtk-greeter 
-
-cat <<EOF > /usr/share/xsessions/i3.desktop
-[Desktop Entry]
-Name=i3
-Comment=i3 Window Manager
-Exec=i3
-Type=Application
-EOF
-
-mkdir -p /etc/lightdm
-
-cat <<EOF > /etc/lightdm/lightdm.conf
 [Seat:*]
 greeter-session=lightdm-gtk-greeter
 user-session=i3
-EOF
+
+# i3 check
+ls /usr/share/xsessions
+
+# i3.desktop
 
 # --------------------------------------------
-# EXIT
+# FINALIZE
 # --------------------------------------------
 
-xdg-user-dirs-update
-
 exit
+sudo umount -R /mnt/gentoo
 
-rc-update add dbus default
-rc-update add elogind boot
-rc-update add lightdm default
-rc-update add plocate default
-
-exit
-
-umount -R /mnt/gentoo
-reboot
-
-sudo updatedb
