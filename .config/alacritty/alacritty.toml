@@ -23,11 +23,3 @@ style = "Bold"
 family = "JetBrainsMono Nerd Font"
 style = "Italic"
 
-[font.normal]
-family = "monospace"
-style = "Regular"
-
-[shell]
-program = "/bin/fish"
-args = ["--login"]
-

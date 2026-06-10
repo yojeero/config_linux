@@ -137,7 +137,7 @@ apk add \
     thunar thunar-archive-plugin thunar-volman \
     bottom fastfetch \
     unzip zip gzip \
-    yazi ghostty \
+    yazi alacritty mc \
     ripgrep fd fzf \
     git curl wget \
     mousepad font-terminus 

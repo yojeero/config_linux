@@ -1,4 +1,21 @@
 
+# ----------------------------------
+# ssd trim
+# ----------------------------------
+
+sudo systemctl enable --now fstrim.timer
+
+# --------------------------------------------
+# TIME
+# --------------------------------------------
+
+timedatectl set-ntp true
+date
+
+# date MMDDhhmmYYYY
+date 060201012026
+
+# list
 sudo pacman -Qe # list installed packagers
 sudo pacman -Qqe > package_list.txt # list packages to list
 
@@ -43,3 +60,34 @@ When = PostTransaction
 Exec = /usr/bin/paccache -rk2
 
 HookDir = /etc/pacman.d/hooks/ # And in /etc/pacman.conf uncomment the line
+
+# ----------------------------------
+# XFCE error
+# ----------------------------------
+
+# Open a terminal Ctrl+Alt+T or via TTY
+xfce4-panel -r
+xfdesktop --reload
+
+# Reset xfdesktop settings (desktop is gone)
+xfconf-query -c xfce4-desktop -R -r
+xfdesktop &
+
+# This will remove all XFCE settings (panel, themes, hotkeys)
+mv ~/.config/xfce4 ~/.config/xfce4.backup
+
+xfce4-session-logout
+
+# If the panel is missing
+rm -rf ~/.config/xfce4/panel
+xfce4-panel &
+
+# Sometimes the problem is broken themes
+sudo pacman -S adwaita-icon-theme
+
+# If the screen is completely blank, restart XFCE
+startxfce4
+
+# or
+xfdesktop &
+xfce4-panel &

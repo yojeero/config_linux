@@ -2,19 +2,48 @@
 # Bios Legacy + MBR
 # ----------------------------------
 
-lsblk
+# --------------------------------------------
+# DISK PARTITIONING
+# --------------------------------------------
 
-cfdisk /dev/sda
+sudo su
 
-1G	vfat boot	     /boot 
-50G	ext4 Linux root   / 
+sgdisk --zap-all /dev/sda
+dd if=/dev/zero of=/dev/sda bs=1M count=10
 
-# format
+# 1. Disk partition (MBR, 1GB vfat boot, 50GB root/data)
+fdisk /dev/sda <<EOF
+o
+n
+p
+1
+
++1G
+a
+n
+p
+2
+
++50G
+w
+EOF
+
+# 2. Updating the partition table in the system
+partprobe /dev/sda
+
+# 3. Formatting partitions in ext4
 mkfs.vfat -F 32 /dev/sda1
 mkfs.ext4 /dev/sda2
 
-# mount
+lsblk
+
+# --------------------------------------------
+# FILESYSTEMS
+# --------------------------------------------
+
+mkdir -p /mnt
 mount /dev/sda2 /mnt
+
 mkdir -p /mnt/boot
 mount /dev/sda1 /mnt/boot
 
@@ -26,64 +55,36 @@ sudo fdisk -l /dev/sda
 # update 
 sudo pacman -Syuu
 
-# pkgs
-sudo pacman -Sy \
-        firefox kitty ghostty \
-        nautilus file-roller yazi \
+# yay
+sudo pacman -S git base-devel
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
+makepkg -si
+
+yay -S \
+        firefox kitty alacritty \
+        mc yazi \
         mousepad fastfetch bottom \
         zip unzip p7zip unrar ouch \
         wget git curl gvfs udisks2 ntfs-3g \
-        xdg-utils glib ripgrep zoxide \
+        xdg-utils glib2 ripgrep zoxide \
         celluloid rhythmbox imagemagick ffmpeg \
-        adwaita-icon-theme mint-y-icons
+        google-chrome visual-studio-code-bin
 
 # SHELL
 sudo pacman -Sy fish eza fzf fd
 
 chsh -s $(command -v fish) 
 
-# chrome vscode
-sudo pacman -Sy google-chrome visual-studio-code-bin 
+# ----------------------------------
+# xfce
+# ----------------------------------   
+sudo pacman -S xfce4-goodies network-manager-applet pavucontrol
 
 # ----------------------------------
-# Gnome extensions
+# BSPWM
 # ----------------------------------
+sudo pacman -S  bspwm sxhkd rofi picom polybar
 
-Dash in Panel
-User Themes
-Auto Move Windows
-Light Style
-Removable Drive Menu
-Screenshot Window Sizer
-Blur my Shell
 
-# ----------------------------------
-# XFCE error
-# ----------------------------------
 
-# Open a terminal Ctrl+Alt+T or via TTY
-xfce4-panel -r
-xfdesktop --reload
-
-# Reset xfdesktop settings (desktop is gone)
-xfconf-query -c xfce4-desktop -R -r
-xfdesktop &
-
-# This will remove all XFCE settings (panel, themes, hotkeys)
-mv ~/.config/xfce4 ~/.config/xfce4.backup
-
-xfce4-session-logout
-
-# If the panel is missing
-rm -rf ~/.config/xfce4/panel
-xfce4-panel &
-
-# Sometimes the problem is broken themes
-sudo pacman -S adwaita-icon-theme
-
-# If the screen is completely blank, restart XFCE
-startxfce4
-
-# or
-xfdesktop &
-xfce4-panel &
