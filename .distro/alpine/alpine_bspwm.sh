@@ -203,8 +203,8 @@ feh --bg-scale /usr/share/backgrounds/xfce/xfce-blue.jpg &
 # BSPWM settings
 # --------------------------------
 
-bspc config border_width 2
-bspc config window_gap 8
+bspc config border_width 0
+bspc config window_gap 2
 bspc config split_ratio 0.50
 
 bspc config focus_follows_pointer true

@@ -2,7 +2,7 @@
 # pkgs
 sudo zypper install \
         firefox kitty alacritty \
-        nautilus file-roller yazi mc \
+        thunar thunar-archive-plugin thunar-volman file-roller yazi mc \
         mousepad fastfetch bottom \
         zip unzip p7zip unrar ouch \
         wget git curl gvfs udisks2 ntfs-3g \
@@ -20,12 +20,8 @@ sudo zypper install vscode.rpm google-chrome.rpm
 # ----------------------------------
 # bspwm
 # ----------------------------------
-sudo zypper install bspwm sxhkd rofi picom polybar
+sudo zypper install bspwm sxhkd rofi picom polybar feh dunst
 
-# ----------------------------------
-# disable gnome support us
-# ----------------------------------
-gsettings set org.gnome.desktop.privacy disable-donation-notifications true
 
 
 

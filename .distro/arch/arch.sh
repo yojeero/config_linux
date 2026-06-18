@@ -63,13 +63,16 @@ makepkg -si
 
 yay -S \
         firefox kitty alacritty \
-        mc yazi \
+        thunar thunar-archive-plugin thunar-volman \
+        file-roller mc yazi \
         mousepad fastfetch bottom \
         zip unzip p7zip unrar ouch \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib2 ripgrep zoxide \
         celluloid rhythmbox imagemagick ffmpeg \
-        google-chrome visual-studio-code-bin
+	lxappearance gruvbox-plus-icon-theme gtk-engine-murrine
+
+yay -S google-chrome visual-studio-code-bin
 
 # SHELL
 sudo pacman -Sy fish eza fzf fd
@@ -84,7 +87,16 @@ sudo pacman -S xfce4-goodies network-manager-applet pavucontrol
 # ----------------------------------
 # BSPWM
 # ----------------------------------
-sudo pacman -S  bspwm sxhkd rofi picom polybar
+sudo pacman -S bspwm sxhkd rofi picom polybar feh dunst
 
+chmod +x ~/.config/bspwm/bspwmrc
+chmod +x ~/.config/polybar/launch.sh
 
-
+# ----------------------------------
+# sway
+# ----------------------------------
+yay -S \
+    sway swaybg swaylock swayidle swaylock-effects \
+    foot waybar fuzzel \
+    wl-clipboard grim slurp \
+    mako xdg-desktop-portal-gtk

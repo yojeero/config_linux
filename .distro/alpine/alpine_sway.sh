@@ -77,7 +77,7 @@ echo "===> Install utilities"
 
 apk add \
     thunar thunar-archive-plugin thunar-volman \
-    bottom fastfetch unzip zip ouch yazi mc \
+    bottom fastfetch unzip zip yazi mc \
     ripgrep eza fd fzf imv mpv zathura \
     mousepad \
     lightdm lightdm-gtk-greeter xfce4-power-manager \

@@ -34,7 +34,7 @@ sudo systemctl enable greetd
 # ----------------------------------
 
 sudo zypper in -y \
-        ghostty waybar \
+        foot waybar \
         fuzzel mako xdg-desktop-portal-gtk \
         grim slurp wl-clipboard \
-        swaylock swayidle swaybg  swaylock-effects
+        swaylock swayidle swaybg swaylock-effects

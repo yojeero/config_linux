@@ -15,7 +15,7 @@ managed=true
 sudo apt update
 sudo apt install -y \
             firefox kitty alacritty \
-            nautilus file-roller yazi mc \
+            thunar thunar-archive-plugin thunar-volman file-roller yazi mc \
             mousepad fastfetch bottom \
             zip unzip p7zip unrar ouch \
             wget git curl gvfs udisks2 ntfs-3g \
@@ -30,7 +30,7 @@ chsh -s $(command -v fish)
 # ----------------------------------
 # BSPWM
 # ----------------------------------
-sudo apt install -y bspwm sxhkd rofi picom polybar
+sudo apt install -y bspwm sxhkd rofi picom polybar feh dunst
 
 # ----------------------------------
 # repo+system
