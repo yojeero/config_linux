@@ -64,6 +64,7 @@ apk add \
     picom \
     dunst \
     kitty \
+    alacritty \
     polybar
 
 # --------------------------------

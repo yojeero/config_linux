@@ -47,12 +47,14 @@ setup-xorg-base
 
 #5. XFCE
 apk add \
-    xfce4 xfce4-terminal firefox \
+    xfce4 xfce4-terminal \
+    firefox kitty alacritty mousepad \
     thunar thunar-archive-plugin thunar-volman \
-    bottom fastfetch unzip zip yazi mc file-roller \
+    bottom fastfetch yazi mc file-roller \
+    p7zip unzip zip ouch \
     ripgrep fd fzf eza imv mpv \
-    mousepad alacritty font-terminus \
-    lightdm lightdm-gtk-greeter xfce4-power-manager
+    lightdm lightdm-gtk-greeter xfce4-power-manager \
+    font-terminus-nerd font-jetbrains-mono 
 
 rc-update add lightdm default
 

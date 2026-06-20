@@ -62,15 +62,15 @@ cd yay-bin
 makepkg -si
 
 yay -S \
-        firefox kitty alacritty \
+        firefox kitty alacritty mousepad\
         thunar thunar-archive-plugin thunar-volman \
-        file-roller mc yazi \
-        mousepad fastfetch bottom \
-        zip unzip p7zip unrar ouch \
+        bottom fastfetch yazi mc file-roller \
+        p7zip unzip zip ouch \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib2 ripgrep zoxide \
         celluloid rhythmbox imagemagick ffmpeg \
-	lxappearance gruvbox-plus-icon-theme gtk-engine-murrine
+	lxappearance gtk-engine-murrine \
+        ttf-terminus-nerd ttf-jetbrains-mono
 
 yay -S google-chrome visual-studio-code-bin
 
