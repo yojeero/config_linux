@@ -52,7 +52,7 @@ sudo fdisk -l /dev/sda
 
 # ==================================
 
-# update 
+# update
 sudo pacman -Syuu
 
 # yay
@@ -69,25 +69,25 @@ yay -S \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib2 ripgrep zoxide \
         celluloid rhythmbox imagemagick ffmpeg \
-	lxappearance gtk-engine-murrine \
-        ttf-terminus-nerd ttf-jetbrains-mono
+	lxappearance gtk-engine-murrine palette \
+        ttf-jetbrains-mono ttf-nerd-fonts-symbols ttf-terminus-nerd
 
 yay -S google-chrome visual-studio-code-bin
 
 # SHELL
 sudo pacman -Sy fish eza fzf fd
 
-chsh -s $(command -v fish) 
+chsh -s $(command -v fish)
 
 # ----------------------------------
 # xfce
-# ----------------------------------   
+# ----------------------------------
 sudo pacman -S xfce4-goodies network-manager-applet pavucontrol
 
 # ----------------------------------
 # BSPWM
 # ----------------------------------
-sudo pacman -S bspwm sxhkd rofi picom polybar feh dunst
+sudo pacman -S bspwm sxhkd rofi picom polybar feh dunst maim slop xclip
 
 chmod +x ~/.config/bspwm/bspwmrc
 chmod +x ~/.config/polybar/launch.sh
@@ -100,3 +100,10 @@ yay -S \
     foot waybar fuzzel \
     wl-clipboard grim slurp \
     mako xdg-desktop-portal-gtk
+
+# ----------------------------------
+# spectrwm 
+# ----------------------------------
+sudo pacman -S spectrwm alacritty rofi maim slop xclip feh picom dunst i3lock
+
+sudo sensors-detect

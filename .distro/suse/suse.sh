@@ -21,7 +21,7 @@ sudo zypper install vscode.rpm google-chrome.rpm
 # ----------------------------------
 # bspwm
 # ----------------------------------
-sudo zypper install bspwm sxhkd rofi picom polybar feh dunst
+sudo zypper install bspwm sxhkd rofi picom polybar feh dunst maim slop xclip
 
 
 

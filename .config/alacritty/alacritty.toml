@@ -1,7 +1,7 @@
 
 [general]
 import = [
-    "~/.config/alacritty/themes/ubuntu.toml"
+    "~/.config/alacritty/themes/Cobalt2.toml"
 ]
 
 [window]
@@ -12,14 +12,18 @@ opacity = 0.90
 size = 11.0
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+family = "JetBrainsMono Font"
 style = "Regular"
 
 [font.bold]
-family = "JetBrainsMono Nerd Font"
+family = "JetBrainsMono Font"
 style = "Bold"
 
 [font.italic]
-family = "JetBrainsMono Nerd Font"
+family = "JetBrainsMono Font"
 style = "Italic"
+
+[selection]
+save_to_clipboard = true
+
 

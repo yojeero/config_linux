@@ -65,7 +65,10 @@ apk add \
     dunst \
     kitty \
     alacritty \
-    polybar
+    polybar \
+    maim \
+    slop \
+    xclip
 
 # --------------------------------
 # Filesystem / removable devices

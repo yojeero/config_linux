@@ -52,11 +52,21 @@ apk add \
     thunar thunar-archive-plugin thunar-volman \
     bottom fastfetch yazi mc file-roller \
     p7zip unzip zip ouch \
-    ripgrep fd fzf eza imv mpv \
-    lightdm lightdm-gtk-greeter xfce4-power-manager \
-    font-terminus-nerd font-jetbrains-mono 
+    ripgrep fd fzf eza imv mpv xfce4-power-manager \
+    font-jetbrains-mono font-nerd-fonts-symbols
 
-rc-update add lightdm default
+apk add ly ly-openrc
+# apk add lightdm lightdm-gtk-greeter 
+# rc-update add lightdm default
+
+sudo mkdir -p /etc/X11
+echo "needs_root_rights = yes" | sudo tee /etc/X11/Xwrapper.config
+
+nano /etc/ly/config.ini
+
+shutdown_cmd = /sbin/poweroff
+restart_cmd = /sbin/reboot
+tty = 7
 
 #6. SOUND
 apk add \
@@ -76,4 +86,13 @@ addgroup USERNAME input
 reboot
 
 # After loading
-rc-service lightdm start
+# rc-service lightdm start
+
+# Remove your current display manager (example: lightdm)
+# sudo rc-update del lightdm default
+
+# Add Ly to start at boot
+sudo rc-update add ly default
+
+# Start Ly immediately without rebooting
+sudo rc-service ly start

@@ -21,7 +21,7 @@ sudo apt install -y \
             wget git curl gvfs udisks2 ntfs-3g \
             xdg-utils glib ripgrep zoxide \
             celluloid rhythmbox imagemagick ffmpeg \
-            fonts-jetbrains-mono 
+            fonts-jetbrains-mono ttf-nerd-fonts-symbols
 
 # nerd fonts installer
 curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash
@@ -34,7 +34,7 @@ chsh -s $(command -v fish)
 # ----------------------------------
 # BSPWM
 # ----------------------------------
-sudo apt install -y bspwm sxhkd rofi picom polybar feh dunst
+sudo apt install -y bspwm sxhkd rofi picom polybar feh dunst maim slop xclip
 
 # ----------------------------------
 # repo+system
