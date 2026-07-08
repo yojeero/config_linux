@@ -68,10 +68,10 @@ yay -S \
         p7zip unzip zip ouch \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib2 ripgrep zoxide \
-        celluloid rhythmbox imagemagick ffmpeg \
-	lxappearance gtk-engine-murrine palette \
-        ttf-jetbrains-mono ttf-nerd-fonts-symbols ttf-terminus-nerd
-
+        celluloid rhythmbox imagemagick ffmpeg palette \
+	lxappearance kvantum qt6ct \
+        ttf-jetbrains-mono ttf-nerd-fonts-symbols adwaita-fonts 
+    
 yay -S google-chrome visual-studio-code-bin
 
 # SHELL

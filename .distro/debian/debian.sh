@@ -20,11 +20,9 @@ sudo apt install -y \
             p7zip unzip zip ouch \
             wget git curl gvfs udisks2 ntfs-3g \
             xdg-utils glib ripgrep zoxide \
-            celluloid rhythmbox imagemagick ffmpeg \
-            fonts-jetbrains-mono ttf-nerd-fonts-symbols
-
-# nerd fonts installer
-curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash
+            celluloid rhythmbox imagemagick ffmpeg palette \
+            lxappearance qt-style-kvantum qt6-style-kvantum \
+            fonts-jetbrains-mono ttf-nerd-fonts-symbols fonts-adwaita
 
 # SHELL
 sudo apt install -y fish eza fzf fd

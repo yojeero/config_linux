@@ -7,8 +7,9 @@ sudo zypper install \
         p7zip unzip zip ouch \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib ripgrep zoxide \
-        celluloid rhythmbox imagemagick ffmpeg \
-        jetbrains-mono-fonts symbols-only-nerd-fonts
+        celluloid rhythmbox imagemagick ffmpeg palette \
+        lxappearance kvantum-qt6 kvantum-manager kvantum-themes qt6ct \
+        jetbrains-mono-fonts symbols-only-nerd-fonts adwaita-fonts
 
 # SHELL
 sudo zypper install fish eza fzf fd
