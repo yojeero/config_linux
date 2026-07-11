@@ -67,9 +67,9 @@ yay -S \
         bottom fastfetch yazi mc file-roller \
         p7zip unzip zip ouch \
         wget git curl gvfs udisks2 ntfs-3g \
-        xdg-utils glib2 ripgrep zoxide \
-        celluloid rhythmbox imagemagick ffmpeg palette \
-	lxappearance kvantum qt6ct \
+        xdg-utils glib2 ripgrep zoxide xfce4-screenshooter \
+        celluloid rhythmbox imagemagick ffmpeg palette imv \
+	lxappearance kvantum qt6ct xorg-xsetroot \
         ttf-jetbrains-mono ttf-nerd-fonts-symbols adwaita-fonts 
     
 yay -S google-chrome visual-studio-code-bin

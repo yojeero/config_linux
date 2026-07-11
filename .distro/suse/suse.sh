@@ -6,9 +6,9 @@ sudo zypper install \
         bottom fastfetch yazi mc file-roller \
         p7zip unzip zip ouch \
         wget git curl gvfs udisks2 ntfs-3g \
-        xdg-utils glib ripgrep zoxide \
-        celluloid rhythmbox imagemagick ffmpeg palette \
-        lxappearance kvantum-qt6 kvantum-manager kvantum-themes qt6ct \
+        xdg-utils glib ripgrep zoxide xfce4-screenshooter \
+        celluloid rhythmbox imagemagick ffmpeg palette imv \
+        lxappearance kvantum-qt6 kvantum-manager kvantum-themes qt6ct xorg-xsetroot \
         jetbrains-mono-fonts symbols-only-nerd-fonts adwaita-fonts
 
 # SHELL

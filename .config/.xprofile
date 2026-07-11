@@ -1,0 +1,5 @@
+#!/bin/sh
+export XCURSOR_THEME="phinger-cursors-light"
+export XCURSOR_SIZE=24
+xrdb -merge ~/.Xresources
+xsetroot -cursor_name left_ptr &

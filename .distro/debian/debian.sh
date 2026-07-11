@@ -19,9 +19,9 @@ sudo apt install -y \
             bottom fastfetch yazi mc file-roller \
             p7zip unzip zip ouch \
             wget git curl gvfs udisks2 ntfs-3g \
-            xdg-utils glib ripgrep zoxide \
-            celluloid rhythmbox imagemagick ffmpeg palette \
-            lxappearance qt-style-kvantum qt6-style-kvantum \
+            xdg-utils glib ripgrep zoxide xfce4-screenshooter \
+            celluloid rhythmbox imagemagick ffmpeg palette imv \
+            lxappearance qt-style-kvantum qt6-style-kvantum xorg-xsetroot \
             fonts-jetbrains-mono ttf-nerd-fonts-symbols fonts-adwaita
 
 # SHELL

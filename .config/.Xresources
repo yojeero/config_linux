@@ -32,3 +32,6 @@ xterm*color15: #C0CAF5
 xterm*faceName: Monospace
 xterm*faceSize: 11
 xterm*renderFont: true
+
+
+
