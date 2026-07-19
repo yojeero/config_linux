@@ -5,6 +5,8 @@
 # --------------------------------------------
 # DISK PARTITIONING
 # --------------------------------------------
+cfdisk 
+MBR, 1GB ext4 boot, 50GB root/data
 
 mkfs.ext4 /dev/sda1
 mkfs.ext4 /dev/sda2
@@ -34,32 +36,6 @@ p
 2
 
 +50G
-w
-EOF
-
-# ----------------------------------
-# 1. Disk partition (MBR, 1GB ext4 boot, ALL HD root/data)
-# ----------------------------------
-sudo su
-
-# Полная очистка диска от старых разметок и метаданных
-sgdisk --zap-all /dev/sda
-dd if=/dev/zero of=/dev/sda bs=1M count=10
-
-# Автоматическая разметка в fdisk
-fdisk /dev/sda <<EOF
-o
-n
-p
-1
-
-+1G
-a
-n
-p
-2
-
-
 w
 EOF
 
@@ -97,11 +73,13 @@ mount /dev/sdb1 /mnt/usb
 # Перед распаковкой обязательно убедитесь, что вы находитесь в корневом разделе вашей новой системы 
 cd /mnt/gentoo
 
-# Распаковка архива
-tar xpvf /mnt/usb/stage3.tar.xz --xattrs-include='*.*' --numeric-owner
+# Распаковка без копирования
+tar xpvf /mnt/usb/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner -C /mnt/gentoo
 
-# отмонтировать usb
-umount /mnt/usb
+# Обычное копирование
+cp /mnt/usb/TUX/stage3.tar.xz /mnt/gentoo/
+cd /mnt/gentoo
+tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # ----------------------------------
 # time
@@ -109,42 +87,48 @@ umount /mnt/usb
 date
 
 # месяц, число, час, минута, год. 
-date 090615302018
+date 071910542026
 
 # ----------------------------------
 # repo + make.conf
 # ----------------------------------
-cat << 'EOF' > /mnt/gentoo/etc/portage/make.conf
+nano /mnt/gentoo/etc/portage/make.conf
+
 COMMON_FLAGS="-O2 -pipe -march=sandybridge"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 
-# Активация бинарного репозитория
-FEATURES="getbinpkg binpkg-logs"
-EMERGE_DEFAULT_OPTS="--binpkg-respect-use=y"
+FEATURES="${FEATURES} getbinpkg"
+EMERGE_DEFAULT_OPTS="--with-bdeps=y"
 
-# Специфика Lenovo Z570
-VIDEO_CARDS="intel i965"
-INPUT_DEVICES="libinput synaptics"
+VIDEO_CARDS="intel iris"
+INPUT_DEVICES="libinput"
 
-USE="X xorg elogind udev alsa i915 -swap"
-GENTOO_MIRRORS="http://yandex.ru http://itmo.ru"
-EOF
+USE="X xorg elogind udev alsa -systemd -swap jpeg png gif mp3 mp4 mpeg flac opus vorbis vaapi x264 x265 pulseaudio"
 
-# Создаем директорию и записываем файл бинарного зеркала
+GENTOO_MIRRORS="https://fau.de https://mirror.hs-esslingen.de/Mirrors/gentoo/"
+
+mkdir -p /mnt/gentoo/etc/portage/repos.conf
+
+nano /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+[gentoo]
+location = /var/db/repos/gentoo
+sync-type = rsync
+sync-uri = rsync://rsync.de.gentoo.org/gentoo-portage
+auto-sync = yes
+
 mkdir -p /mnt/gentoo/etc/portage/binrepos.conf
-cat << 'EOF' > /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
+
+nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
 [gentoo]
 priority = 9999
-sync-uri = http://yandex.ru
-EOF
+sync-uri = https://fau.de
 
 # Настраиваем DNS для гарантированного интернета внутри chroot
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
-cat << 'EOF' > /mnt/gentoo/etc/resolv.conf
+nano /mnt/gentoo/etc/resolv.conf
 nameserver 1.1.1.1
 nameserver 8.8.8.8
-EOF
 
 # ----------------------------------
 # before Chroot 
@@ -158,6 +142,13 @@ mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
 
 # ----------------------------------
+# license
+# ----------------------------------
+mkdir -p /etc/portage/package.license
+echo "www-client/google-chrome google-chrome" >> /etc/portage/package.license/custom
+echo "app-editors/vscode MIT Microsoft-vscode" >> /etc/portage/package.license/custom
+
+# ----------------------------------
 # Вход в Chroot окружение
 # ----------------------------------
 chroot /mnt/gentoo /bin/bash
@@ -168,7 +159,30 @@ export PS1="(chroot) $PS1"
 # world
 # ----------------------------------
 getuto
-emerge-webrsync
+emerge --sync
+
+eselect profile list | less
+
+# выйти из листа - q
+
+# [3]   default/linux/amd64/23.0/desktop (stable)
+# [7]   default/linux/amd64/23.0/desktop/plasma (stable)
+
+# 1. Устанавливаем профиль (например, 28)
+eselect profile set 7
+
+# 2. Обновляем переменные окружения (критически важно!)
+env-update && source /etc/profile
+
+export PS1="(chroot) $PS1"
+
+# ----------------------------------
+# если сбросилась системная переменная путей PATH
+# ----------------------------------
+PATH="/usr/bin:/usr/sbin:/bin:/sbin"
+source /etc/profile
+
+# если не в chroot - войти опять
 
 # ----------------------------------
 # kernel
@@ -181,8 +195,7 @@ emerge --ask sys-kernel/gentoo-kernel-bin
 nano /etc/fstab
 
 /dev/sda1   /boot        ext4    noatime         1 2
-/dev/sda2   none         swap    sw              0 0
-/dev/sda3   /            ext4    noatime         0 1
+/dev/sda2   /            ext4    noatime         0 1
 
 # ----------------------------------
 # local
@@ -190,19 +203,31 @@ nano /etc/fstab
 echo "Europe/Moscow" > /etc/timezone
 emerge --config sys-libs/timezone-data
 
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
+nano /etc/locale.gen
+
+en_US.UTF-8 UTF-8
+ru_RU.UTF-8 UTF-8
+
 locale-gen
+
 eselect locale set en_US.utf8
+
 env-update && source /etc/profile
 
-# ----------------------------------
-# driver
-# ----------------------------------
-emerge --ask x11-base/xorg-server x11-drivers/xf86-video-intel media-libs/mesa
+# проверим, где находитесь
+ls /
+
+# Если вы видите папки lost+found, boot, home — вы внутри chroot.
+# Если вы видите папки mnt, cdrom, rofs — вы случайно вышли наружу.
+export PS1="(chroot) $PS1"
 
 # ----------------------------------
-# spectrwm, ly / greetd
+# Графический сервер X11 (БЕЗ xf86-video-intel!)
+# ----------------------------------
+emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa
+
+# ----------------------------------
+# Установка оконного менеджера и окружения (добавлен флаг --getbinpkg)
 # ----------------------------------
 emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
 
@@ -215,7 +240,15 @@ emerge --autounmask=y --autounmask-write x11-misc/polybar x11-misc/picom
 etc-update --auto
 
 emerge --ask x11-misc/ly
-rc-update add ly default
+
+ls /etc/init.d/
+
+ln -s /etc/init.d/agetty /etc/init.d/agetty.tty2
+
+nano /etc/conf.d/agetty.tty2
+agetty_options="--skip-login --login-program /usr/bin/ly"
+
+rc-update add agetty.tty2 default
 
 # ----------------------------------
 # Установим elogind для управления сессиями 
@@ -224,32 +257,54 @@ emerge --ask sys-auth/elogind
 rc-update add elogind boot
 
 # ----------------------------------
-# grub
+# Установка и настройка GRUB (Legacy MBR)
 # ----------------------------------
-emerge --ask sys-boot/grub:2
-grub-install /dev/sda
+
+# 1. Прописываем платформу для компиляции/проверки бинарника GRUB (для надежности)
+nano /etc/portage/package.use/grub
+
+sys-boot/grub GRUB_PLATFORMS="pc"
+
+# 2. Устанавливаем сам пакет GRUB
+emerge --ask --getbinpkg sys-boot/grub:2
+
+# 3. Инсталлируем загрузчик в MBR диска /dev/sda (указываем САМ ДИСК, а не раздел sda1)
+grub-install --target=i386-pc /dev/sda
+
+# 4. Генерируем конфигурационный файл меню загрузки
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # ----------------------------------
-# network
+# network (NetworkManager)
 # ----------------------------------
-emerge --ask net-misc/dhcpcd
-rc-update add dhcpcd default
-
+# Включаем поддержку Wi-Fi на будущее (лишним не будет, если решите подключить)
 mkdir -p /etc/portage/package.use
-echo "net-misc/networkmanager wifi" >> /etc/portage/package.use/networkmanager
 
-emerge --ask net-misc/networkmanager
+nano /etc/portage/package.use/networkmanager
+net-misc/networkmanager wifi
 
-rc-update del dhcpcd default
-usermod -aG plugdev username
+# Устанавливаем NetworkManager из бинарных пакетов
+emerge --ask --getbinpkg net-misc/networkmanager
+
+# проверить название
+ls /etc/init.d/ | grep -i network
+
+# Добавляем в автозагрузку OpenRC
+rc-update add NetworkManager default
 
 # ----------------------------------
 # user
 # ----------------------------------
 passwd
-useradd -m -G wheel,audio,video,input -s /bin/bash username
+
+yopy=1231231
+
+useradd -m -G wheel -s /bin/bash username
+
 passwd username
+
+# Добавляем вашего пользователя в группу для управления сетью без root
+usermod -aG plugdev username
 
 # ----------------------------------
 # Выходим из chroot и перезагружаем
