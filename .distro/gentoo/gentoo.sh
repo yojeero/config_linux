@@ -1,27 +1,25 @@
 # ----------------------------------
-# Bios Legacy + MBR
+# Gentoo installing Binary / MBR 
 # ----------------------------------
 
+sudo su
+
 # --------------------------------------------
-# DISK PARTITIONING
+# CLEAR DISK 
+# --------------------------------------------
+sgdisk --zap-all /dev/sda
+dd if=/dev/zero of=/dev/sda bs=1M count=10
+
+# --------------------------------------------
+# DISK PARTITIONING cfdisk (MBR, 1GB ext4 boot, 50GB root/data)
 # --------------------------------------------
 cfdisk 
 MBR, 1GB ext4 boot, 50GB root/data
 
-mkfs.ext4 /dev/sda1
-mkfs.ext4 /dev/sda2
-
-# --------------------------------------------
-# DISK PARTITIONING
-# --------------------------------------------
-
-sudo su
-
-sgdisk --zap-all /dev/sda
-dd if=/dev/zero of=/dev/sda bs=1M count=10
+# OR
 
 # ----------------------------------
-# 1. Disk partition (MBR, 1GB ext4 boot, 50GB root/data)
+# Disk partition fdisk (MBR, 1GB ext4 boot, 50GB root/data)
 # ----------------------------------
 fdisk /dev/sda <<EOF
 o
@@ -39,44 +37,42 @@ p
 w
 EOF
 
-# Что здесь происходит по шагам:
-# o — Создает новую пустую таблицу разделов MBR
-# .n -> p -> 1 -> Enter -> +1G — Создает первый основной раздел на 1 ГБ (под /boot)
-# .a — Делает первый раздел загрузочным (выставляет нужный для Legacy BIOS флаг boot)
-# .n -> p -> 2 -> Enter -> Enter — Создает второй основной раздел на всё оставшееся место на диске (под корень /)
-# .w — Сохраняет изменения и записывает таблицу на диск.
+# What happens here step by step:
+#o -Creates a new empty MBR partition table
+# .n -> p -> 1 -> Enter -> +1G -Creates the first 1 GB primary partition (under /boot)
+# .a — Makes the first partition bootable (sets the boot flag required for Legacy BIOS)
+# .n -> p -> 2 -> Enter -> Enter -Creates a second main partition for the entire remaining space on the disk (under the root /)
+# .w -Saves changes and writes the table to disk.
 
-
-# 2. Updating the partition table in the system
+# ----------------------------------
+# Updating the partition table in the system
+# ----------------------------------
 partprobe /dev/sda
 
-# 3. Formatting partitions in ext4
+# ----------------------------------
+# # Formatting partitions in ext4
+# ----------------------------------
 mkfs.ext4 /dev/sda1
 mkfs.ext4 /dev/sda2
 
+# check disk
 lsblk
 
 # --------------------------------------------
-# Монтирование и распаковка Stage3
+# Mounting and unpacking Stage3
 # --------------------------------------------
-
+mkdir -p /mnt/gentoo
 mount /dev/sda2 /mnt/gentoo
-mkdir /mnt/gentoo/boot
 
+mkdir -p /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
+
 cd /mnt/gentoo
 
-# Создаем временную директорию и монтируем туда флешку
-mkdir -p /mnt/usb
-mount /dev/sdb1 /mnt/usb
-
-# Перед распаковкой обязательно убедитесь, что вы находитесь в корневом разделе вашей новой системы 
-cd /mnt/gentoo
-
-# Распаковка без копирования
+# Unpack without copying
 tar xpvf /mnt/usb/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner -C /mnt/gentoo
 
-# Обычное копирование
+# Normal copy
 cp /mnt/usb/TUX/stage3.tar.xz /mnt/gentoo/
 cd /mnt/gentoo
 tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
@@ -86,7 +82,7 @@ tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 # ----------------------------------
 date
 
-# месяц, число, час, минута, год. 
+# month, date, hour, minute, year.
 date 071910542026
 
 # ----------------------------------
@@ -111,6 +107,7 @@ GENTOO_MIRRORS="https://fau.de https://mirror.hs-esslingen.de/Mirrors/gentoo/"
 mkdir -p /mnt/gentoo/etc/portage/repos.conf
 
 nano /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+
 [gentoo]
 location = /var/db/repos/gentoo
 sync-type = rsync
@@ -120,13 +117,16 @@ auto-sync = yes
 mkdir -p /mnt/gentoo/etc/portage/binrepos.conf
 
 nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
+
 [gentoo]
 priority = 9999
 sync-uri = https://fau.de
 
-# Настраиваем DNS для гарантированного интернета внутри chroot
+# Configure DNS for guaranteed internet inside chroot
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
+
 nano /mnt/gentoo/etc/resolv.conf
+
 nameserver 1.1.1.1
 nameserver 8.8.8.8
 
@@ -149,7 +149,7 @@ echo "www-client/google-chrome google-chrome" >> /etc/portage/package.license/cu
 echo "app-editors/vscode MIT Microsoft-vscode" >> /etc/portage/package.license/custom
 
 # ----------------------------------
-# Вход в Chroot окружение
+# Login to Chroot environment
 # ----------------------------------
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
@@ -163,26 +163,26 @@ emerge --sync
 
 eselect profile list | less
 
-# выйти из листа - q
+# exit the sheet -q
 
 # [3]   default/linux/amd64/23.0/desktop (stable)
 # [7]   default/linux/amd64/23.0/desktop/plasma (stable)
 
-# 1. Устанавливаем профиль (например, 28)
+# Set the profile (for example, 7)
 eselect profile set 7
 
-# 2. Обновляем переменные окружения (критически важно!)
+# Update environment variables (critically important!)
 env-update && source /etc/profile
 
 export PS1="(chroot) $PS1"
 
 # ----------------------------------
-# если сбросилась системная переменная путей PATH
+# if the PATH system variable has been reset
 # ----------------------------------
 PATH="/usr/bin:/usr/sbin:/bin:/sbin"
 source /etc/profile
 
-# если не в chroot - войти опять
+# if not in chroot, log in again
 
 # ----------------------------------
 # kernel
@@ -214,29 +214,29 @@ eselect locale set en_US.utf8
 
 env-update && source /etc/profile
 
-# проверим, где находитесь
+# check where you are
 ls /
 
-# Если вы видите папки lost+found, boot, home — вы внутри chroot.
-# Если вы видите папки mnt, cdrom, rofs — вы случайно вышли наружу.
+# If you see the lost+found, boot, home folders, you are inside a chroot.
+# If you see the mnt, cdrom, rofs folders, you accidentally went outside.
 export PS1="(chroot) $PS1"
 
 # ----------------------------------
-# Графический сервер X11 (БЕЗ xf86-video-intel!)
+# X11 graphics server (WITHOUT xf86-video-intel!)
 # ----------------------------------
 emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa
 
 # ----------------------------------
-# Установка оконного менеджера и окружения (добавлен флаг --getbinpkg)
+# Install window manager and environment (added --getbinpkg flag)
 # ----------------------------------
 emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
 
-# Если Portage выдаст ошибку "keyword changes are needed", выполните перед установкой авторазблокировку
+# If Portage gives you a "keyword changes are needed" error, auto-unlock before installing
 
-# Автоматически добавляет нужные пакеты в unmask
+# Automatically adds the necessary packages to unmask
 emerge --autounmask=y --autounmask-write x11-misc/polybar x11-misc/picom
 
-# Применяет изменения в конфигурационных файлах Portage
+# Applies changes to Portage configuration files
 etc-update --auto
 
 emerge --ask x11-misc/ly
@@ -251,45 +251,39 @@ agetty_options="--skip-login --login-program /usr/bin/ly"
 rc-update add agetty.tty2 default
 
 # ----------------------------------
-# Установим elogind для управления сессиями 
+# Install elogind to manage sessions
 # ----------------------------------
 emerge --ask sys-auth/elogind
 rc-update add elogind boot
 
 # ----------------------------------
-# Установка и настройка GRUB (Legacy MBR)
+# Installing and configuring GRUB (Legacy MBR)
 # ----------------------------------
-
-# 1. Прописываем платформу для компиляции/проверки бинарника GRUB (для надежности)
-nano /etc/portage/package.use/grub
-
-sys-boot/grub GRUB_PLATFORMS="pc"
-
-# 2. Устанавливаем сам пакет GRUB
+# Install the GRUB package itself
 emerge --ask --getbinpkg sys-boot/grub:2
 
-# 3. Инсталлируем загрузчик в MBR диска /dev/sda (указываем САМ ДИСК, а не раздел sda1)
+# Install the bootloader in the MBR of disk /dev/sda
 grub-install --target=i386-pc /dev/sda
 
-# 4. Генерируем конфигурационный файл меню загрузки
+# Generate boot menu configuration file
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # ----------------------------------
-# network (NetworkManager)
+# NetworkManager
 # ----------------------------------
-# Включаем поддержку Wi-Fi на будущее (лишним не будет, если решите подключить)
+# Enable Wi-Fi support for the future 
 mkdir -p /etc/portage/package.use
 
 nano /etc/portage/package.use/networkmanager
 net-misc/networkmanager wifi
 
-# Устанавливаем NetworkManager из бинарных пакетов
+# Install NetworkManager from binary packages
 emerge --ask --getbinpkg net-misc/networkmanager
 
 # проверить название
 ls /etc/init.d/ | grep -i network
 
-# Добавляем в автозагрузку OpenRC
+# Add OpenRC to startup
 rc-update add NetworkManager default
 
 # ----------------------------------
@@ -297,17 +291,15 @@ rc-update add NetworkManager default
 # ----------------------------------
 passwd
 
-yopy=1231231
-
 useradd -m -G wheel -s /bin/bash username
 
 passwd username
 
-# Добавляем вашего пользователя в группу для управления сетью без root
+# Add your user to the group to manage the network without root
 usermod -aG plugdev username
 
 # ----------------------------------
-# Выходим из chroot и перезагружаем
+# Exit chroot and reboot
 # ----------------------------------
 exit
 umount -R /mnt/gentoo
@@ -334,11 +326,11 @@ emerge --ask --getbinpkg \
 # SHELL
 emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
 
-# Смена шелла для вашего текущего пользователя 
-# выполнять БЕЗ sudo, чтобы сменить себе, а не руту
+# Change the shell for your current user 
+# run WITHOUT sudo to change yourself, not root
 chsh -s $(which fish)
 
-# Разрешаем лицензии для Chrome и VS Code
+# Allow licenses for Chrome and VS Code
 mkdir -p /etc/portage/package.license
 echo "www-client/google-chrome google-chrome" >> /etc/portage/package.license/custom
 echo "app-editors/vscode MIT Microsoft-vscode" >> /etc/portage/package.license/custom
@@ -356,8 +348,8 @@ emerge --ask --getbinpkg \
 # ------------------------------
 # если Portage ругается на USE-флаги или маскировку
 # ------------------------------
-# 1. Запустите ту же команду с флагом авторазмаскирования (например, для первой группы):
+# Run the same command with the auto-unmasking flag
 emerge --ask --getbinpkg --autounmask=y --autounmask-write <пакеты>
 
-# 2. Примените предложенные изменения в конфигурацию Portage:
+# Apply the suggested changes to the Portage configuration
 etc-update --auto
