@@ -2,6 +2,9 @@
 # Gentoo installing Binary / MBR 
 # ----------------------------------
 
+# check disk
+lsblk
+
 sudo su
 
 # --------------------------------------------
@@ -37,26 +40,11 @@ p
 w
 EOF
 
-# What happens here step by step:
-#o -Creates a new empty MBR partition table
-# .n -> p -> 1 -> Enter -> +1G -Creates the first 1 GB primary partition (under /boot)
-# .a — Makes the first partition bootable (sets the boot flag required for Legacy BIOS)
-# .n -> p -> 2 -> Enter -> Enter -Creates a second main partition for the entire remaining space on the disk (under the root /)
-# .w -Saves changes and writes the table to disk.
-
-# ----------------------------------
-# Updating the partition table in the system
-# ----------------------------------
-partprobe /dev/sda
-
 # ----------------------------------
 # # Formatting partitions in ext4
 # ----------------------------------
 mkfs.ext4 /dev/sda1
 mkfs.ext4 /dev/sda2
-
-# check disk
-lsblk
 
 # --------------------------------------------
 # Mounting and unpacking Stage3
@@ -67,14 +55,11 @@ mount /dev/sda2 /mnt/gentoo
 mkdir -p /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
 
+# copy stage3 to /mnt/gentoo
+
+# Unpack stage3
 cd /mnt/gentoo
 
-# Unpack without copying
-tar xpvf /mnt/usb/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner -C /mnt/gentoo
-
-# Normal copy
-cp /mnt/usb/TUX/stage3.tar.xz /mnt/gentoo/
-cd /mnt/gentoo
 tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # ----------------------------------
@@ -122,7 +107,7 @@ nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
 priority = 9999
 sync-uri = https://fau.de
 
-# Configure DNS for guaranteed internet inside chroot
+# Configure DNS 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 
 nano /mnt/gentoo/etc/resolv.conf
@@ -165,24 +150,13 @@ eselect profile list | less
 
 # exit the sheet -q
 
-# [3]   default/linux/amd64/23.0/desktop (stable)
-# [7]   default/linux/amd64/23.0/desktop/plasma (stable)
-
-# Set the profile (for example, 7)
-eselect profile set 7
+# Set the profile (for example, 3)
+eselect profile set 5
 
 # Update environment variables (critically important!)
 env-update && source /etc/profile
 
 export PS1="(chroot) $PS1"
-
-# ----------------------------------
-# if the PATH system variable has been reset
-# ----------------------------------
-PATH="/usr/bin:/usr/sbin:/bin:/sbin"
-source /etc/profile
-
-# if not in chroot, log in again
 
 # ----------------------------------
 # kernel
@@ -218,27 +192,21 @@ env-update && source /etc/profile
 ls /
 
 # If you see the lost+found, boot, home folders, you are inside a chroot.
-# If you see the mnt, cdrom, rofs folders, you accidentally went outside.
 export PS1="(chroot) $PS1"
 
 # ----------------------------------
-# X11 graphics server (WITHOUT xf86-video-intel!)
+# X11 graphics server 
 # ----------------------------------
 emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa
 
 # ----------------------------------
-# Install window manager and environment (added --getbinpkg flag)
+# Install window manager and environment (use --getbinpkg flag)
 # ----------------------------------
 emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
 
-# If Portage gives you a "keyword changes are needed" error, auto-unlock before installing
-
-# Automatically adds the necessary packages to unmask
-emerge --autounmask=y --autounmask-write x11-misc/polybar x11-misc/picom
-
-# Applies changes to Portage configuration files
-etc-update --auto
-
+# ----------------------------------
+# Install Ly 
+# ----------------------------------
 emerge --ask x11-misc/ly
 
 ls /etc/init.d/
@@ -257,9 +225,8 @@ emerge --ask sys-auth/elogind
 rc-update add elogind boot
 
 # ----------------------------------
-# Installing and configuring GRUB (Legacy MBR)
+# Installing and configuring GRUB MBR
 # ----------------------------------
-# Install the GRUB package itself
 emerge --ask --getbinpkg sys-boot/grub:2
 
 # Install the bootloader in the MBR of disk /dev/sda
@@ -295,7 +262,7 @@ useradd -m -G wheel -s /bin/bash username
 
 passwd username
 
-# Add your user to the group to manage the network without root
+# Add user to the group to manage the network
 usermod -aG plugdev username
 
 # ----------------------------------
