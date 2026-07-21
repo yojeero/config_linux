@@ -1,5 +1,5 @@
 # ----------------------------------
-# Gentoo installing Binary / MBR 
+# Gentoo OpenRC installing Binary / MBR 
 # ----------------------------------
 
 # check disk
@@ -85,6 +85,8 @@ EMERGE_DEFAULT_OPTS="--with-bdeps=y"
 VIDEO_CARDS="intel iris"
 INPUT_DEVICES="libinput"
 
+MAKEOPTS="-j8"
+
 USE="X xorg elogind udev alsa -systemd -swap jpeg png gif mp3 mp4 mpeg flac opus vorbis vaapi x264 x265 pulseaudio"
 
 GENTOO_MIRRORS="https://fau.de https://mirror.hs-esslingen.de/Mirrors/gentoo/"
@@ -103,9 +105,9 @@ mkdir -p /mnt/gentoo/etc/portage/binrepos.conf
 
 nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
 
-[gentoo]
+[binhost]
 priority = 9999
-sync-uri = https://fau.de
+sync-uri = https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
 
 # Configure DNS 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
@@ -150,18 +152,87 @@ eselect profile list | less
 
 # exit the sheet -q
 
-# Set the profile (for example, 3)
-eselect profile set 5
+# Set the profile (for example, 5)
+eselect profile set 3
 
-# Update environment variables (critically important!)
+# Update environment variables
 env-update && source /etc/profile
 
 export PS1="(chroot) $PS1"
 
 # ----------------------------------
+# Installing and configuring GRUB MBR
+# ----------------------------------
+emerge --ask --getbinpkg sys-boot/grub:2
+
+mount | grep boot
+
+# Install the bootloader in the MBR of disk /dev/sda
+grub-install --target=i386-pc /dev/sda
+
+# ----------------------------------
 # kernel
 # ----------------------------------
-emerge --ask sys-kernel/gentoo-kernel-bin
+
+# Problems with the gentoo-kernel-bin binary kernel on a laptop are an absolutely natural result of using a Chinese custom processor on an old chipset. 
+
+# The Gentoo binary kernel is a generalized assembly, which, for the sake of versatility, includes thousands of drivers, modules and specific hacks for modern hardware.
+# When this “harvester” tries to initialize on a non-standard Chinese processor (mutant), an instruction conflict occurs, and the system freezes (Kernel Panic) at the boot stage, without even having time to show the logs. 
+
+# For your configuration, compiling your own kernel manually is not just a fad, but the only way to make the laptop work stably.
+
+# ----------------------------------
+# Installing kernel sources
+# ----------------------------------
+emerge --ask sys-kernel/installkernel
+
+echo "sys-kernel/installkernel grub -systemd" >> /etc/portage/package.use/installkernel
+emerge --ask sys-kernel/installkernel
+
+emerge --ask sys-kernel/gentoo-sources
+
+# Go to the source directory
+cd /usr/src/linux
+
+# ----------------------------------
+# localmodconfig
+# ----------------------------------
+make localmodconfig
+
+# The magic of automation for your hardware
+
+# In order not to configure thousands of items manually, we will force the kernel to look at which drivers a stable Linux Live is using right now.
+
+# The system will analyze all currently running modules: your network, Intel graphics, disk controller and automatically disable everything unnecessary in the Gentoo configuration, leaving only what actually works on your laptop.
+
+# If the script asks questions in the console about new functions, just press Enter.
+
+# ----------------------------------
+# Manual tuning for the processor
+# ----------------------------------
+make menuconfig
+
+Go through the following points and check them:
+
+# - Processor type: Go to Processor type and features -> Processor family. 
+# - Instead of Generic x86-64, select Core 2/newer Xeon (this will enable optimization for the Sandy/Ivy Bridge architecture of your processor). 
+# - Disabling microcode in the kernel itself: Custom Chinese processors often crash the system if the kernel tries to tightly embed official Intel microcode at an early stage of boot.
+# - Check that in Processor type and features the Early firmware loading item is DISABLED (you will uncheck the box). 
+# - We will update the microcode later and safely through the bootloader. Intel HD Graphics: Go to Device Drivers -> Graphics support.
+# - Make sure that the integrated Intel 8xx/9xx/G3x/G4x/HD Graphics driver is enabled as built-in ([*]) and not as a module (M). 
+# - This will protect against a black screen at boot. Save the configuration (Save button) and exit (Exit).
+
+# ----------------------------------
+# Compilation and installation
+# ----------------------------------
+make -j8 && make modules_install && make install
+
+ls -l /boot
+
+# IF WANT Generate boot menu configuration file
+
+# grub-mkconfig -o /boot/grub/grub.cfg
+# grep menuentry /boot/grub/grub.cfg
 
 # ----------------------------------
 # fstab
@@ -205,35 +276,53 @@ emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa
 emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
 
 # ----------------------------------
-# Install Ly 
-# ----------------------------------
-emerge --ask x11-misc/ly
-
-ls /etc/init.d/
-
-ln -s /etc/init.d/agetty /etc/init.d/agetty.tty2
-
-nano /etc/conf.d/agetty.tty2
-agetty_options="--skip-login --login-program /usr/bin/ly"
-
-rc-update add agetty.tty2 default
-
-# ----------------------------------
 # Install elogind to manage sessions
 # ----------------------------------
-emerge --ask sys-auth/elogind
+# Install elogind first, since Ly depends on it for session management
+emerge --ask --getbinpkg sys-auth/elogind
+
 rc-update add elogind boot
 
 # ----------------------------------
-# Installing and configuring GRUB MBR
+# Install Ly Display Manager
 # ----------------------------------
-emerge --ask --getbinpkg sys-boot/grub:2
+emerge --ask --getbinpkg x11-misc/ly
 
-# Install the bootloader in the MBR of disk /dev/sda
-grub-install --target=i386-pc /dev/sda
+rc-update add ly default
 
-# Generate boot menu configuration file
-grub-mkconfig -o /boot/grub/grub.cfg
+# ----------------------------------
+#  Disabling standard agetty on tty2
+# ----------------------------------
+nano /etc/inittab
+
+# By default, OpenRC launches classic passport login (console login) on the first six terminals (tty1–tty6).
+# Ly is configured to run on tty2 by default. 
+# To prevent Gentoo's native agetty from interfering with Ly running on this terminal, you simply need to disable tty2 in the main init config file.
+
+# Find the line responsible for tty2 
+
+# comment it out
+c2:2345:respawn:/sbin/agetty 38400 tty2 linux
+
+# When the laptop boots, OpenRC will launch elogind. 
+# The ly service is then activated. 
+# It will intercept tty2 itself, clear the screen and show the UI for entering your login and password.
+
+# ----------------------------------
+# Configure spectrwm session for Ly
+# ----------------------------------
+mkdir -p /usr/share/xsessions
+
+cat << 'EOF' > /usr/share/xsessions/spectrwm.desktop
+[Desktop Entry]
+Name=spectrwm
+Comment=Speculative Window Manager
+Exec=spectrwm
+Type=Application
+DesktopNames=spectrwm
+EOF
+
+chmod 644 /usr/share/xsessions/spectrwm.desktop
 
 # ----------------------------------
 # NetworkManager
@@ -253,6 +342,9 @@ ls /etc/init.d/ | grep -i network
 # Add OpenRC to startup
 rc-update add NetworkManager default
 
+# Install a lightweight dhcpcd client
+emerge --ask --getbinpkg net-misc/dhcpcd
+
 # ----------------------------------
 # user
 # ----------------------------------
@@ -264,6 +356,10 @@ passwd username
 
 # Add user to the group to manage the network
 usermod -aG plugdev username
+
+ls -R /boot
+
+find /boot -maxdepth 2 -type f
 
 # ----------------------------------
 # Exit chroot and reboot
