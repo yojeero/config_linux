@@ -2,28 +2,16 @@
 # Gentoo OpenRC installing Binary / MBR 
 # ----------------------------------
 
-# check disk
+# Checking disks
 lsblk
 
 sudo su
 
-# --------------------------------------------
-# CLEAR DISK 
-# --------------------------------------------
+# Completely clearing the partition table and wiping the MBR sector
 sgdisk --zap-all /dev/sda
 dd if=/dev/zero of=/dev/sda bs=1M count=10
 
-# --------------------------------------------
-# DISK PARTITIONING cfdisk (MBR, 1GB ext4 boot, 50GB root/data)
-# --------------------------------------------
-cfdisk 
-MBR, 1GB ext4 boot, 50GB root/data
-
-# OR
-
-# ----------------------------------
-# Disk partition fdisk (MBR, 1GB ext4 boot, 50GB root/data)
-# ----------------------------------
+# Automatic fdisk partitioning (MBR: 1GB boot, 50GB root)
 fdisk /dev/sda <<EOF
 o
 n
@@ -40,9 +28,7 @@ p
 w
 EOF
 
-# ----------------------------------
-# # Formatting partitions in ext4
-# ----------------------------------
+# Formatting partitions in ext4
 mkfs.ext4 /dev/sda1
 mkfs.ext4 /dev/sda2
 
@@ -55,20 +41,12 @@ mount /dev/sda2 /mnt/gentoo
 mkdir -p /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
 
-# copy stage3 to /mnt/gentoo
-
-# Unpack stage3
+# unpack stage from USB
 cd /mnt/gentoo
+tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 
-tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
-
-# ----------------------------------
-# time
-# ----------------------------------
-date
-
-# month, date, hour, minute, year.
-date 071910542026
+# month day time year
+date 072216302026
 
 # ----------------------------------
 # repo + make.conf
@@ -82,27 +60,27 @@ CXXFLAGS="${COMMON_FLAGS}"
 FEATURES="${FEATURES} getbinpkg"
 EMERGE_DEFAULT_OPTS="--with-bdeps=y"
 
-VIDEO_CARDS="intel iris"
+VIDEO_CARDS="intel"
 INPUT_DEVICES="libinput"
 
-MAKEOPTS="-j8"
+MAKEOPTS="-j$(nproc)"
 
 USE="X xorg elogind udev alsa -systemd -swap jpeg png gif mp3 mp4 mpeg flac opus vorbis vaapi x264 x265 pulseaudio"
 
-GENTOO_MIRRORS="https://fau.de https://mirror.hs-esslingen.de/Mirrors/gentoo/"
+GENTOO_MIRRORS="https://yandex.ru https://fau.de"
 
+# repo
 mkdir -p /mnt/gentoo/etc/portage/repos.conf
-
 nano /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 
 [gentoo]
 location = /var/db/repos/gentoo
 sync-type = rsync
-sync-uri = rsync://rsync.de.gentoo.org/gentoo-portage
+sync-uri = rsync://rsync.ru.gentoo.org/gentoo-portage
 auto-sync = yes
 
+# binrepo
 mkdir -p /mnt/gentoo/etc/portage/binrepos.conf
-
 nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
 
 [binhost]
@@ -129,22 +107,19 @@ mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
 
 # ----------------------------------
-# license
-# ----------------------------------
-mkdir -p /etc/portage/package.license
-echo "www-client/google-chrome google-chrome" >> /etc/portage/package.license/custom
-echo "app-editors/vscode MIT Microsoft-vscode" >> /etc/portage/package.license/custom
-
-# ----------------------------------
 # Login to Chroot environment
 # ----------------------------------
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) $PS1"
 
-# ----------------------------------
-# world
-# ----------------------------------
+# license
+mkdir -p /etc/portage/package.license
+
+echo "www-client/google-chrome google-chrome" >> /etc/portage/package.license/custom
+echo "app-editors/vscode MIT Microsoft-vscode" >> /etc/portage/package.license/custom
+
+# sync repo
 getuto
 emerge --sync
 
@@ -152,87 +127,58 @@ eselect profile list | less
 
 # exit the sheet -q
 
-# Set the profile (for example, 5)
 eselect profile set 3
 
-# Update environment variables
 env-update && source /etc/profile
 
 export PS1="(chroot) $PS1"
 
 # ----------------------------------
-# Installing and configuring GRUB MBR
-# ----------------------------------
-emerge --ask --getbinpkg sys-boot/grub:2
-
-mount | grep boot
-
-# Install the bootloader in the MBR of disk /dev/sda
-grub-install --target=i386-pc /dev/sda
-
-# ----------------------------------
-# kernel
-# ----------------------------------
-
-# Problems with the gentoo-kernel-bin binary kernel on a laptop are an absolutely natural result of using a Chinese custom processor on an old chipset. 
-
-# The Gentoo binary kernel is a generalized assembly, which, for the sake of versatility, includes thousands of drivers, modules and specific hacks for modern hardware.
-# When this “harvester” tries to initialize on a non-standard Chinese processor (mutant), an instruction conflict occurs, and the system freezes (Kernel Panic) at the boot stage, without even having time to show the logs. 
-
-# For your configuration, compiling your own kernel manually is not just a fad, but the only way to make the laptop work stably.
-
-# ----------------------------------
 # Installing kernel sources
 # ----------------------------------
-emerge --ask sys-kernel/installkernel
+mkdir -p /etc/portage/package.use
 
-echo "sys-kernel/installkernel grub -systemd" >> /etc/portage/package.use/installkernel
-emerge --ask sys-kernel/installkernel
+echo "sys-kernel/installkernel dracut grub" >> /etc/portage/package.use/installkernel
 
+# GRUB
+emerge --ask --getbinpkg sys-boot/grub:2 sys-kernel/installkernel
+
+# kernel
 emerge --ask sys-kernel/gentoo-sources
 
-# Go to the source directory
+# Go to kernel sources
 cd /usr/src/linux
 
-# ----------------------------------
-# localmodconfig
-# ----------------------------------
+# Export configuration from Live environment
+if [ -f /proc/config.gz ]; then
+    zcat /proc/config.gz > .config
+elif [ -f /boot/config-$(uname -r) ]; then
+    cp /boot/config-$(uname -r) .config
+else
+    make defconfig
+fi
+
+# Cutting off unnecessary drivers for running hardware
 make localmodconfig
 
-# The magic of automation for your hardware
-
-# In order not to configure thousands of items manually, we will force the kernel to look at which drivers a stable Linux Live is using right now.
-
-# The system will analyze all currently running modules: your network, Intel graphics, disk controller and automatically disable everything unnecessary in the Gentoo configuration, leaving only what actually works on your laptop.
-
-# If the script asks questions in the console about new functions, just press Enter.
-
-# ----------------------------------
-# Manual tuning for the processor
-# ----------------------------------
+# Manual adjustment of the processor and Intel graphics
 make menuconfig
 
-Go through the following points and check them:
+# In make menuconfig be sure to change:
 
-# - Processor type: Go to Processor type and features -> Processor family. 
-# - Instead of Generic x86-64, select Core 2/newer Xeon (this will enable optimization for the Sandy/Ivy Bridge architecture of your processor). 
-# - Disabling microcode in the kernel itself: Custom Chinese processors often crash the system if the kernel tries to tightly embed official Intel microcode at an early stage of boot.
-# - Check that in Processor type and features the Early firmware loading item is DISABLED (you will uncheck the box). 
-# - We will update the microcode later and safely through the bootloader. Intel HD Graphics: Go to Device Drivers -> Graphics support.
-# - Make sure that the integrated Intel 8xx/9xx/G3x/G4x/HD Graphics driver is enabled as built-in ([*]) and not as a module (M). 
-# - This will protect against a black screen at boot. Save the configuration (Save button) and exit (Exit).
+# Processor type and features -> Processor family -> select Core 2/newer Xeon.
 
-# ----------------------------------
-# Compilation and installation
-# ----------------------------------
-make -j8 && make modules_install && make install
+# Processor type and features -> Disable ([ ]) Early firmware loading (microcode crash protection).
 
-ls -l /boot
+# Device Drivers -> Graphics support -> Hard-wire ([*]) the Intel 8xx/9xx/G3x/G4x/HD Graphics driver (not the M module).
 
-# IF WANT Generate boot menu configuration file
+# will call dracut itself and register the kernel in GRUB!
 
-# grub-mkconfig -o /boot/grub/grub.cfg
-# grep menuentry /boot/grub/grub.cfg
+make -j$(nproc) && make modules_install && make install
+
+grub-install --target=i386-pc /dev/sda
+
+grub-mkconfig -o /boot/grub/grub.cfg
 
 # ----------------------------------
 # fstab
@@ -276,9 +222,8 @@ emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa
 emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
 
 # ----------------------------------
-# Install elogind to manage sessions
-# ----------------------------------
 # Install elogind first, since Ly depends on it for session management
+# ----------------------------------
 emerge --ask --getbinpkg sys-auth/elogind
 
 rc-update add elogind boot
@@ -385,7 +330,6 @@ emerge --ask --getbinpkg \
     x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct x11-apps/xsetroot \
     media-fonts/jetbrains-mono media-fonts/nerd-fonts media-fonts/adwaita-fonts
 
-
 # SHELL
 emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
 
@@ -409,9 +353,8 @@ emerge --ask --getbinpkg \
     x11-misc/slop x11-misc/xclip
 
 # ------------------------------
-# если Portage ругается на USE-флаги или маскировку
+# auto-unmasking flag
 # ------------------------------
-# Run the same command with the auto-unmasking flag
 emerge --ask --getbinpkg --autounmask=y --autounmask-write <пакеты>
 
 # Apply the suggested changes to the Portage configuration
