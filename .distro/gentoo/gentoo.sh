@@ -43,6 +43,7 @@ mount /dev/sda1 /mnt/gentoo/boot
 
 # unpack stage from USB
 cd /mnt/gentoo
+
 tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # month day time year
@@ -63,11 +64,11 @@ EMERGE_DEFAULT_OPTS="--with-bdeps=y"
 VIDEO_CARDS="intel"
 INPUT_DEVICES="libinput"
 
-MAKEOPTS="-j$(nproc)"
+MAKEOPTS="-j8"
 
 USE="X xorg elogind udev alsa -systemd -swap jpeg png gif mp3 mp4 mpeg flac opus vorbis vaapi x264 x265 pulseaudio"
 
-GENTOO_MIRRORS="https://yandex.ru https://fau.de"
+GENTOO_MIRRORS="https://yandex.ru https://leaseweb.com"
 
 # repo
 mkdir -p /mnt/gentoo/etc/portage/repos.conf
@@ -120,7 +121,9 @@ echo "www-client/google-chrome google-chrome" >> /etc/portage/package.license/cu
 echo "app-editors/vscode MIT Microsoft-vscode" >> /etc/portage/package.license/custom
 
 # sync repo
+
 getuto
+
 emerge --sync
 
 eselect profile list | less
@@ -141,12 +144,15 @@ mkdir -p /etc/portage/package.use
 echo "sys-kernel/installkernel dracut grub" >> /etc/portage/package.use/installkernel
 
 # GRUB
-emerge --ask --getbinpkg sys-boot/grub:2 sys-kernel/installkernel
+# emerge --ask sys-boot/grub
+emerge --ask sys-kernel/installkernel
 
 # kernel
 emerge --ask sys-kernel/gentoo-sources
 
-# Go to kernel sources
+eselect kernel list
+eselect kernel set 1
+
 cd /usr/src/linux
 
 # Export configuration from Live environment
@@ -158,21 +164,9 @@ else
     make defconfig
 fi
 
-# Cutting off unnecessary drivers for running hardware
 make localmodconfig
 
-# Manual adjustment of the processor and Intel graphics
 make menuconfig
-
-# In make menuconfig be sure to change:
-
-# Processor type and features -> Processor family -> select Core 2/newer Xeon.
-
-# Processor type and features -> Disable ([ ]) Early firmware loading (microcode crash protection).
-
-# Device Drivers -> Graphics support -> Hard-wire ([*]) the Intel 8xx/9xx/G3x/G4x/HD Graphics driver (not the M module).
-
-# will call dracut itself and register the kernel in GRUB!
 
 make -j$(nproc) && make modules_install && make install
 
@@ -192,6 +186,7 @@ nano /etc/fstab
 # local
 # ----------------------------------
 echo "Europe/Moscow" > /etc/timezone
+
 emerge --config sys-libs/timezone-data
 
 nano /etc/locale.gen
@@ -205,10 +200,7 @@ eselect locale set en_US.utf8
 
 env-update && source /etc/profile
 
-# check where you are
-ls /
-
-# If you see the lost+found, boot, home folders, you are inside a chroot.
+# chroot
 export PS1="(chroot) $PS1"
 
 # ----------------------------------
@@ -229,6 +221,19 @@ emerge --ask --getbinpkg sys-auth/elogind
 rc-update add elogind boot
 
 # ----------------------------------
+# Install overley repo
+# ----------------------------------
+emerge --ask app-eselect/eselect-repository
+
+eselect repository enable guru
+
+emaint sync -r guru
+
+nano /etc/wgetrc
+
+prefer-family = IPv4
+
+# ----------------------------------
 # Install Ly Display Manager
 # ----------------------------------
 emerge --ask --getbinpkg x11-misc/ly
@@ -240,18 +245,8 @@ rc-update add ly default
 # ----------------------------------
 nano /etc/inittab
 
-# By default, OpenRC launches classic passport login (console login) on the first six terminals (tty1–tty6).
-# Ly is configured to run on tty2 by default. 
-# To prevent Gentoo's native agetty from interfering with Ly running on this terminal, you simply need to disable tty2 in the main init config file.
-
-# Find the line responsible for tty2 
-
 # comment it out
 c2:2345:respawn:/sbin/agetty 38400 tty2 linux
-
-# When the laptop boots, OpenRC will launch elogind. 
-# The ly service is then activated. 
-# It will intercept tty2 itself, clear the screen and show the UI for entering your login and password.
 
 # ----------------------------------
 # Configure spectrwm session for Ly
@@ -281,7 +276,7 @@ net-misc/networkmanager wifi
 # Install NetworkManager from binary packages
 emerge --ask --getbinpkg net-misc/networkmanager
 
-# проверить название
+# check title
 ls /etc/init.d/ | grep -i network
 
 # Add OpenRC to startup
@@ -307,6 +302,18 @@ ls -R /boot
 find /boot -maxdepth 2 -type f
 
 # ----------------------------------
+# Spectrwm + TTY (enter without LY)
+# ----------------------------------
+echo "exec spectrwm" > ~/.xinitrc
+
+# startx
+
+# at end of the file ~/.bash_profile or .bashrc
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+  exec startx
+fi
+
+# ----------------------------------
 # Exit chroot and reboot
 # ----------------------------------
 exit
@@ -314,6 +321,7 @@ umount -R /mnt/gentoo
 reboot
 
 rc-service networkmanager start
+
 nmtui
 
 # ==================================
