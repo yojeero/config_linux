@@ -126,6 +126,7 @@ getuto
 
 emerge --sync
 
+# Select profile (Desktop OpenRC)
 eselect profile list | less
 
 # exit the sheet -q
@@ -137,17 +138,23 @@ env-update && source /etc/profile
 export PS1="(chroot) $PS1"
 
 # ----------------------------------
-# Installing kernel sources
+# Preparing Bootloader and Kernel Tools
 # ----------------------------------
 mkdir -p /etc/portage/package.use
-
 echo "sys-kernel/installkernel dracut grub" >> /etc/portage/package.use/installkernel
 
-# GRUB
-# emerge --ask sys-boot/grub
+# First install the bootloader itself, dracut and installkernel automation
+emerge --ask sys-boot/grub
+emerge --ask sys-kernel/dracut
 emerge --ask sys-kernel/installkernel
 
-# kernel
+# Configure dracut to generate localized initramfs
+nano -w /etc/dracut.conf.d/i18n.conf
+i18n_vars="LANG=ru_RU.UTF-8 KEYMAP=ru FONT=cyr-sun16"
+
+# ----------------------------------
+# Installing and Building Kernel
+# ----------------------------------
 emerge --ask sys-kernel/gentoo-sources
 
 eselect kernel list
@@ -165,14 +172,22 @@ else
 fi
 
 make localmodconfig
-
 make menuconfig
 
+# Compiling and installing the kernel.
+# Thanks to the installkernel flags, the commands themselves will copy vmlinuz, call dracut and update grub
 make -j$(nproc) && make modules_install && make install
 
+# ----------------------------------
+# MBR GRUB Installation
+# ----------------------------------
 grub-install --target=i386-pc /dev/sda
 
 grub-mkconfig -o /boot/grub/grub.cfg
+
+# Check for file availability
+ls -l /boot
+find /boot -maxdepth 2 -type f
 
 # ----------------------------------
 # fstab
@@ -230,7 +245,7 @@ eselect repository enable guru
 emaint sync -r guru
 
 nano /etc/wgetrc
-
+# add
 prefer-family = IPv4
 
 # ----------------------------------
@@ -290,28 +305,25 @@ emerge --ask --getbinpkg net-misc/dhcpcd
 # ----------------------------------
 passwd
 
-useradd -m -G wheel -s /bin/bash username
+useradd -m -G wheel,plugdev,video,audio -s /bin/bash username
 
 passwd username
-
-# Add user to the group to manage the network
-usermod -aG plugdev username
-
-ls -R /boot
-
-find /boot -maxdepth 2 -type f
 
 # ----------------------------------
 # Spectrwm + TTY (enter without LY)
 # ----------------------------------
 echo "exec spectrwm" > ~/.xinitrc
 
-# startx
-
-# at end of the file ~/.bash_profile or .bashrc
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  exec startx
-fi
+# ----------------------------------
+# Additional useful software installation
+# ----------------------------------
+emerge --ask --getbinpkg \
+    www-client/firefox x11-terms/kitty app-editors/mousepad \
+    xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-extra/thunar-volman \
+    sys-process/bottom app-misc/fastfetch app-misc/yazi app-misc/mc app-arch/file-roller \
+    app-arch/p7zip app-arch/unzip app-arch/zip app-arch/ouch \
+    net-misc/wget dev-vcs/git net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g \
+    app-misc/xdg-utils dev-libs/glib sys-apps/ripgrep
 
 # ----------------------------------
 # Exit chroot and reboot
@@ -328,13 +340,9 @@ nmtui
 
 # pkgs
 emerge --ask --getbinpkg \
-    www-client/firefox x11-terms/kitty x11-terms/alacritty app-editors/mousepad \
-    xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-extra/thunar-volman \
-    sys-process/bottom app-misc/fastfetch app-misc/yazi app-misc/mc app-arch/file-roller \
-    app-arch/p7zip app-arch/unzip app-arch/zip app-arch/ouch \
-    net-misc/wget dev-vcs/git net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g \
-    app-misc/xdg-utils dev-libs/glib sys-apps/ripgrep sys-apps/zoxide xfce-extra/xfce4-screenshooter \
-    media-video/celluloid media-sound/rhythmbox media-gfx/imagemagick media-video/ffmpeg media-gfx/imv \
+    sys-apps/zoxide xfce-extra/xfce4-screenshooter \
+    media-video/celluloid media-sound/rhythmbox \
+    media-gfx/imagemagick media-video/ffmpeg media-gfx/imv \
     x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct x11-apps/xsetroot \
     media-fonts/jetbrains-mono media-fonts/nerd-fonts media-fonts/adwaita-fonts
 
@@ -345,11 +353,7 @@ emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
 # run WITHOUT sudo to change yourself, not root
 chsh -s $(which fish)
 
-# Allow licenses for Chrome and VS Code
-mkdir -p /etc/portage/package.license
-echo "www-client/google-chrome google-chrome" >> /etc/portage/package.license/custom
-echo "app-editors/vscode MIT Microsoft-vscode" >> /etc/portage/package.license/custom
-
+# vscode chrome
 emerge --ask --getbinpkg www-client/google-chrome app-editors/vscode
 
 # ----------------------------------
@@ -359,11 +363,3 @@ emerge --ask --getbinpkg \
     x11-wm/bspwm x11-misc/sxhkd x11-misc/rofi x11-misc/picom \
     x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim \
     x11-misc/slop x11-misc/xclip
-
-# ------------------------------
-# auto-unmasking flag
-# ------------------------------
-emerge --ask --getbinpkg --autounmask=y --autounmask-write <пакеты>
-
-# Apply the suggested changes to the Portage configuration
-etc-update --auto
