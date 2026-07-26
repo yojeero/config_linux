@@ -27,5 +27,9 @@ Copy the .icons folder to the home directory.
 Extract all *.tar.xz archives.   
 Select the theme in the setings.  
 
+### Cursors
+Default cursor theme - OpenZone_White
+Set in the icons/default/index.theme, .xprofile, .Xresources, .gtk3, .gtk4
+
 ### Distro   
 Some Linux commands by distros.

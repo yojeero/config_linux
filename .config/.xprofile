@@ -1,5 +1,5 @@
 #!/bin/sh
-export XCURSOR_THEME="WhiteSur-cursors"
+export XCURSOR_THEME="OpenZone_White"
 export XCURSOR_SIZE=24
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr &
