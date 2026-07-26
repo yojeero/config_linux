@@ -46,6 +46,15 @@ cd /mnt/gentoo
 
 tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 
+ls /mnt/gentoo
+
+# must be
+bin
+etc
+usr
+var
+lib
+
 # month day time year
 date 072216302026
 
@@ -58,17 +67,17 @@ COMMON_FLAGS="-O2 -pipe -march=sandybridge"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 
-FEATURES="${FEATURES} getbinpkg"
-EMERGE_DEFAULT_OPTS="--with-bdeps=y"
+FEATURES="${FEATURES} getbinpkg parallel-fetch"
+EMERGE_DEFAULT_OPTS="--ask --verbose --with-bdeps=y"
 
 VIDEO_CARDS="intel"
 INPUT_DEVICES="libinput"
 
 MAKEOPTS="-j8"
 
-USE="X xorg elogind udev alsa -systemd -swap jpeg png gif mp3 mp4 mpeg flac opus vorbis vaapi x264 x265 pulseaudio"
+USE="X elogind udev alsa pulseaudio vaapi"
 
-GENTOO_MIRRORS="https://yandex.ru https://leaseweb.com"
+GENTOO_MIRRORS="https://distfiles.gentoo.org"
 
 # repo
 mkdir -p /mnt/gentoo/etc/portage/repos.conf
@@ -77,7 +86,7 @@ nano /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 [gentoo]
 location = /var/db/repos/gentoo
 sync-type = rsync
-sync-uri = rsync://rsync.ru.gentoo.org/gentoo-portage
+sync-uri = rsync://rsync.gentoo.org/gentoo-portage
 auto-sync = yes
 
 # binrepo
@@ -85,7 +94,6 @@ mkdir -p /mnt/gentoo/etc/portage/binrepos.conf
 nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
 
 [binhost]
-priority = 9999
 sync-uri = https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
 
 # Configure DNS 
@@ -112,13 +120,15 @@ mount --make-slave /mnt/gentoo/run
 # ----------------------------------
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
-export PS1="(chroot) $PS1"
+export PS1="(chroot) ${PS1}"
 
 # license
 mkdir -p /etc/portage/package.license
 
-echo "www-client/google-chrome google-chrome" >> /etc/portage/package.license/custom
-echo "app-editors/vscode MIT Microsoft-vscode" >> /etc/portage/package.license/custom
+cat > /etc/portage/package.license/custom <<EOF
+www-client/google-chrome google-chrome
+app-editors/vscode MIT Microsoft-vscode
+EOF
 
 # sync repo
 
@@ -131,7 +141,7 @@ eselect profile list | less
 
 # exit the sheet -q
 
-eselect profile set 3
+eselect profile set X
 
 env-update && source /etc/profile
 
@@ -149,8 +159,9 @@ emerge --ask sys-kernel/dracut
 emerge --ask sys-kernel/installkernel
 
 # Configure dracut to generate localized initramfs
-nano -w /etc/dracut.conf.d/i18n.conf
-i18n_vars="LANG=ru_RU.UTF-8 KEYMAP=ru FONT=cyr-sun16"
+mkdir -p /etc/dracut.conf.d
+
+echo 'i18n_vars="LANG=ru_RU.UTF-8 KEYMAP=ru FONT=cyr-sun16"' > /etc/dracut.conf.d/i18n.conf
 
 # ----------------------------------
 # Installing and Building Kernel
@@ -171,16 +182,30 @@ else
     make defconfig
 fi
 
-make localmodconfig
+make defconfig
 make menuconfig
 
 # Compiling and installing the kernel.
-# Thanks to the installkernel flags, the commands themselves will copy vmlinuz, call dracut and update grub
-make -j$(nproc) && make modules_install && make install
+make -j"$(nproc)"
+make modules_install
+make install
+dracut --force --kver "$(make kernelrelease)"
+
+find /boot -maxdepth 1 -type f
+
+# must be
+vmlinuz-6.x.x-gentoo
+initramfs-6.x.x-gentoo.img
+System.map-6.x.x-gentoo
+config-6.x.x-gentoo
 
 # ----------------------------------
 # MBR GRUB Installation
 # ----------------------------------
+find /boot -maxdepth 1 -type f
+
+# If empty, grub cannot be installed.
+
 grub-install --target=i386-pc /dev/sda
 
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -221,19 +246,28 @@ export PS1="(chroot) $PS1"
 # ----------------------------------
 # X11 graphics server 
 # ----------------------------------
+emerge --ask sys-apps/dbus
+rc-update add dbus default
+
 emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa
 
 # ----------------------------------
-# Install window manager and environment (use --getbinpkg flag)
+# Install window manager and environment
 # ----------------------------------
 emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
 
 # ----------------------------------
-# Install elogind first, since Ly depends on it for session management
+# Install elogind first
 # ----------------------------------
 emerge --ask --getbinpkg sys-auth/elogind
 
 rc-update add elogind boot
+
+emerge sudo
+
+visudo
+
+%wheel ALL=(ALL:ALL) ALL
 
 # ----------------------------------
 # Install overley repo
@@ -244,40 +278,52 @@ eselect repository enable guru
 
 emaint sync -r guru
 
+emerge --ask dev-vcs/git
+
 nano /etc/wgetrc
 # add
 prefer-family = IPv4
 
-# ----------------------------------
-# Install Ly Display Manager
-# ----------------------------------
-emerge --ask --getbinpkg x11-misc/ly
-
-rc-update add ly default
+# driver
+emerge linux-firmware sys-firmware/intel-microcode
 
 # ----------------------------------
-#  Disabling standard agetty on tty2
+# Install Greetd Display Manager
 # ----------------------------------
-nano /etc/inittab
+emerge --ask gui-libs/greetd gui-apps/tuigreet gui-libs/display-manager-init gui-libs/seatd sys-boot/os-prober
 
-# comment it out
-c2:2345:respawn:/sbin/agetty 38400 tty2 linux
+rc-update add seatd boot
 
-# ----------------------------------
-# Configure spectrwm session for Ly
-# ----------------------------------
+rc-service seatd start
+
 mkdir -p /usr/share/xsessions
 
 cat << 'EOF' > /usr/share/xsessions/spectrwm.desktop
 [Desktop Entry]
 Name=spectrwm
-Comment=Speculative Window Manager
-Exec=spectrwm
+Comment=Spectrwm Window Manager
+Exec=dbus-run-session startx
 Type=Application
-DesktopNames=spectrwm
 EOF
 
 chmod 644 /usr/share/xsessions/spectrwm.desktop
+
+nano /etc/greetd/config.toml
+
+[terminal]
+vt = 7
+
+[default_session]
+command = "tuigreet --time --remember --sessions /usr/share/xsessions"
+user = "greetd"
+
+nano /etc/conf.d/display-manager
+
+CHECKVT=7
+DISPLAYMANAGER="greetd"
+
+rc-update add display-manager default
+rc-service display-manager start
 
 # ----------------------------------
 # NetworkManager
@@ -300,30 +346,44 @@ rc-update add NetworkManager default
 # Install a lightweight dhcpcd client
 emerge --ask --getbinpkg net-misc/dhcpcd
 
+rc-service NetworkManager start
+
+nmcli general status
+nmcli device
+
 # ----------------------------------
 # user
 # ----------------------------------
 passwd
 
-useradd -m -G wheel,plugdev,video,audio -s /bin/bash username
+useradd -m -G wheel,audio,video,input,plugdev -s /bin/bash username
 
 passwd username
 
 # ----------------------------------
-# Spectrwm + TTY (enter without LY)
+# Spectrwm + TTY 
 # ----------------------------------
-echo "exec spectrwm" > ~/.xinitrc
+# emerge --ask x11-apps/xinit
+
+# su - username
+# echo "exec spectrwm" > ~/.xinitrc
+
+# # .bash_profile
+# cat << 'EOF' > ~/.bash_profile
+# if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+#     exec startx
+# fi
+# EOF
 
 # ----------------------------------
 # Additional useful software installation
 # ----------------------------------
-emerge --ask --getbinpkg \
-    www-client/firefox x11-terms/kitty app-editors/mousepad \
-    xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-extra/thunar-volman \
-    sys-process/bottom app-misc/fastfetch app-misc/yazi app-misc/mc app-arch/file-roller \
-    app-arch/p7zip app-arch/unzip app-arch/zip app-arch/ouch \
-    net-misc/wget dev-vcs/git net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g \
-    app-misc/xdg-utils dev-libs/glib sys-apps/ripgrep
+emerge --ask --getbinpkg www-client/firefox x11-terms/kitty app-editors/mousepad
+emerge --ask --getbinpkg xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-extra/thunar-volman
+emerge --ask --getbinpkg sys-process/bottom app-misc/fastfetch app-misc/yazi app-misc/mc app-arch/file-roller
+emerge --ask --getbinpkg app-arch/p7zip app-arch/unzip app-arch/zip app-arch/ouch
+emerge --ask --getbinpkg net-misc/wget dev-vcs/git net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g
+emerge --ask --getbinpkg app-misc/xdg-utils dev-libs/glib sys-apps/ripgrep
 
 # ----------------------------------
 # Exit chroot and reboot
@@ -332,19 +392,14 @@ exit
 umount -R /mnt/gentoo
 reboot
 
-rc-service networkmanager start
-
-nmtui
-
 # ==================================
 
 # pkgs
-emerge --ask --getbinpkg \
-    sys-apps/zoxide xfce-extra/xfce4-screenshooter \
-    media-video/celluloid media-sound/rhythmbox \
-    media-gfx/imagemagick media-video/ffmpeg media-gfx/imv \
-    x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct x11-apps/xsetroot \
-    media-fonts/jetbrains-mono media-fonts/nerd-fonts media-fonts/adwaita-fonts
+emerge --ask --getbinpkg sys-apps/zoxide xfce-extra/xfce4-screenshooter
+emerge --ask --getbinpkg media-video/celluloid media-sound/rhythmbox
+emerge --ask --getbinpkg media-gfx/imagemagick media-video/ffmpeg media-gfx/imv
+emerge --ask --getbinpkg x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct x11-apps/xsetroot
+emerge --ask --getbinpkg media-fonts/jetbrains-mono media-fonts/nerd-fonts media-fonts/adwaita-fonts
 
 # SHELL
 emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
@@ -359,7 +414,6 @@ emerge --ask --getbinpkg www-client/google-chrome app-editors/vscode
 # ----------------------------------
 # bspwm
 # ----------------------------------
-emerge --ask --getbinpkg \
-    x11-wm/bspwm x11-misc/sxhkd x11-misc/rofi x11-misc/picom \
-    x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim \
-    x11-misc/slop x11-misc/xclip
+emerge --ask --getbinpkg x11-wm/bspwm x11-misc/sxhkd x11-misc/rofi x11-misc/picom
+emerge --ask --getbinpkg x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim    
+emerge --ask --getbinpkg x11-misc/slop x11-misc/xclip

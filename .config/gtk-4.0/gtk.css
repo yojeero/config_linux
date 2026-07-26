@@ -1,0 +1,22 @@
+/* Отключение теней и рамок для всех окон GTK 4 */
+window decoration, 
+window decoration:backdrop,
+.popover, 
+.popup,
+dialog decoration {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Селекторы для GTK 4 версии Whisker Menu */
+window.whiskermenu,
+window.whiskermenu decoration,
+window.whiskermenu .background,
+.background.whiskermenu {
+    border: none !important;
+    border-width: 0px !important;
+    box-shadow: none !important;
+    outline: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
