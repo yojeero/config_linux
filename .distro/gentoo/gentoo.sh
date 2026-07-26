@@ -122,18 +122,9 @@ chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 
-# license
-mkdir -p /etc/portage/package.license
-
-cat > /etc/portage/package.license/custom <<EOF
-www-client/google-chrome google-chrome
-app-editors/vscode MIT Microsoft-vscode
-EOF
-
 # sync repo
 
-getuto
-
+# emerge-webrsync
 emerge --sync
 
 # Select profile (Desktop OpenRC)
@@ -141,7 +132,7 @@ eselect profile list | less
 
 # exit the sheet -q
 
-eselect profile set X
+eselect profile set 3
 
 env-update && source /etc/profile
 
@@ -158,69 +149,51 @@ emerge --ask sys-boot/grub
 emerge --ask sys-kernel/dracut
 emerge --ask sys-kernel/installkernel
 
+eselect installkernel list
+
 # Configure dracut to generate localized initramfs
 mkdir -p /etc/dracut.conf.d
 
 echo 'i18n_vars="LANG=ru_RU.UTF-8 KEYMAP=ru FONT=cyr-sun16"' > /etc/dracut.conf.d/i18n.conf
 
 # ----------------------------------
-# Installing and Building Kernel
+# Installing Kernel
 # ----------------------------------
-emerge --ask sys-kernel/gentoo-sources
+emerge --ask sys-firmware/linux-firmware sys-firmware/intel-microcode
 
-eselect kernel list
-eselect kernel set 1
+emerge --ask sys-kernel/gentoo-kernel-bin
 
-cd /usr/src/linux
+ls -lh /boot
 
-# Export configuration from Live environment
-if [ -f /proc/config.gz ]; then
-    zcat /proc/config.gz > .config
-elif [ -f /boot/config-$(uname -r) ]; then
-    cp /boot/config-$(uname -r) .config
-else
-    make defconfig
-fi
-
-make defconfig
-make menuconfig
-
-# Compiling and installing the kernel.
-make -j"$(nproc)"
-make modules_install
-make install
-dracut --force --kver "$(make kernelrelease)"
+lsinitrd /boot/initramfs-*.img | head
 
 find /boot -maxdepth 1 -type f
 
-# must be
+# must be / If empty, grub cannot be installed.
 vmlinuz-6.x.x-gentoo
 initramfs-6.x.x-gentoo.img
 System.map-6.x.x-gentoo
 config-6.x.x-gentoo
 
-# ----------------------------------
-# MBR GRUB Installation
-# ----------------------------------
-find /boot -maxdepth 1 -type f
-
-# If empty, grub cannot be installed.
-
 grub-install --target=i386-pc /dev/sda
+grub-install --recheck /dev/sda
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# Check for file availability
-ls -l /boot
-find /boot -maxdepth 2 -type f
+grep -E "linux|initrd" /boot/grub/grub.cfg
 
 # ----------------------------------
 # fstab
 # ----------------------------------
+blkid
+
 nano /etc/fstab
 
-/dev/sda1   /boot        ext4    noatime         1 2
-/dev/sda2   /            ext4    noatime         0 1
+UUID=...  /boot  ext4  noatime  1 2
+UUID=...  /      ext4  noatime  0 1
+
+# /dev/sda1   /boot        ext4    noatime         1 2
+# /dev/sda2   /            ext4    noatime         0 1
 
 # ----------------------------------
 # local
@@ -252,11 +225,6 @@ rc-update add dbus default
 emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa
 
 # ----------------------------------
-# Install window manager and environment
-# ----------------------------------
-emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
-
-# ----------------------------------
 # Install elogind first
 # ----------------------------------
 emerge --ask --getbinpkg sys-auth/elogind
@@ -284,16 +252,154 @@ nano /etc/wgetrc
 # add
 prefer-family = IPv4
 
-# driver
-emerge linux-firmware sys-firmware/intel-microcode
+# ----------------------------------
+# host
+# ----------------------------------
+echo "gentoo" > /etc/hostname
+
+cat > /etc/hosts << EOF
+127.0.0.1 localhost
+127.0.1.1 gentoo.localdomain gentoo
+::1 localhost
+EOF
+
+# ----------------------------------
+# NetworkManager
+# ----------------------------------
+# Enable Wi-Fi support for the future 
+mkdir -p /etc/portage/package.use
+
+nano /etc/portage/package.use/networkmanager
+net-misc/networkmanager wifi
+
+# Install NetworkManager from binary packages
+emerge --ask --getbinpkg net-misc/networkmanager net-wireless/iwd
+
+# check title
+ls /etc/init.d/ | grep -i network
+
+# Add OpenRC to startup
+rc-update add NetworkManager default
+rc-update add iwd default
+
+# Install a lightweight dhcpcd client
+emerge --ask --getbinpkg net-misc/dhcpcd
+
+# ----------------------------------
+# user
+# ----------------------------------
+passwd
+
+useradd -m \
+    -G wheel,audio,video,input,plugdev,network \
+    -s /bin/bash username
+
+passwd username
+
+# ----------------------------------
+# Exit chroot and reboot
+# ----------------------------------
+rc-update show
+
+# must be
+# dbus
+# elogind
+# NetworkManager
+
+exit
+umount -R /mnt/gentoo
+reboot
+
+# ==================================
+
+# ----------------------------------
+# spectrwm
+# ----------------------------------
+emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
+
+# ----------------------------------
+# Spectrwm + TTY 
+# ----------------------------------
+emerge --ask x11-apps/xinit
+
+# su - username
+# echo "exec spectrwm" > ~/.xinitrc
+
+# .bash_profile
+# cat << 'EOF' > ~/.bash_profile
+# if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+#     exec startx
+# fi
+# EOF
+
+# ----------------------------------
+# bspwm
+# ----------------------------------
+emerge --ask --getbinpkg x11-wm/bspwm x11-misc/sxhkd
+
+# ----------------------------------
+# SHELL
+# ----------------------------------
+emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
+# run WITHOUT sudo to change yourself, not root
+chsh -s $(which fish)
+
+# ----------------------------------
+# pkgs
+# ----------------------------------
+emerge --ask --getbinpkg www-client/firefox x11-terms/kitty app-editors/mousepad
+emerge --ask --getbinpkg xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-base/thunar-volman
+emerge --ask --getbinpkg sys-process/bottom app-misc/fastfetch app-misc/mc app-arch/file-roller
+emerge --ask --getbinpkg app-arch/7zip app-arch/unzip app-arch/zip app-arch/ouch
+emerge --ask --getbinpkg net-misc/wget dev-vcs/git net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g
+emerge --ask --getbinpkg dev-libs/glib sys-apps/ripgrep 
+emerge --ask --getbinpkg sys-apps/zoxide xfce-extra/xfce4-screenshooter
+emerge --ask --getbinpkg media-video/celluloid media-sound/rhythmbox
+emerge --ask --getbinpkg media-gfx/imagemagick media-video/ffmpeg media-gfx/imv
+emerge --ask --getbinpkg x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct x11-apps/xsetroot
+emerge --ask --getbinpkg media-fonts/jetbrains-mono media-fonts/nerd-fonts media-fonts/adwaita-fonts
+
+# ----------------------------------
+# vscode chrome
+# ----------------------------------
+
+# license
+mkdir -p /etc/portage/package.license
+
+cat > /etc/portage/package.license/custom <<EOF
+www-client/google-chrome google-chrome
+app-editors/vscode MIT Microsoft-vscode
+EOF
+emerge --ask --getbinpkg www-client/google-chrome app-editors/vscode
 
 # ----------------------------------
 # Install Greetd Display Manager
 # ----------------------------------
-emerge --ask gui-libs/greetd gui-apps/tuigreet gui-libs/display-manager-init gui-libs/seatd sys-boot/os-prober
+emerge --ask gui-libs/greetd gui-apps/tuigreet 
+emerge --ask gui-libs/display-manager-init 
+emerge --ask sys-boot/os-prober
+
+emerge --ask sys-auth/seatd
+
+nano /etc/init.d/seatd
+
+#!/sbin/openrc-run
+description="Seat management daemon"
+command="/usr/bin/seatd"
+command_background="yes"
+pidfile="/run/${RC_SVCNAME}.pid"
+command_args="-g video" # Позволяет пользователям из группы video использовать seatd
+
+depend() {
+    need devfs
+    keyword -prefix
+}
+
+chmod +x /etc/init.d/seatd
 
 rc-update add seatd boot
 
+#after reboot
 rc-service seatd start
 
 mkdir -p /usr/share/xsessions
@@ -323,97 +429,6 @@ CHECKVT=7
 DISPLAYMANAGER="greetd"
 
 rc-update add display-manager default
+
+# after reboot
 rc-service display-manager start
-
-# ----------------------------------
-# NetworkManager
-# ----------------------------------
-# Enable Wi-Fi support for the future 
-mkdir -p /etc/portage/package.use
-
-nano /etc/portage/package.use/networkmanager
-net-misc/networkmanager wifi
-
-# Install NetworkManager from binary packages
-emerge --ask --getbinpkg net-misc/networkmanager
-
-# check title
-ls /etc/init.d/ | grep -i network
-
-# Add OpenRC to startup
-rc-update add NetworkManager default
-
-# Install a lightweight dhcpcd client
-emerge --ask --getbinpkg net-misc/dhcpcd
-
-rc-service NetworkManager start
-
-nmcli general status
-nmcli device
-
-# ----------------------------------
-# user
-# ----------------------------------
-passwd
-
-useradd -m -G wheel,audio,video,input,plugdev -s /bin/bash username
-
-passwd username
-
-# ----------------------------------
-# Spectrwm + TTY 
-# ----------------------------------
-# emerge --ask x11-apps/xinit
-
-# su - username
-# echo "exec spectrwm" > ~/.xinitrc
-
-# # .bash_profile
-# cat << 'EOF' > ~/.bash_profile
-# if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
-#     exec startx
-# fi
-# EOF
-
-# ----------------------------------
-# Additional useful software installation
-# ----------------------------------
-emerge --ask --getbinpkg www-client/firefox x11-terms/kitty app-editors/mousepad
-emerge --ask --getbinpkg xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-extra/thunar-volman
-emerge --ask --getbinpkg sys-process/bottom app-misc/fastfetch app-misc/yazi app-misc/mc app-arch/file-roller
-emerge --ask --getbinpkg app-arch/p7zip app-arch/unzip app-arch/zip app-arch/ouch
-emerge --ask --getbinpkg net-misc/wget dev-vcs/git net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g
-emerge --ask --getbinpkg app-misc/xdg-utils dev-libs/glib sys-apps/ripgrep
-
-# ----------------------------------
-# Exit chroot and reboot
-# ----------------------------------
-exit
-umount -R /mnt/gentoo
-reboot
-
-# ==================================
-
-# pkgs
-emerge --ask --getbinpkg sys-apps/zoxide xfce-extra/xfce4-screenshooter
-emerge --ask --getbinpkg media-video/celluloid media-sound/rhythmbox
-emerge --ask --getbinpkg media-gfx/imagemagick media-video/ffmpeg media-gfx/imv
-emerge --ask --getbinpkg x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct x11-apps/xsetroot
-emerge --ask --getbinpkg media-fonts/jetbrains-mono media-fonts/nerd-fonts media-fonts/adwaita-fonts
-
-# SHELL
-emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
-
-# Change the shell for your current user 
-# run WITHOUT sudo to change yourself, not root
-chsh -s $(which fish)
-
-# vscode chrome
-emerge --ask --getbinpkg www-client/google-chrome app-editors/vscode
-
-# ----------------------------------
-# bspwm
-# ----------------------------------
-emerge --ask --getbinpkg x11-wm/bspwm x11-misc/sxhkd x11-misc/rofi x11-misc/picom
-emerge --ask --getbinpkg x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim    
-emerge --ask --getbinpkg x11-misc/slop x11-misc/xclip
