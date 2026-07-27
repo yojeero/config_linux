@@ -56,7 +56,7 @@ var
 lib
 
 # month day time year
-date 072216302026
+date 072713202026
 
 # ----------------------------------
 # repo + make.conf
@@ -81,6 +81,7 @@ GENTOO_MIRRORS="https://distfiles.gentoo.org"
 
 # repo
 mkdir -p /mnt/gentoo/etc/portage/repos.conf
+
 nano /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 
 [gentoo]
@@ -91,6 +92,7 @@ auto-sync = yes
 
 # binrepo
 mkdir -p /mnt/gentoo/etc/portage/binrepos.conf
+
 nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
 
 [binhost]
@@ -136,6 +138,7 @@ eselect profile set 3
 
 env-update && source /etc/profile
 
+# chroot
 export PS1="(chroot) $PS1"
 
 # ----------------------------------
@@ -149,8 +152,6 @@ emerge --ask sys-boot/grub
 emerge --ask sys-kernel/dracut
 emerge --ask sys-kernel/installkernel
 
-eselect installkernel list
-
 # Configure dracut to generate localized initramfs
 mkdir -p /etc/dracut.conf.d
 
@@ -159,7 +160,11 @@ echo 'i18n_vars="LANG=ru_RU.UTF-8 KEYMAP=ru FONT=cyr-sun16"' > /etc/dracut.conf.
 # ----------------------------------
 # Installing Kernel
 # ----------------------------------
-emerge --ask sys-firmware/linux-firmware sys-firmware/intel-microcode
+echo "sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE" >> /etc/portage/package.license
+
+echo "sys-firmware/intel-microcode intel-ucode" >> /etc/portage/package.license
+
+emerge --ask sys-kernel/linux-firmware sys-firmware/intel-microcode
 
 emerge --ask sys-kernel/gentoo-kernel-bin
 
@@ -175,7 +180,7 @@ initramfs-6.x.x-gentoo.img
 System.map-6.x.x-gentoo
 config-6.x.x-gentoo
 
-grub-install --target=i386-pc /dev/sda
+# grub-install --target=i386-pc /dev/sda
 grub-install --recheck /dev/sda
 
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -189,8 +194,8 @@ blkid
 
 nano /etc/fstab
 
-UUID=...  /boot  ext4  noatime  1 2
-UUID=...  /      ext4  noatime  0 1
+UUID="9f5984e6-fc67-4425-ae3c-d1babf0f4fe2" /boot  ext4  noatime  1 2
+UUID="4ffa5872-1d1d-4c9b-926e-bb7a636422f6" /      ext4  noatime  0 1
 
 # /dev/sda1   /boot        ext4    noatime         1 2
 # /dev/sda2   /            ext4    noatime         0 1
@@ -249,7 +254,7 @@ emaint sync -r guru
 emerge --ask dev-vcs/git
 
 nano /etc/wgetrc
-# add
+
 prefer-family = IPv4
 
 # ----------------------------------
@@ -270,6 +275,7 @@ EOF
 mkdir -p /etc/portage/package.use
 
 nano /etc/portage/package.use/networkmanager
+
 net-misc/networkmanager wifi
 
 # Install NetworkManager from binary packages
@@ -291,8 +297,10 @@ emerge --ask --getbinpkg net-misc/dhcpcd
 passwd
 
 useradd -m \
-    -G wheel,audio,video,input,plugdev,network \
-    -s /bin/bash username
+    -G wheel,audio,video,input,plugdev \
+    -s /bin/bash passwd yopy
+
+# useradd -m -G wheel,audio,video,input,plugdev,network -s /bin/bash username
 
 passwd username
 
@@ -308,6 +316,7 @@ rc-update show
 
 exit
 umount -R /mnt/gentoo
+umount -lR /mnt/gentoo
 reboot
 
 # ==================================
