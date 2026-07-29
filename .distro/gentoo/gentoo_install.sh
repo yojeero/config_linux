@@ -46,17 +46,8 @@ cd /mnt/gentoo
 
 tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 
-ls /mnt/gentoo
-
-# must be
-bin
-etc
-usr
-var
-lib
-
 # month day time year
-date 072713202026
+date 072915272026
 
 # ----------------------------------
 # repo + make.conf
@@ -158,14 +149,19 @@ emerge --ask sys-boot/grub sys-kernel/dracut sys-kernel/installkernel
 
 # Localization configuration for initramfs
 mkdir -p /etc/dracut.conf.d
+
 echo 'i18n_vars="LANG=ru_RU.UTF-8 KEYMAP=ru FONT=cyr-sun16"' > /etc/dracut.conf.d/i18n.conf
 
 # Licenses for firmware
 echo "sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE" >> /etc/portage/package.license
+
 echo "sys-firmware/intel-microcode intel-ucode" >> /etc/portage/package.license
+
+echo "sys-firmware/intel-microcode intel-ucode" >> /etc/portage/package.license/intel-microcode
 
 # Kernel
 emerge --ask sys-kernel/linux-firmware sys-firmware/intel-microcode
+
 emerge --ask sys-kernel/gentoo-kernel-bin
 
 # Checking the kernel
@@ -184,11 +180,8 @@ blkid
 
 nano /etc/fstab
 
-UUID="9f5984e6-fc67-4425-ae3c-d1babf0f4fe2" /boot  ext4  noatime  1 2
-UUID="4ffa5872-1d1d-4c9b-926e-bb7a636422f6" /      ext4  noatime  0 1
-
-# /dev/sda1   /boot        ext4    noatime         1 2
-# /dev/sda2   /            ext4    noatime         0 1
+UUID="7f787592-31eb-4092-b01d-ba49e9a43eb1" /boot  ext4  noatime  1 2
+UUID="f39e4e5b-3b6f-453e-9168-46fa9e6f3901" /      ext4  noatime  0 1
 
 # ----------------------------------
 # local
@@ -221,6 +214,7 @@ cat > /etc/hosts << EOF
 EOF
 
 mkdir -p /etc/portage/package.use
+
 echo "net-misc/networkmanager wifi" >> /etc/portage/package.use/networkmanager
 
 emerge --ask --getbinpkg net-misc/networkmanager net-wireless/iwd net-misc/dhcpcd
@@ -240,14 +234,19 @@ visudo
 
 emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa x11-drivers/xf86-input-libinput
 
-echo "media-fonts/nerdfonts ~amd64" >> /etc/portage/package.accept_keywords
+echo "media-fonts/jetbrains-mono ~amd64" >> /etc/portage/package.accept_keywords/jetbrains-mono
 
-emerge --ask --getbinpkg media-fonts/jetbrains-mono media-fonts/nerdfonts media-fonts/adwaita-fonts
+echo "media-fonts/jetbrains-mono nerdfonts" >> /etc/portage/package.use/jetbrains-mono
+
+emerge --ask --getbinpkg media-fonts/symbols-nerd-font
+
+emerge --ask --getbinpkg media-fonts/jetbrains-mono media-fonts/adwaita-fonts
 
 # ----------------------------------
 # Install Greetd
 # ----------------------------------
-emerge --ask gui-libs/greetd gui-apps/tuigreet sys-boot/os-prober
+emerge --ask sys-boot/os-prober
+emerge --ask gui-libs/greetd gui-apps/tuigreet
 
 systemctl enable greetd
 
@@ -288,8 +287,13 @@ emaint sync -r guru
 # ----------------------------------
 git clone https://github.com/Y-Forks/spectrwm
 cd spectrwm
+cd linux
 make
-sudo make install
+make install
+
+mkdir -p /usr/share/xsessions
+
+ln -s /usr/local/share/xsessions/spectrwm.desktop /usr/share/xsessions/spectrwm.desktop
 
 emerge --ask --getbinpkg \
     x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar \
@@ -297,12 +301,19 @@ emerge --ask --getbinpkg \
 
 # pkgs
 emerge --ask --getbinpkg www-client/firefox x11-terms/kitty app-editors/mousepad
+
 emerge --ask --getbinpkg xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-base/thunar-volman
+
 emerge --ask --getbinpkg sys-process/bottom app-misc/fastfetch app-misc/mc app-arch/file-roller
-emerge --ask --getbinpkg app-arch/7zip app-arch/unzip app-arch/zip app-arch/ouch
+
+emerge --ask --getbinpkg app-arch/7zip app-arch/unzip app-arch/zip 
+
 emerge --ask --getbinpkg net-misc/wget net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g
+
 emerge --ask --getbinpkg dev-libs/glib sys-apps/ripgrep sys-apps/zoxide xfce-extra/xfce4-screenshooter
+
 emerge --ask --getbinpkg media-video/celluloid media-sound/rhythmbox media-gfx/imagemagick media-video/ffmpeg media-gfx/imv
+
 emerge --ask --getbinpkg x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct x11-apps/xsetroot
 
 # ----------------------------------
@@ -310,13 +321,13 @@ emerge --ask --getbinpkg x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct
 # ----------------------------------
 passwd
 
-# Создаем пользователя yopy. В группу seat добавлять НЕ нужно.
 useradd -m -G wheel,audio,video,input,plugdev -s /bin/bash yopy
+
 passwd yopy
 
 # ----------------------------------
 # unmount
 # ----------------------------------
 exit
-umount -R /mnt/gentoo
+umount -lR /mnt/gentoo
 reboot
