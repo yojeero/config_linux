@@ -286,8 +286,14 @@ emaint sync -r guru
 # ----------------------------------
 # spectrwm
 # ----------------------------------
-# spectrwm
-emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
+git clone https://github.com/Y-Forks/spectrwm
+cd spectrwm
+make
+sudo make install
+
+emerge --ask --getbinpkg \
+    x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar \
+    media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
 
 # pkgs
 emerge --ask --getbinpkg www-client/firefox x11-terms/kitty app-editors/mousepad

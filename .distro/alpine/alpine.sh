@@ -50,8 +50,8 @@ apk add \
     xfce4 xfce4-terminal \
     firefox kitty alacritty mousepad \
     thunar thunar-archive-plugin thunar-volman \
-    bottom fastfetch yazi mc file-roller \
-    p7zip unzip zip ouch palette imv \
+    bottom fastfetch mc file-roller \
+    p7zip unzip zip palette imv \
     ripgrep fd fzf eza imv mpv xfce4-power-manager xfce4-screenshooter \
     lxappearance kvantum-qt6 kvantum-manager xorg-xsetroot \
     font-jetbrains-mono font-nerd-fonts-symbols adwaita-fonts

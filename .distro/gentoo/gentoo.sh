@@ -2,7 +2,30 @@
 # ----------------------------------
 # spectrwm
 # ----------------------------------
-emerge --ask --getbinpkg x11-wm/spectrwm x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
+
+git clone https://github.com/Y-Forks/spectrwm
+cd spectrwm
+make
+sudo make install
+
+emerge --ask --getbinpkg \
+    x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar \
+    media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
+
+# ----------------------------------
+# sway
+# ----------------------------------
+
+git clone https://github.com/Y-Forks/sway
+cd spectrwm
+make
+sudo make install
+
+emerge --ask --getbinpkg \
+    gui-apps/swaybg gui-apps/swayidle gui-apps/swaylock gui-apps/swaylock-effects \
+    gui-apps/foot gui-apps/waybar gui-apps/fuzzel gui-apps/mako \
+    gui-apps/grim gui-apps/slurp x11-misc/wl-clipboard \
+    sys-apps/xdg-desktop-portal-gtk
 
 # ----------------------------------
 # pkgs
@@ -21,13 +44,17 @@ emerge --ask --getbinpkg x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct
 # ----------------------------------
 # bspwm
 # ----------------------------------
-emerge --ask --getbinpkg x11-wm/bspwm x11-misc/sxhkd
+
+emerge --ask --getbinpkg \
+    x11-wm/bspwm x11-misc/sxhkd x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar \
+    media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
 
 # ----------------------------------
 # SHELL
 # ----------------------------------
-emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
-# run WITHOUT sudo to change yourself, not root
+emerge --ask --getbinpkg \
+    app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
+
 chsh -s $(which fish)
 
 # ----------------------------------

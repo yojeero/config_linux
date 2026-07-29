@@ -77,9 +77,8 @@ echo "===> Install utilities"
 
 apk add \
     thunar thunar-archive-plugin thunar-volman \
-    bottom fastfetch unzip zip yazi mc \
-    ripgrep eza fd fzf imv mpv zathura \
-    mousepad \
+    bottom fastfetch unzip zip mc \
+    ripgrep eza fd fzf imv mpv zathura mousepad \
     lightdm lightdm-gtk-greeter xfce4-power-manager \
     mesa mesa-dri-gallium mesa-va-gallium mesa-vdpau-gallium
 
