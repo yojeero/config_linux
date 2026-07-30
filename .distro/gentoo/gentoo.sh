@@ -3,14 +3,48 @@
 # spectrwm
 # ----------------------------------
 
+``` sh
 git clone https://github.com/Y-Forks/spectrwm
-cd spectrwm
+cd spectrwm/linux
 make
-sudo make install
+make install
+```
 
-emerge --ask --getbinpkg \
-    x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar \
-    media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
+## Pkgs
+
+``` sh
+emerge --ask \
+x11-terms/alacritty \
+x11-misc/rofi \
+x11-misc/picom \
+media-gfx/feh \
+x11-misc/dunst \
+x11-misc/xclip \
+media-gfx/maim \
+x11-misc/slop \
+x11-apps/xsetroot \
+www-client/firefox \
+xfce-base/thunar \
+xfce-extra/thunar-archive-plugin \
+xfce-base/thunar-volman \
+app-editors/mousepad \
+app-misc/fastfetch \
+app-misc/mc \
+sys-process/bottom \
+media-video/celluloid \
+media-gfx/imagemagick \
+media-video/ffmpeg \
+media-gfx/imv
+```
+
+## 17. i3lock-color
+
+``` sh
+echo "x11-misc/i3lock-color ~amd64" \
+>/etc/portage/package.accept_keywords/i3lock-color
+
+emerge --ask x11-misc/i3lock-color
+```
 
 # ----------------------------------
 # sway

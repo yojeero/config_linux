@@ -8,13 +8,11 @@ make
 sudo make install
 
         alacritty rofi picom feh \
-        maim slop xclip \
-        dunst i3lock-color \
-        xkb-switch wireplumber
+        maim slop xclip dunst i3lock-color wireplumber
 
 
 chmod +x ~/.config/spectrwm/bar_action.sh
-chmod +x ~/.config/.spectrwm.conf
+chmod +x ~/.spectrwm.conf
 
 # ----------------------------------
 # BSPWM
@@ -33,9 +31,7 @@ chmod +x ~/.config/.spectrwm.conf
 # sudo make install
 
         bspwm sxhkd rofi picom polybar \
-        maim slop xclip \
-        dunst i3lock-color \
-        xkb-switch wireplumber
+        maim slop xclip dunst i3lock-color wireplumber
 
 chmod +x ~/.config/bspwm/bspwmrc
 chmod +x ~/.config/polybar/launch.sh
@@ -51,8 +47,7 @@ sudo make install
 
         swaybg swaylock swayidle swaylock-effects \
         foot waybar fuzzel \
-        wl-clipboard grim slurp \
-        mako xdg-desktop-portal-gtk
+        wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
 # ----------------------------------
 # RIVER
@@ -66,8 +61,7 @@ sudo make install
 
         swaybg swaylock swayidle swaylock-effects \
         foot waybar fuzzel \
-        wl-clipboard grim slurp \
-        mako xdg-desktop-portal-gtk
+        wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
 # ----------------------------------
 # PKGS
@@ -80,20 +74,7 @@ sudo make install
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib2 ripgrep zoxide xfce4-screenshooter \
         celluloid rhythmbox imagemagick ffmpeg palette imv \
-        lxappearance xorg-xsetroot
-
-        # arch
-        kvantum qt6ct
-        # debian
-        qt-style-kvantum qt6-style-kvantum 
-
-
-
-        # arch        
-        ttf-jetbrains-mono ttf-nerd-fonts-symbols adwaita-fonts 
-        # debian
-        fonts-jetbrains-mono ttf-nerd-fonts-symbols fonts-adwaita
-    
+        lxappearance xorg-xsetroot    
         
         google-chrome visual-studio-code-bin
 
@@ -103,7 +84,6 @@ sudo make install
 
         fish eza fzf fd
 
-        # ARCH
         chsh -s $(command -v fish)
 
 # ----------------------------------

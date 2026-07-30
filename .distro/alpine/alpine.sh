@@ -53,8 +53,7 @@ apk add \
     bottom fastfetch mc file-roller \
     p7zip unzip zip palette imv \
     ripgrep fd fzf eza imv mpv xfce4-power-manager xfce4-screenshooter \
-    lxappearance kvantum-qt6 kvantum-manager xorg-xsetroot \
-    font-jetbrains-mono font-nerd-fonts-symbols adwaita-fonts
+    lxappearance xorg-xsetroot adwaita-fonts
 
 apk add ly ly-openrc
 # apk add lightdm lightdm-gtk-greeter 

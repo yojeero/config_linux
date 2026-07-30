@@ -1,17 +1,16 @@
-# ----------------------------------
-# Gentoo systemd (Binary / MBR / Greetd / Spectrwm)
-# ----------------------------------
+# Gentoo systemd (Binary / MBR / TTY / StartX / Spectrwm)
 
-# Checking disks
+## 1. Checking disks
+
+``` sh
 lsblk
-
 sudo su
 
-# Completely clearing the partition table and wiping the MBR sector
 sgdisk --zap-all /dev/sda
 dd if=/dev/zero of=/dev/sda bs=1M count=10
 
 # Automatic fdisk partitioning (MBR: 1GB boot, 50GB root)
+
 fdisk /dev/sda <<EOF
 o
 n
@@ -29,31 +28,31 @@ w
 EOF
 
 # Formatting partitions in ext4
+
 mkfs.ext4 /dev/sda1
 mkfs.ext4 /dev/sda2
+```
 
-# --------------------------------------------
-# Mounting and unpacking Stage3
-# --------------------------------------------
+## 2. Stage3
+
+``` sh
 mkdir -p /mnt/gentoo
 mount /dev/sda2 /mnt/gentoo
 
 mkdir -p /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
 
-# unpack stage from USB
 cd /mnt/gentoo
-
 tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 
-# month day time year
 date 072915272026
+```
 
-# ----------------------------------
-# repo + make.conf
-# ----------------------------------
-nano /mnt/gentoo/etc/portage/make.conf
+## 3. make.conf
 
+`/mnt/gentoo/etc/portage/make.conf`
+
+``` conf
 COMMON_FLAGS="-O2 -pipe -march=sandybridge"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
@@ -61,52 +60,50 @@ CXXFLAGS="${COMMON_FLAGS}"
 FEATURES="${FEATURES} getbinpkg parallel-fetch"
 EMERGE_DEFAULT_OPTS="--ask --verbose --with-bdeps=y"
 
-VIDEO_CARDS="intel"
-INPUT_DEVICES="libinput"
 MAKEOPTS="-j8"
 
-# КРИТИЧНО: Используем флаг systemd вместо elogind
-USE="X systemd udev alsa pulseaudio vaapi"
+VIDEO_CARDS="intel"
+INPUT_DEVICES="libinput"
+
+USE="X systemd udev dbus alsa pulseaudio vaapi"
 
 GENTOO_MIRRORS="https://distfiles.gentoo.org"
+```
 
-# ----------------------------------
-# repo
-# ----------------------------------
-mkdir -p /mnt/gentoo/etc/portage/repos.conf
+## 4. Repo
 
-nano /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+``` sh
+mkdir -p /mnt/gentoo/etc/portage/{repos.conf,binrepos.conf}
 
+cat >/mnt/gentoo/etc/portage/repos.conf/gentoo.conf <<EOF
 [gentoo]
-location = /var/db/repos/gentoo
-sync-type = rsync
-sync-uri = rsync://rsync.gentoo.org/gentoo-portage
-auto-sync = yes
+location=/var/db/repos/gentoo
+sync-type=rsync
+sync-uri=rsync://rsync.gentoo.org/gentoo-portage
+auto-sync=yes
+EOF
 
-# ----------------------------------
-# binrepo
-# ----------------------------------
-mkdir -p /mnt/gentoo/etc/portage/binrepos.conf
-
-nano /mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf
-
+cat >/mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf <<EOF
 [binhost]
-sync-uri = https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
+sync-uri=https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
+EOF
+```
 
-# ----------------------------------
-# DNS 
-# ----------------------------------
+## 5. DNS
+
+``` sh
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 
-nano /mnt/gentoo/etc/resolv.conf
-
+cat >/mnt/gentoo/etc/resolv.conf <<EOF
 nameserver 1.1.1.1
 nameserver 8.8.8.8
+EOF
+```
 
-# ----------------------------------
-# before Chroot 
-# ----------------------------------
-mount --types proc /proc /mnt/gentoo/proc
+## 6. Chroot
+
+``` sh
+mount -t proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev
@@ -114,220 +111,230 @@ mount --make-rslave /mnt/gentoo/dev
 mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
 
-# ----------------------------------
-# Login to Chroot environment
-# ----------------------------------
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) ${PS1}"
+```
 
-# sync repo
+## 7. Portage
 
-# emerge-webrsync
+``` sh
 emerge --sync
 
-# Select profile (Desktop OpenRC)
 eselect profile list | less
+eselect profile set default/linux/amd64/23.0/desktop/systemd
 
-# exit the sheet -q
+env-update
+source /etc/profile
 
-eselect profile set 4
-
-env-update && source /etc/profile
+mkdir -p \
+/etc/portage/package.use \
+/etc/portage/package.accept_keywords \
+/etc/portage/package.license
+```
 
 # chroot
 export PS1="(chroot) $PS1"
 
-# ----------------------------------
-# Kernel + GRUB
-# ----------------------------------
-mkdir -p /etc/portage/package.use
+## 8. Kernel
 
-echo "sys-kernel/installkernel systemd dracut grub" >> /etc/portage/package.use/installkernel
+``` sh
+echo "sys-kernel/installkernel systemd dracut grub" \
+>/etc/portage/package.use/installkernel
 
-emerge --ask sys-boot/grub sys-kernel/dracut sys-kernel/installkernel
+echo "sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE" \
+>/etc/portage/package.license/linux-firmware
 
-# Localization configuration for initramfs
-mkdir -p /etc/dracut.conf.d
+echo "sys-firmware/intel-microcode intel-ucode" \
+>/etc/portage/package.license/intel-microcode
 
-echo 'i18n_vars="LANG=ru_RU.UTF-8 KEYMAP=ru FONT=cyr-sun16"' > /etc/dracut.conf.d/i18n.conf
+emerge --ask \
+sys-boot/grub \
+sys-kernel/dracut \
+sys-kernel/installkernel \
+sys-kernel/linux-firmware \
+sys-firmware/intel-microcode \
+sys-kernel/gentoo-kernel-bin
 
-# Licenses for firmware
-echo "sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE" >> /etc/portage/package.license
-
-echo "sys-firmware/intel-microcode intel-ucode" >> /etc/portage/package.license
-
-echo "sys-firmware/intel-microcode intel-ucode" >> /etc/portage/package.license/intel-microcode
-
-# Kernel
-emerge --ask sys-kernel/linux-firmware sys-firmware/intel-microcode
-
-emerge --ask sys-kernel/gentoo-kernel-bin
-
-# Checking the kernel
-find /boot -maxdepth 1 -type f
-
-# Grub
 grub-install --recheck /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
+```
+## fstab
 
-grep -E "linux|initrd" /boot/grub/grub.cfg
-
-# ----------------------------------
-# fstab
-# ----------------------------------
+``` sh
 blkid
 
 nano /etc/fstab
 
 UUID="7f787592-31eb-4092-b01d-ba49e9a43eb1" /boot  ext4  noatime  1 2
 UUID="f39e4e5b-3b6f-453e-9168-46fa9e6f3901" /      ext4  noatime  0 1
+```
 
-# ----------------------------------
-# local
-# ----------------------------------
-echo "Europe/Moscow" > /etc/timezone
+## 9. Local
+
+``` sh
+echo Europe/Moscow >/etc/timezone
 emerge --config sys-libs/timezone-data
 
-nano /etc/locale.gen
-
+cat >/etc/locale.gen <<EOF
 en_US.UTF-8 UTF-8
 ru_RU.UTF-8 UTF-8
-
-locale-gen
-
-eselect locale set en_US.utf8
-env-update && source /etc/profile
-
-# chroot
-export PS1="(chroot) $PS1"
-
-# ----------------------------------
-# host + NetworkManager
-# ----------------------------------
-echo "gentoo" > /etc/hostname
-
-cat > /etc/hosts << EOF
-127.0.0.1 localhost
-127.0.1.1 gentoo.localdomain gentoo
-::1 localhost
 EOF
 
-mkdir -p /etc/portage/package.use
+locale-gen
+eselect locale set en_US.utf8
+env-update
+source /etc/profile
+```
 
-echo "net-misc/networkmanager wifi" >> /etc/portage/package.use/networkmanager
+## 10. Network
 
-emerge --ask --getbinpkg net-misc/networkmanager net-wireless/iwd net-misc/dhcpcd
+``` sh
+echo gentoo >/etc/hostname
+
+emerge --ask net-misc/networkmanager net-wireless/iwd net-misc/dhcpcd
 
 systemctl enable NetworkManager
 systemctl enable iwd
-
-# ----------------------------------
-# X11 graphics server 
-# ----------------------------------
-emerge --ask sys-apps/dbus app-admin/sudo
-
 systemctl enable dbus
+```
+
+## 11. X11
+
+``` sh
+emerge --ask \
+x11-base/xorg-server \
+x11-base/xinit \
+media-libs/mesa \
+x11-drivers/xf86-input-libinput \
+sys-apps/dbus \
+app-admin/sudo
 
 visudo
+```
+
 %wheel ALL=(ALL:ALL) ALL
 
-emerge --ask --getbinpkg x11-base/xorg-server media-libs/mesa x11-drivers/xf86-input-libinput
+## 12. Keyboard
 
-echo "media-fonts/jetbrains-mono ~amd64" >> /etc/portage/package.accept_keywords/jetbrains-mono
+``` sh
+mkdir -p /etc/X11/xorg.conf.d
 
-echo "media-fonts/jetbrains-mono nerdfonts" >> /etc/portage/package.use/jetbrains-mono
-
-emerge --ask --getbinpkg media-fonts/symbols-nerd-font
-
-emerge --ask --getbinpkg media-fonts/jetbrains-mono media-fonts/adwaita-fonts
-
-# ----------------------------------
-# Install Greetd
-# ----------------------------------
-emerge --ask sys-boot/os-prober
-emerge --ask gui-libs/greetd gui-apps/tuigreet
-
-systemctl enable greetd
-
-# ----------------------------------
-# Greetd (Tuigreet) + Spectrwm
-# ----------------------------------
-mkdir -p /usr/share/xsessions
-
-cat << 'EOF' > /usr/share/xsessions/spectrwm.desktop
-[Desktop Entry]
-Name=spectrwm
-Comment=Spectrwm Window Manager
-Exec=spectrwm
-Type=Application
+cat >/etc/X11/xorg.conf.d/00-keyboard.conf <<EOF
+Section "InputClass"
+    Identifier "system-keyboard"
+    MatchIsKeyboard "on"
+    Option "XkbLayout" "us,ru"
+    Option "XkbOptions" "grp:alt_shift_toggle"
+EndSection
 EOF
+```
 
-chmod 644 /usr/share/xsessions/spectrwm.desktop
+## 13. Fonts
 
-# Конфигурация greetd
-nano /etc/greetd/config.toml
+``` sh
+echo "media-fonts/jetbrains-mono ~amd64" \
+>/etc/portage/package.accept_keywords/jetbrains-mono
 
-[terminal]
-vt = 7
+echo "media-fonts/jetbrains-mono nerdfonts" \
+>/etc/portage/package.use/jetbrains-mono
 
-[default_session]
-command = "tuigreet --time --remember --sessions /usr/share/xsessions"
-user = "greetd"
+emerge --ask \
+media-fonts/jetbrains-mono \
+media-fonts/symbols-nerd-font \
+media-fonts/adwaita-fonts
+```
 
-# ----------------------------------
-# Connecting third-party repositories (GURU)
-# ----------------------------------
+## 14. GURU
+
+``` sh
 emerge --ask app-eselect/eselect-repository dev-vcs/git
 eselect repository enable guru
 emaint sync -r guru
+```
 
-# ----------------------------------
-# spectrwm
-# ----------------------------------
+## 15. Spectrwm
+
+``` sh
 git clone https://github.com/Y-Forks/spectrwm
-cd spectrwm
-cd linux
+cd spectrwm/linux
 make
 make install
+```
 
-mkdir -p /usr/share/xsessions
+## 16. Pkgs
 
-ln -s /usr/local/share/xsessions/spectrwm.desktop /usr/share/xsessions/spectrwm.desktop
+``` sh
+emerge --ask \
+x11-terms/alacritty \
+x11-misc/rofi \
+x11-misc/picom \
+media-gfx/feh \
+x11-misc/dunst \
+x11-misc/xclip \
+media-gfx/maim \
+x11-misc/slop \
+x11-apps/xsetroot \
+www-client/firefox \
+xfce-base/thunar \
+xfce-extra/thunar-archive-plugin \
+xfce-base/thunar-volman \
+app-editors/mousepad \
+app-misc/fastfetch \
+app-misc/mc \
+sys-process/bottom \
+media-video/celluloid \
+media-gfx/imagemagick \
+media-video/ffmpeg \
+media-gfx/imv
+```
 
-emerge --ask --getbinpkg \
-    x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar \
-    media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
+## 17. i3lock-color
 
-# pkgs
-emerge --ask --getbinpkg www-client/firefox x11-terms/kitty app-editors/mousepad
+``` sh
+echo "x11-misc/i3lock-color ~amd64" \
+>/etc/portage/package.accept_keywords/i3lock-color
 
-emerge --ask --getbinpkg xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-base/thunar-volman
+emerge --ask x11-misc/i3lock-color
+```
 
-emerge --ask --getbinpkg sys-process/bottom app-misc/fastfetch app-misc/mc app-arch/file-roller
+## 18. User
 
-emerge --ask --getbinpkg app-arch/7zip app-arch/unzip app-arch/zip 
-
-emerge --ask --getbinpkg net-misc/wget net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g
-
-emerge --ask --getbinpkg dev-libs/glib sys-apps/ripgrep sys-apps/zoxide xfce-extra/xfce4-screenshooter
-
-emerge --ask --getbinpkg media-video/celluloid media-sound/rhythmbox media-gfx/imagemagick media-video/ffmpeg media-gfx/imv
-
-emerge --ask --getbinpkg x11-misc/lxappearance x11-themes/kvantum x11-misc/qt6ct x11-apps/xsetroot
-
-# ----------------------------------
-# user
-# ----------------------------------
+``` sh
 passwd
 
 useradd -m -G wheel,audio,video,input,plugdev -s /bin/bash yopy
-
 passwd yopy
+```
 
-# ----------------------------------
-# unmount
-# ----------------------------------
+## 19. .xinitrc
+
+``` sh
+cat >/home/yopy/.xinitrc <<'EOF'
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+fi
+
+gentoo-pipewire-launcher &
+
+systemctl --user import-environment DISPLAY XAUTHORITY
+
+exec spectrwm
+EOF
+
+chown yopy:users /home/yopy/.xinitrc
+```
+
+## 20. Unmount
+
+``` sh
 exit
 umount -lR /mnt/gentoo
 reboot
+```
+
+# After reboot
+
+``` sh
+startx
+```

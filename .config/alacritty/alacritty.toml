@@ -12,15 +12,15 @@ opacity = 0.90
 size = 11.0
 
 [font.normal]
-family = "JetBrainsMono Font"
+family = "JetBrains Mono"
 style = "Regular"
 
 [font.bold]
-family = "JetBrainsMono Font"
+family = "JetBrains Mono"
 style = "Bold"
 
 [font.italic]
-family = "JetBrainsMono Font"
+family = "JetBrains Mono"
 style = "Italic"
 
 [selection]
