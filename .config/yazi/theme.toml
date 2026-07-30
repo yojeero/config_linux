@@ -1,0 +1,23 @@
+[manager]
+# Colors for focus and highlighting of files
+cwd = { fg = "cyan" }
+
+# Style for the cursor (current file)
+hovered       = { fg = "black", bg = "lightblue", bold = true }
+preview_hover = { underline = true }
+
+# Detect colors by file type
+[filemode]
+enhanced = { fg = "magenta" }
+
+[icon]
+# Enable the display of default icons (Nerd Font installed on the system is required)
+rules = [
+	{ name = "*.txt", text = "  " },
+	{ name = "*.md",  text = "  " },
+	{ name = "*.pdf", text = "  " },
+	{ name = "*.zip", text = "  " },
+	{ name = "*.tar*", text = "  " },
+	{ mime = "image/*", text = "  " },
+	{ mime = "video/*", text = "  " }
+]

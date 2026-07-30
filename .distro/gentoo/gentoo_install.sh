@@ -1,6 +1,6 @@
 # Gentoo systemd (Binary / MBR / TTY / StartX / Spectrwm)
 
-## 1. Checking disks
+## 1. Erase disks
 
 ``` sh
 lsblk
@@ -159,7 +159,7 @@ sys-kernel/gentoo-kernel-bin
 grub-install --recheck /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
-## fstab
+## 9. Fstab
 
 ``` sh
 blkid
@@ -170,7 +170,7 @@ UUID="7f787592-31eb-4092-b01d-ba49e9a43eb1" /boot  ext4  noatime  1 2
 UUID="f39e4e5b-3b6f-453e-9168-46fa9e6f3901" /      ext4  noatime  0 1
 ```
 
-## 9. Local
+## 10. Local
 
 ``` sh
 echo Europe/Moscow >/etc/timezone
@@ -187,7 +187,7 @@ env-update
 source /etc/profile
 ```
 
-## 10. Network
+## 11. Network
 
 ``` sh
 echo gentoo >/etc/hostname
@@ -199,7 +199,7 @@ systemctl enable iwd
 systemctl enable dbus
 ```
 
-## 11. X11
+## 12. X11
 
 ``` sh
 emerge --ask \
@@ -215,7 +215,7 @@ visudo
 
 %wheel ALL=(ALL:ALL) ALL
 
-## 12. Keyboard
+## 13. Keyboard
 
 ``` sh
 mkdir -p /etc/X11/xorg.conf.d
@@ -229,20 +229,16 @@ Section "InputClass"
 EndSection
 EOF
 ```
-
-## 13. Fonts
+# keyboard swith
 
 ``` sh
-echo "media-fonts/jetbrains-mono ~amd64" \
->/etc/portage/package.accept_keywords/jetbrains-mono
-
-echo "media-fonts/jetbrains-mono nerdfonts" \
->/etc/portage/package.use/jetbrains-mono
-
-emerge --ask \
-media-fonts/jetbrains-mono \
-media-fonts/symbols-nerd-font \
-media-fonts/adwaita-fonts
+git clone https://github.com/Y-Forks/xkb-switch
+cd xkb-switch
+mkdir build && cd build
+cmake ..
+make
+sudo make install
+sudo ldconfig
 ```
 
 ## 14. GURU
@@ -253,7 +249,7 @@ eselect repository enable guru
 emaint sync -r guru
 ```
 
-## 15. Spectrwm
+## 15. Spectrwm v.3.7.0
 
 ``` sh
 git clone https://github.com/Y-Forks/spectrwm
@@ -279,6 +275,8 @@ www-client/firefox \
 xfce-base/thunar \
 xfce-extra/thunar-archive-plugin \
 xfce-base/thunar-volman \
+xfce-base/tumbler \
+x11-libs/gdk-pixbuf \
 app-editors/mousepad \
 app-misc/fastfetch \
 app-misc/mc \

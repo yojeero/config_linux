@@ -12,7 +12,7 @@ sudo make install
 
 
 chmod +x ~/.config/spectrwm/bar_action.sh
-chmod +x ~/.spectrwm.conf
+chmod +x ~/.config/spectrwm/.spectrwm.conf
 
 # ----------------------------------
 # BSPWM
