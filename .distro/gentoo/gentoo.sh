@@ -1,7 +1,7 @@
 
 # ----------------------------------
-# spectrwm v.3.7.0
-# ----------------------------------
+# Spectrwm v.3.7.0
+# ---------------------------------- 
 
 ``` sh
 git clone https://github.com/Y-Forks/spectrwm
@@ -24,20 +24,42 @@ media-gfx/maim \
 x11-misc/slop \
 x11-apps/xsetroot \
 www-client/firefox \
-xfce-base/thunar \
-xfce-extra/thunar-archive-plugin \
-xfce-base/thunar-volman \
-app-editors/mousepad \
+gnome-extra/nemo \
+gnome-extra/nemo-fileroller \
+app-arch/file-roller \
+gnome-base/gvfs \
+sys-fs/udisks \
+x11-libs/gdk-pixbuf \
+app-editors/xed \
 app-misc/fastfetch \
 app-misc/mc \
 sys-process/bottom \
 media-video/celluloid \
 media-gfx/imagemagick \
 media-video/ffmpeg \
-media-gfx/imv
+media-video/ffmpegthumbnailer \
+media-gfx/imv \
+x11-base/xorg-apps \
+x11-misc/lxappearance \
+media-fonts/noto
 ```
 
-## 17. i3lock-color
+# nemo config
+gsettings set org.nemo.desktop show-desktop-icons false
+gsettings set org.cinnamon.desktop.default-applications.terminal exec 'alacritty'
+gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg '--working-directory'
+
+# ----------------------------------
+# thunar
+# ----------------------------------
+# xfce-base/thunar \
+# xfce-extra/thunar-archive-plugin \
+# xfce-base/thunar-volman \
+# xfce-base/tumbler \
+# app-arch/xarchiver \
+# app-editors/mousepad \
+
+## i3lock-color
 
 ``` sh
 echo "x11-misc/i3lock-color ~amd64" \
@@ -45,35 +67,6 @@ echo "x11-misc/i3lock-color ~amd64" \
 
 emerge --ask x11-misc/i3lock-color
 ```
-
-# ----------------------------------
-# sway
-# ----------------------------------
-
-git clone https://github.com/Y-Forks/sway
-cd spectrwm
-make
-sudo make install
-
-emerge --ask --getbinpkg \
-    gui-apps/swaybg gui-apps/swayidle gui-apps/swaylock gui-apps/swaylock-effects \
-    gui-apps/foot gui-apps/waybar gui-apps/fuzzel gui-apps/mako \
-    gui-apps/grim gui-apps/slurp x11-misc/wl-clipboard \
-    sys-apps/xdg-desktop-portal-gtk
-
-# ----------------------------------
-# pkgs
-# ----------------------------------
-emerge --ask --getbinpkg www-client/firefox x11-terms/kitty app-editors/mousepad
-emerge --ask --getbinpkg xfce-base/thunar xfce-extra/thunar-archive-plugin xfce-base/thunar-volman
-emerge --ask --getbinpkg sys-process/bottom app-misc/fastfetch app-misc/mc app-arch/file-roller
-emerge --ask --getbinpkg app-arch/7zip app-arch/unzip app-arch/zip app-arch/ouch
-emerge --ask --getbinpkg net-misc/wget dev-vcs/git net-misc/curl gnome-base/gvfs sys-fs/udisks sys-fs/ntfs3g
-emerge --ask --getbinpkg dev-libs/glib sys-apps/ripgrep 
-emerge --ask --getbinpkg sys-apps/zoxide xfce-extra/xfce4-screenshooter
-emerge --ask --getbinpkg media-video/celluloid media-sound/rhythmbox
-emerge --ask --getbinpkg media-gfx/imagemagick media-video/ffmpeg media-gfx/imv
-emerge --ask --getbinpkg x11-misc/lxappearance x11-apps/xsetroot
 
 # ----------------------------------
 # bspwm
@@ -92,7 +85,7 @@ emerge --ask --getbinpkg \
 chsh -s $(which fish)
 
 # ----------------------------------
-# vscode chrome
+# vscode chrome zed
 # ----------------------------------
 
 # license
@@ -103,7 +96,10 @@ www-client/google-chrome google-chrome
 app-editors/vscode MIT Microsoft-vscode
 EOF
 
-emerge --ask --getbinpkg www-client/google-chrome app-editors/vscode
+emerge --ask --getbinpkg www-client/google-chrome 
+emerge --ask --getbinpkg app-editors/vscode 
+emerge --ask --getbinpkg app-editors/zed 
+emerge --ask --getbinpkg app-editors/sublime-text
 
 # ----------------------------------
 # github config

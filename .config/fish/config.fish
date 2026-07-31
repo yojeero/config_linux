@@ -1,7 +1,4 @@
-
 set fish_greeting ""
-
-set -gx TERM xterm-256color
 
 # theme
 set -g theme_color_scheme terminal-dark
@@ -12,7 +9,6 @@ set -g theme_hostname always
 
 # vi
 abbr -a n nano
-abbr -a v nvim
 abbr -a _ sudo
 abbr -a _e sudoedit
 
@@ -40,14 +36,14 @@ abbr -a gd git diff HEAD
 abbr -a go git push -u origin
 abbr -a gco git checkout
 
-# GNU 
+# GNU coreutils
 abbr -a diff diff --color=auto
-abbr -a df gdf -h
-abbr -a du gdu -h
-abbr -a grep ggrep --color=auto
-abbr -a chmod gchmod --preserve-root -v
-abbr -a chown gchown --preserve-root -v
-abbr -a find gfind
+abbr -a df df -h
+abbr -a du du -h
+abbr -a grep grep --color=auto
+abbr -a chmod chmod --preserve-root -v
+abbr -a chown chown --preserve-root -v
+abbr -a find find
 
 # clear
 abbr -a c clear
@@ -86,14 +82,18 @@ function fzf_change_directory
             string match -r '.*/[^/]+' (ghq root)/**/.git | string replace '/.git' ''
         end        
         #. Current eza subfolders
-        eza -d */2>/dev/null | string replace -r '/$' '' | string match -v '*.git*'
-    # development folder
-        string match -v '*.git*' $HOME/Developments/*/*
+        eza -d */ 2>/dev/null | string replace -r '/$' '' | string match -v '*.git*'
+        # КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ 3: Исправлен синтаксис поиска в Developments (добавлен echo)
+        if test -d $HOME/Developments
+            string match -v '*.git*' (echo $HOME/Developments/*/*)
+        end
     end | string match -r '.+' | uniq | fzf | _fzf_change_directory
 end
 
-# in Kitty or Foot press Ctrl + G to open a list of folders
-# pressing Enter, you will instantly move to it
+# Purpose of the Ctrl + G key
 bind \cg fzf_change_directory
 
-
+# Import Gentoo system environment 
+if test -f /etc/profile.env
+    sed -E 's/^export ([A-Za-z0-9_]+)=(.*)$/set -gx \1 \2/' /etc/profile.env | source
+end

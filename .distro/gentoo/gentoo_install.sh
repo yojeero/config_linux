@@ -272,19 +272,24 @@ media-gfx/maim \
 x11-misc/slop \
 x11-apps/xsetroot \
 www-client/firefox \
-xfce-base/thunar \
-xfce-extra/thunar-archive-plugin \
-xfce-base/thunar-volman \
-xfce-base/tumbler \
+gnome-extra/nemo \
+gnome-extra/nemo-fileroller \
+app-arch/file-roller \
+gnome-base/gvfs \
+sys-fs/udisks \
 x11-libs/gdk-pixbuf \
-app-editors/mousepad \
+app-editors/xed \
 app-misc/fastfetch \
 app-misc/mc \
 sys-process/bottom \
 media-video/celluloid \
 media-gfx/imagemagick \
 media-video/ffmpeg \
-media-gfx/imv
+media-video/ffmpegthumbnailer \
+media-gfx/imv \
+x11-base/xorg-apps \
+x11-misc/lxappearance \
+media-fonts/noto
 ```
 
 ## 17. i3lock-color
@@ -301,11 +306,18 @@ emerge --ask x11-misc/i3lock-color
 ``` sh
 passwd
 
-useradd -m -G wheel,audio,video,input,plugdev -s /bin/bash yopy
+useradd -m -G wheel,audio,video,input,,usb,plugdev -s /bin/bash yopy
+
 passwd yopy
 ```
 
-## 19. .xinitrc
+# 19. set SHELL FISH
+
+emerge --ask app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
+
+chsh -s /usr/bin/fish yopy
+
+## 20. .xinitrc
 
 ``` sh
 cat >/home/yopy/.xinitrc <<'EOF'
@@ -323,7 +335,7 @@ EOF
 chown yopy:users /home/yopy/.xinitrc
 ```
 
-## 20. Unmount
+## 21. Unmount
 
 ``` sh
 exit

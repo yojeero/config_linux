@@ -67,10 +67,10 @@ sudo make install
 # PKGS
 # ----------------------------------
 
-        firefox kitty alacritty mousepad \
+        firefox kitty alacritty xed \
         thunar thunar-archive-plugin thunar-volman \
         bottom fastfetch mc file-roller \
-        p7zip unzip zip \
+        p7zip unzip zip tumbler \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib2 ripgrep zoxide xfce4-screenshooter \
         celluloid rhythmbox imagemagick ffmpeg palette imv \
