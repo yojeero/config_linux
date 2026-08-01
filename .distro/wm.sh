@@ -3,12 +3,11 @@
 # ----------------------------------
 
 git clone https://github.com/Y-Forks/spectrwm
-cd spectrwm
+cd spectrwm/linux
 make
 sudo make install
 
-        alacritty rofi picom feh \
-        maim slop xclip dunst i3lock-color wireplumber
+        alacritty rofi picom feh maim slop xclip dunst i3lock-color wireplumber
 
 
 chmod +x ~/.config/spectrwm/bar_action.sh
@@ -30,8 +29,7 @@ chmod +x ~/.config/spectrwm/.spectrwm.conf
 # make
 # sudo make install
 
-        bspwm sxhkd rofi picom polybar \
-        maim slop xclip dunst i3lock-color wireplumber
+        bspwm sxhkd rofi picom polybar maim slop xclip dunst i3lock-color wireplumber
 
 chmod +x ~/.config/bspwm/bspwmrc
 chmod +x ~/.config/polybar/launch.sh
@@ -67,14 +65,17 @@ sudo make install
 # PKGS
 # ----------------------------------
 
-        firefox kitty alacritty xed \
-        thunar thunar-archive-plugin thunar-volman \
+        firefox alacritty xed \
+        nemo nemo-fileroller \
         bottom fastfetch mc file-roller \
         p7zip unzip zip tumbler \
         wget git curl gvfs udisks2 ntfs-3g \
         xdg-utils glib2 ripgrep zoxide xfce4-screenshooter \
         celluloid rhythmbox imagemagick ffmpeg palette imv \
-        lxappearance xorg-xsetroot    
+        lxappearance xorg-xsetroot   
+
+        thunar thunar-archive-plugin thunar-volman \
+        tumbler xarchiver mousepad kitty 
         
         google-chrome visual-studio-code-bin
 
