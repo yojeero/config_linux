@@ -9,48 +9,32 @@ Wallpapers in different resolutions: from 1920x1080px to 3840x2160px.
 Copy the .config folder to the home directory. 
 
 ### Fonts
-Copy the .local folder to the home directory.  
-Run in terminal for reload fonts.  
 
-`
-sudo fc-cache -f -v
-`    
-Select font in the setings.
-
-Fonts   
 ```
 Hack / VictorMono / Lilex / Adwaita-Mono / JetBrains Mono / Inter   
 Hack Nerd Font / Symbols Nerd Font / Terminess Nerd Font   
+```
 
 ### Icons 
-Copy the .icons folder to the home directory.  
-Extract archive.  
-Select the icons in the setings.
 
-Icons   
 ```
 Tela / Gruvbox Plus / Minty / Monday   
 ```
 
 ### Themes    
-Copy the .icons folder to the home directory.  
-Extract archive.   
-Select the theme in the setings.  
 
-Themes   
 ```
 Juno / Juno-palenight / Otis / Otis-forest / Zorin Blue / Gruvbox Medium Borderless   
 ```
 
 ### Cursors   
-Default cursor theme - OpenZone_White.   
+
 Set in the icons/default/index.theme, .xprofile, .Xresources, .gtk3, .gtk4
 
-Cursors   
 ```
 OpenZone_White / OpenZone_Black
 ```
 
-
 ### Distro   
+
 Some Linux commands by distros.
