@@ -37,10 +37,10 @@ XTerm.vt100.scrollBar: false
 XTerm*internalBorder: 30
 
 !! URxvt Appearance
-*.font: xft:Hack Nerd Font:style=Regular:pixelsize=15,xft:Symbols Nerd Font Mono:size=12:minspace=False
-*.boldFont: xft:Hack Nerd Font:style=Bold:pixelsize=15
-*.italicFont: xft:Hack Nerd Font:style=Italic:pixelsize=15
-Italic:size=11
+*.font: xft:JetBrains Mono:style=Regular:pixelsize=14,xft:Symbols Nerd Font Mono:size=12:minspace=False
+*.boldFont: xft:JetBrains Mono:style=Bold:pixelsize=14
+*.italicFont: xft:JetBrains Mono:style=Italic:pixelsize=14
+Italic:size=12
 URxvt.letterSpace: 0
 URxvt.lineSpace: 1
 URxvt.geometry: 92x26

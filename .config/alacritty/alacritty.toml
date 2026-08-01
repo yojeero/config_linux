@@ -4,6 +4,9 @@ import = [
     "~/.config/alacritty/themes/Cobalt2.toml"
 ]
 
+[env]
+TERM = "xterm-256color"
+
 [window]
 padding = { x = 20, y = 20 }
 opacity = 0.90 
@@ -12,18 +15,16 @@ opacity = 0.90
 size = 11.0
 
 [font.normal]
-family = "Hack Nerd Font"
+family = "JetBrainsMono Nerd Font"
 style = "Regular"
 
 [font.bold]
-family = "Hack Nerd Font"
+family = "JetBrainsMono Nerd Font"
 style = "Bold"
 
 [font.italic]
-family = "Hack Nerd Font"
+family = "JetBrainsMono Nerd Font"
 style = "Italic"
 
 [selection]
 save_to_clipboard = true
-
-
