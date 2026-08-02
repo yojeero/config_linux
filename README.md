@@ -69,11 +69,12 @@ Set in the .xprofile, .Xresources, .gtk3, .gtk4
 
 ### Distro   
 
+Different commands for distros.
+
 ```
 Arch   
 Alpine   
 Debian   
 Gentoo   
 Crux   
-Nix
 ```   
