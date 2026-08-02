@@ -19,8 +19,8 @@ Linux Dotfiles
 2560x1440 px    
 3840x2160 px   
 
-### Dots   
-Copy the .config folder to the home directory.   
+### Dotfiles   
+All dotfiles inside .config folder.   
 
 ### Fonts   
 
