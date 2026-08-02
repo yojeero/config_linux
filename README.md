@@ -1,6 +1,6 @@
 <img src="Pictures/git.png" width="100%" max-width="800px">   
 
-<img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="20"/><img alt="Arch Linux" src="https://img.shields.io/badge/Arch%20Linux-34ace0?logo=arch-linux&logoColor=fff&style=for-the-badge" height="20"/><img alt="" src="https://img.shields.io/badge/Gentoo-706fd3?style=for-the-badge&logo=gentoo&logoColor=white" height="20"/><img alt="Debian" src="https://img.shields.io/badge/Debian-ff5252?style=for-the-badge&logo=debian&logoColor=white" height="20"/><img alt="Alpine Linux" src="https://img.shields.io/badge/Alpine%20Linux-487eb0?logo=alpine&logoColor=fff&style=for-the-badge" height="20"/><img alt="" src="https://img.shields.io/badge/-Fedora-45aaf2?style=for-the-badge&logo=fedora&logoColor=white" height="20"/>   
+<img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="24"/><img alt="Crux" src="https://img.shields.io/badge/-crux-f7f1e3?style=for-the-badge" height="24"/><img alt="Gentoo" src="https://img.shields.io/badge/Gentoo-706fd3?style=for-the-badge&logo=gentoo&logoColor=white" height="24"/><img alt="Suse" src="https://img.shields.io/badge/-SUSE-A3CB38?style=for-the-badge&logo=opensuse&logoColor=white" height="24"/><img alt="Alpine" src="https://img.shields.io/badge/Alpine-487eb0?logo=alpine&logoColor=fff&style=for-the-badge" height="24"/><img alt="Arch" src="https://img.shields.io/badge/Arch-34ace0?logo=arch-linux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Debian" src="https://img.shields.io/badge/Debian-ff5252?style=for-the-badge&logo=debian&logoColor=white" height="24"/> 
 
 ### Wallpapers   
 
@@ -14,14 +14,9 @@ Copy the .config folder to the home directory.
 ### Fonts   
 
 ```
-Lilex   
-Lilex Duo   
 Fira Code   
-Fira Mono   
 Adwaita Mono   
-Overpass Mono   
-IBM Plex Mono   
-IBM Plex Sans   
+Overpass Mono    
 JetBrains Mono   
 iA Writer Duo S   
 psudoFont Liga Mono   
@@ -34,26 +29,30 @@ JetBrainsMono Nerd Font
 ### Icons   
 
 ```
-Tela   
+Papirus   
 Zorin   
-Solus   
-Gruvbox Plus
+Gruvbox +   
+Emerald   
+Flatery   
+Planet   
+Reversal   
+Adwaita Breeze
 ```   
 
 ### Themes   
 
 ```
 Gruvbox   
-Plata   
-Zorin   
-Juno Palenight 
+Colloid   
+Juno Palenight
 ```   
 
 ### Cursors   
 
 ```
 OpenZone_White   
-OpenZone_Black
+OpenZone_Black   
+Bibata_Ice
 ```   
 Set in the .xprofile, .Xresources, .gtk3, .gtk4   
 
@@ -65,5 +64,5 @@ Alpine
 Debian   
 Gentoo   
 Crux   
-Void
+Nix
 ```   
