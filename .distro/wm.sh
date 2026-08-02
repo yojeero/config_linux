@@ -65,7 +65,7 @@ sudo make install
 # PKGS
 # ----------------------------------
 
-        firefox alacritty xed \
+        firefox alacritty xed micro vim \
         nemo nemo-fileroller \
         bottom fastfetch mc file-roller \
         p7zip unzip zip tumbler \

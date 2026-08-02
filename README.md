@@ -14,9 +14,18 @@ Copy the .config folder to the home directory.
 ### Fonts   
 
 ```
+Lilex   
+Lilex Duo   
+Fira Code   
+Fira Mono   
+Adwaita Mono   
+Overpass Mono   
+IBM Plex Mono   
+IBM Plex Sans   
 JetBrains Mono   
 iA Writer Duo S   
-
+psudoFont Liga Mono   
+   
 Symbols Nerd Font   
 Terminess Nerd Font   
 JetBrainsMono Nerd Font
@@ -26,14 +35,18 @@ JetBrainsMono Nerd Font
 
 ```
 Tela   
+Zorin   
+Solus   
 Gruvbox Plus
 ```   
 
 ### Themes   
 
 ```
-Juno Palenight   
-Gruvbox Borderless
+Gruvbox   
+Plata   
+Zorin   
+Juno Palenight 
 ```   
 
 ### Cursors   

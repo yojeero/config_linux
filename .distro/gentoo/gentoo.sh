@@ -18,6 +18,8 @@ x11-terms/alacritty \
 x11-misc/rofi \
 x11-misc/picom \
 media-gfx/feh \
+app-editors/xed \
+app-misc/fastfetch \
 x11-misc/dunst \
 x11-misc/xclip \
 media-gfx/maim \
@@ -30,8 +32,8 @@ app-arch/file-roller \
 gnome-base/gvfs \
 sys-fs/udisks \
 x11-libs/gdk-pixbuf \
-app-editors/xed \
-app-misc/fastfetch \
+app-editors/micro \
+app-editors/vim \
 app-misc/mc \
 sys-process/bottom \
 media-video/celluloid \

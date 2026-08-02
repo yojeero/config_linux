@@ -50,7 +50,7 @@ date 072915272026
 
 ## 3. make.conf
 
-`/mnt/gentoo/etc/portage/make.conf`
+`nano /mnt/gentoo/etc/portage/make.conf`
 
 ``` conf
 COMMON_FLAGS="-O2 -pipe -march=sandybridge"
@@ -166,9 +166,13 @@ blkid
 
 nano /etc/fstab
 
-UUID="7f787592-31eb-4092-b01d-ba49e9a43eb1" /boot  ext4  noatime  1 2
-UUID="f39e4e5b-3b6f-453e-9168-46fa9e6f3901" /      ext4  noatime  0 1
+UUID="7f787592-31eb-4092-b01d-ba49e9a43eb1"     /boot   ext4    noatime     1 2
+UUID="f39e4e5b-3b6f-453e-9168-46fa9e6f3901"     /       ext4    noatime     0 1
+
 ```
+
+/dev/sda1   /boot   ext4    noatime     1 2
+/dev/sda2   /       ext4    noatime     0 1
 
 ## 10. Local
 
@@ -266,6 +270,8 @@ x11-terms/alacritty \
 x11-misc/rofi \
 x11-misc/picom \
 media-gfx/feh \
+app-editors/xed \
+app-misc/fastfetch \
 x11-misc/dunst \
 x11-misc/xclip \
 media-gfx/maim \
@@ -278,8 +284,8 @@ app-arch/file-roller \
 gnome-base/gvfs \
 sys-fs/udisks \
 x11-libs/gdk-pixbuf \
-app-editors/xed \
-app-misc/fastfetch \
+app-editors/micro \
+app-editors/vim \
 app-misc/mc \
 sys-process/bottom \
 media-video/celluloid \

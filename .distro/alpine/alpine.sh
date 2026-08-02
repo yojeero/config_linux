@@ -56,7 +56,7 @@ apk add \
     sway swaybg swaylock swayidle \
     foot waybar fuzzel \
     wl-clipboard grim slurp \
-    firefox xed tumbler \
+    firefox xed tumbler micro vim \
     thunar thunar-archive-plugin thunar-volman \
     bottom fastfetch mc file-roller \
     p7zip unzip zip palette imv \
