@@ -26,17 +26,14 @@ JetBrainsMono Nerd Font
 
 ```
 Tela   
-Gruvbox Plus   
-Minty   
-Monday
-```
+Gruvbox Plus
+```   
+
 ### Themes   
 
 ```
-Juno   
-Otis   
-Zorin Blue   
-Gruvbox Medium Borderless
+Juno Palenight   
+Gruvbox Borderless
 ```   
 
 ### Cursors   
@@ -45,7 +42,7 @@ Gruvbox Medium Borderless
 OpenZone_White   
 OpenZone_Black
 ```   
-Set in the icons/default/index.theme, .xprofile, .Xresources, .gtk3, .gtk4   
+Set in the .xprofile, .Xresources, .gtk3, .gtk4   
 
 ### Distro   
 
