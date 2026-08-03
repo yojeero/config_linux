@@ -22,23 +22,35 @@ Linux Dotfiles
 ### Dotfiles   
 All dotfiles inside .config folder.   
 
-### Fonts   
+### Normal Fonts   
+```
+Iosevka   
+JetBrains Mono   
+iA Writer Duo S
+```   
+
+### Nerd Fonts   
 
 ```
-Ubuntu Sans   
-JetBrains Mono   
-iA Writer Duo S   
-   
-Symbols Nerd Font   
+FantasqueSans Mono   
 Terminess Nerd Font   
 JetBrainsMono Nerd Font
 ```   
+
+### Icon Fonts   
+
+```
+Material Symbols
+Symbols Nerd Font Mono
+```   
+
+### Fonts for Boot
 
 ### Icons   
 
 ```
 Papirus   
-Gruvbox +   
+Gruvbox   
 Planet   
 Reversal   
 ```   
@@ -46,8 +58,12 @@ Reversal
 ### Themes   
 
 ```
+Wave
 Gruvbox   
-Juno Palenight
+Gruvbox light
+Kanagawa   
+Catppuccin Frappe
+Material Palenight
 ```   
 
 ### Cursors   
