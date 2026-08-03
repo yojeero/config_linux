@@ -25,7 +25,7 @@ All dotfiles inside .config folder.
 ### Fonts   
 
 ```
-Inter   
+Ubuntu Sans   
 JetBrains Mono   
 iA Writer Duo S   
    
