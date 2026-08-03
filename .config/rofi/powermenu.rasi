@@ -41,7 +41,7 @@ element {
 }
 
 element-text {
-    font: "JetBrainsMono Nerd Font 22";
+    font: "JetBrains Mono Bold 22";
     expand: true;
     horizontal-align: 0.5;
     vertical-align: 0.5;

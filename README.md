@@ -25,12 +25,9 @@ All dotfiles inside .config folder.
 ### Fonts   
 
 ```
-Fira Code   
-Adwaita Mono   
-Overpass Mono    
+Inter   
 JetBrains Mono   
 iA Writer Duo S   
-psudoFont Liga Mono   
    
 Symbols Nerd Font   
 Terminess Nerd Font   
@@ -41,20 +38,15 @@ JetBrainsMono Nerd Font
 
 ```
 Papirus   
-Zorin   
 Gruvbox +   
-Emerald   
-Flatery   
 Planet   
 Reversal   
-Adwaita Breeze
 ```   
 
 ### Themes   
 
 ```
 Gruvbox   
-Colloid   
 Juno Palenight
 ```   
 

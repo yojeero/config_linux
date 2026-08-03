@@ -1,3 +1,6 @@
+# set cursor size via terminal
+xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 24
+
 # ----------------------------------
 # SPECTRWM 
 # ----------------------------------

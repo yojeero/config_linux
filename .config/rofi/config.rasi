@@ -2,9 +2,9 @@ configuration {
     modi: "drun,run";
     show-match: "drun";
     lines: 6;
-    font: "JetBrainsMono Nerd Font 9"; 
+    font: "JetBrains Mono 9"; 
     show-icons: true;
-    icon-theme: "Tela"; 
+    icon-theme: "Papirus"; 
     terminal: "alacritty";
     drun-display-format: "{icon} {name}";
     location: 0;
