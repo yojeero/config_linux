@@ -8,10 +8,8 @@
 # uefi
 # boot.loader.systemd-boot.enable = true;
 # boot.loader.efi.canTouchEfiVariables = true;
-boot.loader.systemd-boot.enable = false;
-boot.loader.efi.canTouchEfiVariables = false;
 
-# only for mbr
+# mbr
 boot.loader.systemd-boot.enable = false;
 boot.loader.efi.canTouchEfiVariables = false;
 boot.loader.grub.enable = true;
@@ -32,13 +30,13 @@ nixpkgs.config.allowUnfree = true;
 services.xserver = {
   enable = true;
 
-  # Включаем spectrwm
+# Enable spectrwm
   windowManager.spectrwm.enable = true;
 
-  # Отключаем дефолтный дисплейный менеджер, чтобы загружаться в TTY
+# Disable the default display manager to boot into TTY
   displayManager.startx.enable = true;
 
-  # Настройка раскладки клавиатуры (Alt+Shift для смены языка)
+# Setting up the keyboard layout (Alt+Shift to change the language)
   xkb = {
     layout = "us,ru";
     options = "grp:alt_shift_toggle";
@@ -87,19 +85,17 @@ environment.systemPackages = with pkgs; [
     wl-clipboard
 ];
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-color-emoji
-    nerd-fonts.fira-code
-    nerd-fonts.adwaita-mono
-    nerd-fonts.jetbrains-mono
-    lato
-  ];
-
+fonts.packages = with pkgs; [
+  noto-fonts
+  jetbrains-mono
+  (nerdfonts.override {
+    fonts = [ "JetBrainsMono" ];
+  })
+];
 
 programs.fish.enable = true;
 
-# Разрешаем менять пароли пользователям
+# Allow users to change passwords
 users.mutableUsers = true;
 
 users.users.yopy = {
@@ -107,12 +103,12 @@ users.users.yopy = {
   extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
   shell = pkgs.fish; 
   
-  # Временный пароль (смените его командой `passwd` после загрузки)
-  initialPassword = "your-user-password"; 
+# Temporary password (change it with `passwd` command after boot)
+  initialPassword = "123"; 
 };
 
-# Пароль для root тоже можно оставить на всякий случай
-users.users.root.initialPassword = "your-root-password";
+# You can also leave the password for root just in case
+users.users.root.initialPassword = "123";
 
   # Sound
   services.pipewire = {
@@ -142,9 +138,6 @@ users.users.root.initialPassword = "your-root-password";
   networking.firewall.enable = false;
 
 system.stateVersion = "24.11";
-
-# Автозапуск startx для fish в первом терминале (TTY1)
-home-manager.users.yopy = {}; # Если решите использовать home-manager позже
 
 environment.etc."fish/conf.d/startx.fish".text = ''
   if status is-login
