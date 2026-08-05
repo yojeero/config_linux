@@ -10,7 +10,7 @@ cd spectrwm/linux
 make
 sudo make install
 
-        alacritty rofi picom feh maim slop xclip dunst i3lock-color wireplumber
+        alacritty rofi picom feh maim slop xclip dunst i3lock-color 
 
 
 chmod +x ~/.config/spectrwm/bar_action.sh
@@ -32,7 +32,7 @@ chmod +x ~/.config/spectrwm/.spectrwm.conf
 # make
 # sudo make install
 
-        bspwm sxhkd rofi picom polybar maim slop xclip dunst i3lock-color wireplumber
+        bspwm sxhkd rofi picom polybar maim slop xclip dunst i3lock-color
 
 chmod +x ~/.config/bspwm/bspwmrc
 chmod +x ~/.config/polybar/launch.sh
@@ -47,7 +47,7 @@ make
 sudo make install
 
         swaybg swaylock swayidle swaylock-effects \
-        foot waybar fuzzel \
+        foot waybar fuzzel picom \
         wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
 # ----------------------------------
