@@ -10,8 +10,7 @@ cd spectrwm/linux
 make
 sudo make install
 
-        alacritty rofi picom feh maim slop xclip dunst i3lock-color 
-
+alacritty rofi picom feh maim slop xclip dunst i3lock-color 
 
 chmod +x ~/.config/spectrwm/bar_action.sh
 chmod +x ~/.config/spectrwm/.spectrwm.conf
@@ -32,7 +31,7 @@ chmod +x ~/.config/spectrwm/.spectrwm.conf
 # make
 # sudo make install
 
-        bspwm sxhkd rofi picom polybar maim slop xclip dunst i3lock-color
+bspwm sxhkd rofi picom polybar maim slop xclip dunst i3lock-color
 
 chmod +x ~/.config/bspwm/bspwmrc
 chmod +x ~/.config/polybar/launch.sh
@@ -46,9 +45,9 @@ cd sway
 make
 sudo make install
 
-        swaybg swaylock swayidle swaylock-effects \
-        foot waybar fuzzel picom \
-        wl-clipboard grim slurp mako xdg-desktop-portal-gtk
+swaybg swaylock swayidle swaylock-effects \
+foot waybar fuzzel picom \
+wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
 # ----------------------------------
 # RIVER
@@ -60,35 +59,35 @@ cd river
 make
 sudo make install
 
-        swaybg swaylock swayidle swaylock-effects \
-        foot waybar fuzzel \
-        wl-clipboard grim slurp mako xdg-desktop-portal-gtk
+swaybg swaylock swayidle swaylock-effects \
+foot waybar fuzzel \
+wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
 # ----------------------------------
 # PKGS
 # ----------------------------------
 
-        firefox alacritty xed micro vim \
-        nemo nemo-fileroller \
-        bottom fastfetch mc file-roller \
-        p7zip unzip zip tumbler \
-        wget git curl gvfs udisks2 ntfs-3g \
-        xdg-utils glib2 ripgrep zoxide xfce4-screenshooter \
-        celluloid rhythmbox imagemagick ffmpeg palette imv \
-        lxappearance xorg-xsetroot   
+firefox alacritty xed vim \
+nemo nemo-fileroller \
+bottom fastfetch mc file-roller \
+p7zip unzip zip tumbler \
+wget git curl gvfs udisks2 ntfs-3g \
+xdg-utils glib2 ripgrep zoxide xfce4-screenshooter \
+celluloid rhythmbox imagemagick ffmpeg palette imv \
+lxappearance xorg-xsetroot   
 
-        thunar thunar-archive-plugin thunar-volman \
-        tumbler xarchiver mousepad kitty 
-        
-        google-chrome visual-studio-code-bin
+thunar thunar-archive-plugin thunar-volman \
+tumbler mousepad kitty 
+
+google-chrome visual-studio-code-bin
 
 # ----------------------------------
 # SHELL FISH
 # ----------------------------------
 
-        fish eza fzf fd
+fish eza fzf fd
 
-        chsh -s $(command -v fish)
+chsh -s $(command -v fish)
 
 # ----------------------------------
 # swaylock-effects Screen lock

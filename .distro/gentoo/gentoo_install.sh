@@ -1,6 +1,9 @@
-# Gentoo systemd (Binary / MBR / TTY / StartX / Spectrwm)
 
-## 1. Erase disks
+# ----------------------------------
+# Gentoo systemd Binary / MBR / TTY / Spectrwm
+# ----------------------------------
+
+## Erase disks
 
 ``` sh
 lsblk
@@ -33,7 +36,7 @@ mkfs.ext4 /dev/sda1
 mkfs.ext4 /dev/sda2
 ```
 
-## 2. Stage3
+## Stage3
 
 ``` sh
 mkdir -p /mnt/gentoo
@@ -48,7 +51,7 @@ tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric
 date 072915272026
 ```
 
-## 3. make.conf
+## make.conf
 
 `nano /mnt/gentoo/etc/portage/make.conf`
 
@@ -70,7 +73,7 @@ USE="X systemd udev dbus alsa pulseaudio vaapi"
 GENTOO_MIRRORS="https://distfiles.gentoo.org"
 ```
 
-## 4. Repo
+## Repo
 
 ``` sh
 mkdir -p /mnt/gentoo/etc/portage/{repos.conf,binrepos.conf}
@@ -89,7 +92,7 @@ sync-uri=https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
 EOF
 ```
 
-## 5. DNS
+## DNS
 
 ``` sh
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
@@ -100,7 +103,7 @@ nameserver 8.8.8.8
 EOF
 ```
 
-## 6. Chroot
+## Chroot
 
 ``` sh
 mount -t proc /proc /mnt/gentoo/proc
@@ -116,7 +119,7 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 ```
 
-## 7. Portage
+## Portage
 
 ``` sh
 emerge --sync
@@ -136,7 +139,7 @@ mkdir -p \
 # chroot
 export PS1="(chroot) $PS1"
 
-## 8. Kernel
+## Kernel
 
 ``` sh
 echo "sys-kernel/installkernel systemd dracut grub" \
@@ -159,7 +162,7 @@ sys-kernel/gentoo-kernel-bin
 grub-install --recheck /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
-## 9. Fstab
+## Fstab
 
 ``` sh
 blkid
@@ -174,7 +177,7 @@ UUID="f39e4e5b-3b6f-453e-9168-46fa9e6f3901"     /       ext4    noatime     0 1
 /dev/sda1   /boot   ext4    noatime     1 2
 /dev/sda2   /       ext4    noatime     0 1
 
-## 10. Local
+## Local
 
 ``` sh
 echo Europe/Moscow >/etc/timezone
@@ -191,7 +194,7 @@ env-update
 source /etc/profile
 ```
 
-## 11. Network
+## Network
 
 ``` sh
 echo gentoo >/etc/hostname
@@ -203,7 +206,7 @@ systemctl enable iwd
 systemctl enable dbus
 ```
 
-## 12. X11
+## X11
 
 ``` sh
 emerge --ask \
@@ -219,7 +222,7 @@ visudo
 
 %wheel ALL=(ALL:ALL) ALL
 
-## 13. Keyboard
+## Keyboard
 
 ``` sh
 mkdir -p /etc/X11/xorg.conf.d
@@ -245,7 +248,7 @@ sudo make install
 sudo ldconfig
 ```
 
-## 14. GURU
+## GURU
 
 ``` sh
 emerge --ask app-eselect/eselect-repository dev-vcs/git
@@ -253,7 +256,7 @@ eselect repository enable guru
 emaint sync -r guru
 ```
 
-## 15. Spectrwm v.3.7.0
+## Spectrwm v.3.7.0
 
 ``` sh
 git clone https://github.com/Y-Forks/spectrwm
@@ -262,7 +265,7 @@ make
 make install
 ```
 
-## 16. Pkgs
+## Pkgs
 
 ``` sh
 emerge --ask \
@@ -284,7 +287,6 @@ app-arch/file-roller \
 gnome-base/gvfs \
 sys-fs/udisks \
 x11-libs/gdk-pixbuf \
-app-editors/micro \
 app-editors/vim \
 app-misc/mc \
 sys-process/bottom \
@@ -298,7 +300,7 @@ x11-misc/lxappearance \
 media-fonts/noto
 ```
 
-## 17. i3lock-color
+## i3lock-color
 
 ``` sh
 echo "x11-misc/i3lock-color ~amd64" \
@@ -307,7 +309,7 @@ echo "x11-misc/i3lock-color ~amd64" \
 emerge --ask x11-misc/i3lock-color
 ```
 
-## 18. User
+## User
 
 ``` sh
 passwd
@@ -317,13 +319,13 @@ useradd -m -G wheel,audio,video,input,,usb,plugdev -s /bin/bash yopy
 passwd yopy
 ```
 
-# 19. set SHELL FISH
+# SHELL FISH
 
 emerge --ask app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
 
 chsh -s /usr/bin/fish yopy
 
-## 20. .xinitrc
+## .xinitrc
 
 ``` sh
 cat >/home/yopy/.xinitrc <<'EOF'
@@ -341,7 +343,7 @@ EOF
 chown yopy:users /home/yopy/.xinitrc
 ```
 
-## 21. Unmount
+## Unmount
 
 ``` sh
 exit

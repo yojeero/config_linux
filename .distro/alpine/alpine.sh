@@ -2,7 +2,7 @@
 # Alpine Sway (TTY Login)
 # --------------------------------
 
-#1. INSTALLATION
+# INSTALLATION
 
 setup-alpine
 
@@ -14,7 +14,7 @@ disk: sda
 mode: sys
 reboot
 
-#2. USER
+# USER
 
 apk add nano
 
@@ -38,7 +38,7 @@ root ALL=(ALL:ALL) ALL
 %sudo ALL=(ALL:ALL) ALL
 USERNAME ALL=(ALL:ALL) ALL
 
-#3. BASIC SYSTEM
+# BASIC SYSTEM
 
 apk update
 
@@ -46,17 +46,17 @@ apk add \
     git curl wget \
     gvfs udisks2 ntfs-3g
 
-#4. GRAPHICS
+# GRAPHICS
 
 setup-xorg-base
 
-#5. SWAY
+# SWAY
 
 apk add \
     sway swaybg swaylock swayidle \
     foot waybar fuzzel \
     wl-clipboard grim slurp \
-    firefox xed tumbler micro vim \
+    firefox xed tumbler vim \
     thunar thunar-archive-plugin thunar-volman \
     bottom fastfetch mc file-roller \
     p7zip unzip zip palette imv \
@@ -65,14 +65,14 @@ apk add \
     lxappearance xorg-xsetroot \
     mesa mesa-dri-gallium mesa-va-gallium mesa-vdpau-gallium
 
-#6. SOUND
+# SOUND
 
 apk add \
     pipewire pipewire-pulse \
     wireplumber \
     pavucontrol
 
-#7. SYSTEM SERVICES
+# SYSTEM SERVICES
 
 rc-update add dbus default
 rc-service dbus start
@@ -81,14 +81,14 @@ rc-service dbus start
 rc-update add seatd default
 rc-service seatd start
 
-#8. USER GROUPS
+# USER GROUPS
 
 addgroup USERNAME audio
 addgroup USERNAME video
 addgroup USERNAME input
 addgroup USERNAME seat
 
-#9. AUTO START SWAY (TTY)
+# AUTO START SWAY (TTY)
 
 nano ~/.profile
 

@@ -101,7 +101,6 @@ EOF
 emerge --ask --getbinpkg www-client/google-chrome 
 emerge --ask --getbinpkg app-editors/vscode 
 emerge --ask --getbinpkg app-editors/zed 
-emerge --ask --getbinpkg app-editors/sublime-text
 
 # ----------------------------------
 # github config

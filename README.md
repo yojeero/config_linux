@@ -3,7 +3,7 @@
 
 Linux Dotfiles   
 
-<img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="24"/><img alt="Crux" src="https://img.shields.io/badge/Crux-f7f1e3?style=for-the-badge" height="24"/><img alt="Gentoo" src="https://img.shields.io/badge/Gentoo-54487A?style=for-the-badge&logo=gentoo&logoColor=white" height="24"/><img alt="Calculate" src="https://img.shields.io/badge/Calculate-6BA539?style=for-the-badge&logo=calculate&logoColor=white" height="24"/><img alt="Alpine" src="https://img.shields.io/badge/Alpine-0D597F?logo=alpinelinux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Arch" src="https://img.shields.io/badge/Arch-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Debian" src="https://img.shields.io/badge/Debian-A81D33?style=for-the-badge&logo=debian&logoColor=white" height="24"/>
+<img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="24"/><img alt="Crux" src="https://img.shields.io/badge/Crux-f7f1e3?style=for-the-badge" height="24"/><img alt="Gentoo" src="https://img.shields.io/badge/Gentoo-54487A?style=for-the-badge&logo=gentoo&logoColor=white" height="24"/><img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" height="24"/><img alt="Alpine" src="https://img.shields.io/badge/Alpine-0D597F?logo=alpinelinux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Arch" src="https://img.shields.io/badge/Arch-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Debian" src="https://img.shields.io/badge/Debian-A81D33?style=for-the-badge&logo=debian&logoColor=white" height="24"/>
 
 <img alt="Linux" src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" height="40"/>   
 
@@ -49,18 +49,20 @@ Symbols Nerd Font Mono
 ### Icons   
 
 ```
-Papirus   
-Gruvbox   
+Tela   
+Kesa   
 Planet   
-Reversal   
+Vivid   
+Fantasy   
+GruvAdwat
 ```   
 
 ### Themes   
 
 ```
-Wave
+Wave   
+Vivid   
 Gruvbox   
-Gruvbox light
 Kanagawa   
 Catppuccin Frappe
 Material Palenight
@@ -69,9 +71,8 @@ Material Palenight
 ### Cursors   
 
 ```
-OpenZone_White   
-OpenZone_Black   
-Bibata_Ice
+WhiteSur   
+Volantes
 ```   
 Set in the .xprofile, .Xresources, .gtk3, .gtk4   
 
@@ -85,4 +86,5 @@ Alpine
 Debian   
 Gentoo   
 Crux   
+Alt
 ```   

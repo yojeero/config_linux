@@ -1,5 +1,5 @@
 #!/bin/sh
-export XCURSOR_THEME="Bibata_Ice"
+export XCURSOR_THEME="WhiteSur"
 export XCURSOR_SIZE=24
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr &

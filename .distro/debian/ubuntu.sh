@@ -146,7 +146,6 @@ riverctl spawn "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG
 
 chmod +x ~/.config/river/init
 
-
 # ----------------------------------
 # To install Firefox as a .deb package
 # ----------------------------------

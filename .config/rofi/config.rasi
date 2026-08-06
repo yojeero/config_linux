@@ -4,7 +4,7 @@ configuration {
     lines: 6;
     font: "JetBrains Mono 9"; 
     show-icons: true;
-    icon-theme: "Papirus"; 
+    icon-theme: "Tela"; 
     terminal: "alacritty";
     drun-display-format: "{icon} {name}";
     location: 0;

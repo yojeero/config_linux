@@ -1,4 +1,7 @@
-Installing CRUX 3.8.0 (MBR / BIOS Edition)
+
+# ----------------------------------
+# Installing CRUX 3.8.0 (MBR / BIOS Edition)
+# ----------------------------------
 
 lsblk
 
@@ -122,7 +125,7 @@ cd spectrwm/linux
 make
 make install
 
-prt-get depinst alacritty rofi picom feh maim slop xclip dunst wireplumber
+prt-get depinst alacritty rofi picom feh maim slop xclip dunst 
 
 
 
