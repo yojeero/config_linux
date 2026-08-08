@@ -118,14 +118,7 @@ pkginfo -i
 # ----------------------------------
 # spectrwm
 # ----------------------------------
-prt-get depinst xorg
-
-git clone https://github.com/Y-Forks/spectrwm
-cd spectrwm/linux
-make
-make install
-
-prt-get depinst alacritty rofi picom feh maim slop xclip dunst 
+prt-get depinst xorg spectrwm alacritty rofi picom feh maim slop xclip dunst 
 
 
 

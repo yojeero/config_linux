@@ -256,24 +256,15 @@ eselect repository enable guru
 emaint sync -r guru
 ```
 
-## Spectrwm v.3.7.0
-
-``` sh
-git clone https://github.com/Y-Forks/spectrwm
-cd spectrwm/linux
-make
-make install
-```
-
-## Pkgs
+## Spectrwm 
 
 ``` sh
 emerge --ask \
+x11-wm/spectrwm \
 x11-terms/alacritty \
 x11-misc/rofi \
 x11-misc/picom \
 media-gfx/feh \
-app-editors/xed \
 app-misc/fastfetch \
 x11-misc/dunst \
 x11-misc/xclip \
@@ -281,8 +272,11 @@ media-gfx/maim \
 x11-misc/slop \
 x11-apps/xsetroot \
 www-client/firefox \
-gnome-extra/nemo \
-gnome-extra/nemo-fileroller \
+xfce-base/thunar \
+xfce-extra/thunar-archive-plugin \
+xfce-base/thunar-volman \
+xfce-base/tumbler \
+app-editors/mousepad \
 app-arch/file-roller \
 gnome-base/gvfs \
 sys-fs/udisks \
@@ -298,15 +292,7 @@ media-gfx/imv \
 x11-base/xorg-apps \
 x11-misc/lxappearance \
 media-fonts/noto
-```
-
-## i3lock-color
-
-``` sh
-echo "x11-misc/i3lock-color ~amd64" \
->/etc/portage/package.accept_keywords/i3lock-color
-
-emerge --ask x11-misc/i3lock-color
+fonts/noto
 ```
 
 ## User

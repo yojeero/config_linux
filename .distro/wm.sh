@@ -5,12 +5,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 24
 # SPECTRWM 
 # ----------------------------------
 
-git clone https://github.com/Y-Forks/spectrwm
-cd spectrwm/linux
-make
-sudo make install
-
-alacritty rofi picom feh maim slop xclip dunst i3lock-color 
+spectrwm alacritty rofi picom feh maim slop xclip dunst xsecurelock
 
 chmod +x ~/.config/spectrwm/bar_action.sh
 chmod +x ~/.config/spectrwm/.spectrwm.conf
@@ -19,19 +14,7 @@ chmod +x ~/.config/spectrwm/.spectrwm.conf
 # BSPWM
 # ----------------------------------
 
-# bspwm
-# git clone https://github.com/Y-Forks/bspwm
-# cd bspwm
-# make
-# sudo make install
-
-# sxhkd
-# git clone https://github.com/Y-Forks/sxhkd
-# cd sxhkd
-# make
-# sudo make install
-
-bspwm sxhkd rofi picom polybar maim slop xclip dunst i3lock-color
+bspwm sxhkd rofi picom polybar maim slop xclip dunst xsecurelock
 
 chmod +x ~/.config/bspwm/bspwmrc
 chmod +x ~/.config/polybar/launch.sh
@@ -40,12 +23,7 @@ chmod +x ~/.config/polybar/launch.sh
 # SWAY
 # ----------------------------------
 
-git clone https://github.com/Y-Forks/sway
-cd sway
-make
-sudo make install
-
-swaybg swaylock swayidle swaylock-effects \
+sway swaybg swaylock swayidle swaylock-effects \
 foot waybar fuzzel picom \
 wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
@@ -53,13 +31,7 @@ wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 # RIVER
 # ----------------------------------
 
-# river
-git clone https://github.com/Y-Forks/river
-cd river
-make
-sudo make install
-
-swaybg swaylock swayidle swaylock-effects \
+river river-tile swaybg swaylock swayidle swaylock-effects \
 foot waybar fuzzel \
 wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
@@ -67,17 +39,14 @@ wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 # PKGS
 # ----------------------------------
 
-firefox alacritty xed vim \
-nemo nemo-fileroller \
+firefox alacritty kitty mousepad vim \
+thunar thunar-archive-plugin thunar-volman \
 bottom fastfetch mc file-roller \
 p7zip unzip zip tumbler \
 wget git curl gvfs udisks2 ntfs-3g \
 xdg-utils glib2 ripgrep zoxide xfce4-screenshooter \
 celluloid rhythmbox imagemagick ffmpeg palette imv \
 lxappearance xorg-xsetroot   
-
-thunar thunar-archive-plugin thunar-volman \
-tumbler mousepad kitty 
 
 google-chrome visual-studio-code-bin
 
@@ -117,6 +86,50 @@ chsh -s $(command -v fish)
 
 
 
+# ----------------------------------
+# mpd ncmpcpp
+# ----------------------------------
+
+# ncmpcpp (NCurses Music Player Daemon Client Plus Plus) -console audio player. 
+# To make it play, we need to install and configure MPD (Music Player Daemon) -a background server that will play music and send sound to our configured PipeWire.
+sudo apt install --no-install-recommends mpd ncmpcpp
+
+# By default, Ubuntu runs MPD as a global system service, which often causes problems accessing user audio cards. We will disable the system daemon and configure it locally for your user.
+sudo systemctl stop mpd
+sudo systemctl disable mpd
+
+# We will create directories for configs, playlists and the music itself in your home directory
+mkdir -p ~/.config/mpd ~/.local/share/mpd/playlists ~/Music
+
+# look in config
+nano ~/.config/mpd/mpd.conf
+
+# run buy user
+mpd
+
+# Let's create a configuration file to beautifully display the playlist and enable the built-in spectral visualizer
+mkdir -p ~/.config/ncmpcpp
+nano ~/.config/ncmpcpp/config
+
+# mpd ncmpcpp using
+# 1. copy yours .mp3 or .flac in folder ~/Music.
+# 2. ncmpcpp
+# 3. Press the u (English) key to refresh the MPD database and see your tracks.
+
+# Basic hotkeys in ncmpcpp:
+# 1 - Current playlist.
+# 2 - File browser (browsing through folders in ~/Music). 
+# Press Space to add the song/folder to the queue.
+# 8 — Sound visualizer (same spectrogram).
+# Enter -Play the selected track.
+# s — Stop, 
+# p -Pause.
+# > /< — Next /previous track.
+# q -Exit ncmpcpp (music will continue to play in the background, since MPD is a daemon).
+
+
+# nautilus root
+ctrl+D /
 
 
 

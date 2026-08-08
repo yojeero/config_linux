@@ -1,24 +1,15 @@
 
 # ----------------------------------
-# Spectrwm v.3.7.0
+# Spectrwm 
 # ---------------------------------- 
 
 ``` sh
-git clone https://github.com/Y-Forks/spectrwm
-cd spectrwm/linux
-make
-make install
-```
-
-## Pkgs
-
-``` sh
 emerge --ask \
+x11-wm/spectrwm \
 x11-terms/alacritty \
 x11-misc/rofi \
 x11-misc/picom \
 media-gfx/feh \
-app-editors/xed \
 app-misc/fastfetch \
 x11-misc/dunst \
 x11-misc/xclip \
@@ -26,13 +17,15 @@ media-gfx/maim \
 x11-misc/slop \
 x11-apps/xsetroot \
 www-client/firefox \
-gnome-extra/nemo \
-gnome-extra/nemo-fileroller \
+xfce-base/thunar \
+xfce-extra/thunar-archive-plugin \
+xfce-base/thunar-volman \
+xfce-base/tumbler \
+app-editors/mousepad \
 app-arch/file-roller \
 gnome-base/gvfs \
 sys-fs/udisks \
 x11-libs/gdk-pixbuf \
-app-editors/micro \
 app-editors/vim \
 app-misc/mc \
 sys-process/bottom \
@@ -52,25 +45,6 @@ gsettings set org.cinnamon.desktop.default-applications.terminal exec 'alacritty
 gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg '--working-directory'
 
 # ----------------------------------
-# thunar
-# ----------------------------------
-# xfce-base/thunar \
-# xfce-extra/thunar-archive-plugin \
-# xfce-base/thunar-volman \
-# xfce-base/tumbler \
-# app-arch/xarchiver \
-# app-editors/mousepad \
-
-## i3lock-color
-
-``` sh
-echo "x11-misc/i3lock-color ~amd64" \
->/etc/portage/package.accept_keywords/i3lock-color
-
-emerge --ask x11-misc/i3lock-color
-```
-
-# ----------------------------------
 # bspwm
 # ----------------------------------
 
@@ -81,8 +55,7 @@ emerge --ask --getbinpkg \
 # ----------------------------------
 # SHELL
 # ----------------------------------
-emerge --ask --getbinpkg \
-    app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
+emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
 
 chsh -s $(which fish)
 

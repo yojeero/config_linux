@@ -1,0 +1,115 @@
+# after gnome
+
+# ----------------------------------
+# video driver
+# ----------------------------------
+sudo apt install libgl1-mesa-dri mesa-vulkan-drivers
+
+# ----------------------------------
+# audio PipeWire
+# ----------------------------------
+sudo apt install --no-install-recommends pipewire pipewire-audio wireplumber pipewire-pulse pipewire-alsa pavucontrol
+
+systemctl --user --now enable pipewire.service pipewire-pulse.service wireplumber.service
+
+pactl info
+
+# ----------------------------------
+# x11 make dependencies
+# ----------------------------------
+sudo apt update && sudo apt install -y git wget curl 
+
+# ----------------------------------
+# SPECTRWM 
+# ----------------------------------
+
+sudo apt install spectrwm alacritty rofi picom feh maim slop xclip dunst  xsecurelock
+
+chmod +x ~/.config/spectrwm/bar_action.sh
+chmod +x ~/.config/spectrwm/.spectrwm.conf
+
+# ----------------------------------
+# PKGS
+# ----------------------------------
+
+sudo apt install mousepad vim \
+thunar thunar-archive-plugin thunar-volman \
+fastfetch mc file-roller \
+p7zip unzip zip tumbler \
+gvfs udisks2 ntfs-3g btop \
+xdg-utils ripgrep zoxide xfce4-screenshooter \
+celluloid rhythmbox imagemagick ffmpeg imv \
+lxappearance x11-xserver-utils gcolor3
+
+google-chrome visual-studio-code-bin
+
+# ----------------------------------
+# SHELL FISH
+# ----------------------------------
+
+sudo apt install fish eza fzf 
+
+chsh -s $(command -v fish)
+
+# ----------------------------------
+# wayland
+# ----------------------------------
+sudo apt install sway swaybg swaylock swayidle swaylock-effects \
+        foot waybar fuzzel picom \
+        wl-clipboard grim slurp mako xdg-desktop-portal-gtk
+
+# Launch Wayland sessions, explicitly specifying the backend for the libraries
+nano ~/.profile
+
+export XDG_SESSION_TYPE=wayland
+export MOZ_ENABLE_WAYLAND=1 # Для Firefox
+
+# ----------------------------------
+# autostart scipt
+# ----------------------------------
+nano ~/.bash_profile
+
+# If this is an interactive session and we are on the first virtual console (TTY1)
+if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+    
+    echo "---------------------------------------"
+    echo " Выберите графическое окружение:"
+    echo " 1) River (Wayland)"
+    echo " 2) Spectrwm (X11)"
+    echo " 3) Остаться в консоли (TTY)"
+    echo "---------------------------------------"
+    read -p "Ваш выбор [1-3]: " choice
+
+    case $choice in
+        1)
+            export XDG_SESSION_TYPE=wayland
+            export XDG_CURRENT_DESKTOP=river
+            export MOZ_ENABLE_WAYLAND=1
+            
+# Launch River (via dbus for PipeWire integration)
+            exec dbus-run-session river
+            ;;
+        2)
+# Start an X11 session (calls your ~/.xinitrc)
+            exec startx
+            ;;
+        *)
+           echo "We remain in the console. To start graphics, reboot the session."
+            ;;
+    esac
+fi
+
+# ----------------------------------
+# launch Spectrwm (X11)
+# ----------------------------------
+chmod +x ~/.xinitrc
+
+# ----------------------------------
+# launch River (Wayland)
+# ----------------------------------
+mkdir -p ~/.config/river
+
+# Setting environment variables within a session
+riverctl spawn "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+
+chmod +x ~/.config/river/init
