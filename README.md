@@ -57,7 +57,7 @@ setfont ter-d22b.psf.gz
 sudo nano /etc/vconsole.conf   
 FONT=ter-d22b.psf.gz   
 save   
-## -------------
+
 ####   debian   
 
 dpkg-reconfigure console-setup   
@@ -67,7 +67,6 @@ Terminus
 14x28   
 uname -sr   
 
-# -------------
 ####   fedora   
 
 yum update   
@@ -113,8 +112,6 @@ Different commands for distros.
 Arch   
 Alpine   
 Debian   
-Ubuntu   
 Gentoo   
-Crux   
-Alt
+Crux
 ```   
