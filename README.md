@@ -54,8 +54,7 @@ Terminus
 
 ```
 Tela   
-Ketsa   
-Gruvbox
+Ketsa
 ```   
 
 ### Themes   

@@ -71,5 +71,8 @@ apt-get install -y firefox kitty mousepad vim-X11 \
     xsetroot lxde-lxappearance
 
 
+chmod +x ~/.config/polybar/scripts/herbstluftwm.sh
+
+
 
 
