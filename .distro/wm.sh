@@ -2,27 +2,18 @@
 xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 24
 
 # ----------------------------------
-# SPECTRWM 
+# HLWM
 # ----------------------------------
-
-spectrwm alacritty rofi picom feh maim slop xclip dunst xsecurelock
-
-chmod +x ~/.config/spectrwm/bar_action.sh
-chmod +x ~/.config/spectrwm/.spectrwm.conf
+spectrwm herbstluftwm polybar sxhkd rofi picom feh maim slop xclip dunst i3lock
 
 # ----------------------------------
 # BSPWM
 # ----------------------------------
-
-bspwm sxhkd rofi picom polybar maim slop xclip dunst xsecurelock
-
-chmod +x ~/.config/bspwm/bspwmrc
-chmod +x ~/.config/polybar/launch.sh
+bspwm sxhkd rofi picom polybar maim slop xclip dunst i3lock
 
 # ----------------------------------
 # SWAY
 # ----------------------------------
-
 sway swaybg swaylock swayidle swaylock-effects \
 foot waybar fuzzel picom \
 wl-clipboard grim slurp mako xdg-desktop-portal-gtk
@@ -30,7 +21,6 @@ wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 # ----------------------------------
 # RIVER
 # ----------------------------------
-
 river river-tile swaybg swaylock swayidle swaylock-effects \
 foot waybar fuzzel \
 wl-clipboard grim slurp mako xdg-desktop-portal-gtk
@@ -38,24 +28,19 @@ wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 # ----------------------------------
 # PKGS
 # ----------------------------------
-
 firefox alacritty kitty mousepad vim \
 thunar thunar-archive-plugin thunar-volman \
 bottom fastfetch mc file-roller \
 p7zip unzip zip tumbler \
 wget git curl gvfs udisks2 ntfs-3g \
 xdg-utils glib2 ripgrep zoxide xfce4-screenshooter \
-celluloid rhythmbox imagemagick ffmpeg palette imv \
-lxappearance xorg-xsetroot   
-
-google-chrome visual-studio-code-bin
+celluloid rhythmbox imagemagick ffmpeg imv \
+lxappearance    
 
 # ----------------------------------
 # SHELL FISH
 # ----------------------------------
-
 fish eza fzf fd
-
 chsh -s $(command -v fish)
 
 # ----------------------------------
@@ -83,8 +68,6 @@ chsh -s $(command -v fish)
      --line-color 00000000 \
      --inside-color 2e3440e6 \
      --text-color d8dee9
-
-
 
 # ----------------------------------
 # mpd ncmpcpp

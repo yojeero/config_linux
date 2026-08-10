@@ -116,9 +116,21 @@ pkginfo -o /usr/bin/wget
 pkginfo -i
 
 # ----------------------------------
-# spectrwm
+# herbstluftwm
 # ----------------------------------
-prt-get depinst xorg spectrwm alacritty rofi picom feh maim slop xclip dunst 
+prt-get depinst \
+    xorg \
+    herbstluftwm \
+    sxhkd \
+    polybar \
+    alacritty \
+    rofi \
+    picom \
+    feh \
+    maim \
+    slop \
+    xclip \
+    dunst 
 
 
 

@@ -1,61 +1,72 @@
 
 # ----------------------------------
-# Spectrwm 
+# pkgs
 # ---------------------------------- 
-
-``` sh
 emerge --ask \
-x11-wm/spectrwm \
-x11-terms/alacritty \
-x11-misc/rofi \
-x11-misc/picom \
-media-gfx/feh \
-app-misc/fastfetch \
-x11-misc/dunst \
-x11-misc/xclip \
-media-gfx/maim \
-x11-misc/slop \
-x11-apps/xsetroot \
-www-client/firefox \
-xfce-base/thunar \
-xfce-extra/thunar-archive-plugin \
-xfce-base/thunar-volman \
-xfce-base/tumbler \
-app-editors/mousepad \
-app-arch/file-roller \
-gnome-base/gvfs \
-sys-fs/udisks \
-x11-libs/gdk-pixbuf \
-app-editors/vim \
-app-misc/mc \
-sys-process/bottom \
-media-video/celluloid \
-media-gfx/imagemagick \
-media-video/ffmpeg \
-media-video/ffmpegthumbnailer \
-media-gfx/imv \
-x11-base/xorg-apps \
-x11-misc/lxappearance \
-media-fonts/noto
+    app-misc/fastfetch \
+    www-client/firefox \
+    xfce-base/thunar \
+    xfce-extra/thunar-archive-plugin \
+    xfce-base/thunar-volman \
+    xfce-base/tumbler \
+    app-editors/mousepad \
+    app-arch/file-roller \
+    gnome-base/gvfs \
+    sys-fs/udisks \
+    app-editors/vim \
+    app-misc/mc \
+    sys-process/bottom \
+    media-video/celluloid \
+    media-gfx/imagemagick \
+    x11-libs/gdk-pixbuf \
+    media-video/ffmpeg \
+    media-video/ffmpegthumbnailer \
+    x11-base/xorg-apps \
+    x11-misc/lxappearance \
+    media-fonts/noto
 ```
-
-# nemo config
-gsettings set org.nemo.desktop show-desktop-icons false
-gsettings set org.cinnamon.desktop.default-applications.terminal exec 'alacritty'
-gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg '--working-directory'
-
 # ----------------------------------
 # bspwm
 # ----------------------------------
-
 emerge --ask --getbinpkg \
-    x11-wm/bspwm x11-misc/sxhkd x11-terms/alacritty x11-misc/rofi x11-misc/picom x11-misc/polybar \
-    media-gfx/feh x11-misc/dunst media-gfx/maim x11-misc/slop x11-misc/xclip
+    x11-wm/bspwm  \
+    x11-misc/sxhkd \
+    x11-terms/alacritty \
+    x11-misc/rofi \
+    x11-misc/picom \
+    x11-misc/polybar \
+    media-gfx/feh \
+    x11-misc/dunst \
+    media-gfx/maim \
+    x11-misc/slop \
+    media-gfx/imv \
+    x11-misc/xclip
+
+# ----------------------------------
+# Herbsluftwm 
+# ---------------------------------- 
+emerge --ask \
+    x11-wm/herbsluftwm \
+    x11-misc/sxhkd \
+    x11-terms/alacritty \
+    x11-misc/rofi \
+    x11-misc/picom \
+    x11-misc/polybar \
+    media-gfx/feh \
+    x11-misc/dunst \
+    media-gfx/maim \
+    x11-misc/slop \
+    media-gfx/imv \
+    x11-misc/xclip
 
 # ----------------------------------
 # SHELL
 # ----------------------------------
-emerge --ask --getbinpkg app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
+emerge --ask --getbinpkg \
+    app-shells/fish \
+    sys-apps/eza \
+    app-shells/fzf \
+    sys-apps/fd
 
 chsh -s $(which fish)
 
@@ -85,7 +96,7 @@ git clone https://github.com/yojeero/config_linux.git ~/Dots
 git clone https://github.com/yojeero/bspwm_cobalt.git ~/Dots
 
 # ----------------------------------
-# Если вы хотите увидеть, с какими именно флагами прилетят готовые бинарники
+# If you want to see exactly what flags the finished binaries will arrive with
 # ----------------------------------
 emerge -pvg xfce-base/tumbler x11-libs/gdk-pixbuf
 

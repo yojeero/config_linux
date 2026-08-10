@@ -10,16 +10,27 @@ sudo apt purge libreoffice* rhythmbox totem gnome-games gnome-maps gnome-weather
 
 sudo apt autoremove --purge && sudo apt clean
 
-# gnome + desktop, settings and terminal
-
+# only gnome + desktop, settings and terminal
 sudo apt purge gnome gnome-core
-
 sudo apt install gnome-session gnome-shell gnome-terminal nautilus gnome-control-center gdm3
-
 sudo apt autoremove --purge
 
 # list
 dpkg-query -f '${binary:Package}\n' -W
+
+# ----------------------------------
+# video driver
+# ----------------------------------
+sudo apt install libgl1-mesa-dri mesa-vulkan-drivers
+
+# ----------------------------------
+# audio PipeWire
+# ----------------------------------
+sudo apt install --no-install-recommends pipewire pipewire-audio wireplumber pipewire-pulse pipewire-alsa pavucontrol
+
+systemctl --user --now enable pipewire.service pipewire-pulse.service wireplumber.service
+
+pactl info
 
 
 

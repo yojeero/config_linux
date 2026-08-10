@@ -1,54 +1,24 @@
-# after gnome
-
-# ----------------------------------
-# video driver
-# ----------------------------------
-sudo apt install libgl1-mesa-dri mesa-vulkan-drivers
-
-# ----------------------------------
-# audio PipeWire
-# ----------------------------------
-sudo apt install --no-install-recommends pipewire pipewire-audio wireplumber pipewire-pulse pipewire-alsa pavucontrol
-
-systemctl --user --now enable pipewire.service pipewire-pulse.service wireplumber.service
-
-pactl info
-
 # ----------------------------------
 # x11 make dependencies
 # ----------------------------------
 sudo apt update && sudo apt install -y git wget curl 
 
 # ----------------------------------
-# SPECTRWM 
-# ----------------------------------
-
-sudo apt install spectrwm alacritty rofi picom feh maim slop xclip dunst  xsecurelock
-
-chmod +x ~/.config/spectrwm/bar_action.sh
-chmod +x ~/.config/spectrwm/.spectrwm.conf
-
-# ----------------------------------
 # PKGS
 # ----------------------------------
-
 sudo apt install mousepad vim \
-thunar thunar-archive-plugin thunar-volman \
-fastfetch mc file-roller \
-p7zip unzip zip tumbler \
-gvfs udisks2 ntfs-3g btop \
-xdg-utils ripgrep zoxide xfce4-screenshooter \
-celluloid rhythmbox imagemagick ffmpeg imv \
-lxappearance x11-xserver-utils gcolor3
-
-google-chrome visual-studio-code-bin
+    thunar thunar-archive-plugin thunar-volman \
+    fastfetch mc file-roller \
+    p7zip unzip zip tumbler \
+    gvfs udisks2 ntfs-3g btop \
+    xdg-utils ripgrep zoxide xfce4-screenshooter \
+    celluloid rhythmbox imagemagick ffmpeg imv \
+    lxappearance x11-xserver-utils gcolor3
 
 # ----------------------------------
 # SHELL FISH
 # ----------------------------------
-
 sudo apt install fish eza fzf 
-
 chsh -s $(command -v fish)
 
 # ----------------------------------
@@ -75,7 +45,6 @@ if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     echo "---------------------------------------"
     echo " Выберите графическое окружение:"
     echo " 1) River (Wayland)"
-    echo " 2) Spectrwm (X11)"
     echo " 3) Остаться в консоли (TTY)"
     echo "---------------------------------------"
     read -p "Ваш выбор [1-3]: " choice
@@ -98,11 +67,6 @@ if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
             ;;
     esac
 fi
-
-# ----------------------------------
-# launch Spectrwm (X11)
-# ----------------------------------
-chmod +x ~/.xinitrc
 
 # ----------------------------------
 # launch River (Wayland)

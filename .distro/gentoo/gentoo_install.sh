@@ -37,8 +37,6 @@ mkfs.ext4 /dev/sda2
 ```
 
 ## Stage3
-
-``` sh
 mkdir -p /mnt/gentoo
 mount /dev/sda2 /mnt/gentoo
 
@@ -48,14 +46,12 @@ mount /dev/sda1 /mnt/gentoo/boot
 cd /mnt/gentoo
 tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner
 
+# date
 date 072915272026
-```
 
 ## make.conf
+nano /mnt/gentoo/etc/portage/make.conf
 
-`nano /mnt/gentoo/etc/portage/make.conf`
-
-``` conf
 COMMON_FLAGS="-O2 -pipe -march=sandybridge"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
@@ -71,11 +67,9 @@ INPUT_DEVICES="libinput"
 USE="X systemd udev dbus alsa pulseaudio vaapi"
 
 GENTOO_MIRRORS="https://distfiles.gentoo.org"
-```
+
 
 ## Repo
-
-``` sh
 mkdir -p /mnt/gentoo/etc/portage/{repos.conf,binrepos.conf}
 
 cat >/mnt/gentoo/etc/portage/repos.conf/gentoo.conf <<EOF
@@ -90,22 +84,16 @@ cat >/mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf <<EOF
 [binhost]
 sync-uri=https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
 EOF
-```
 
 ## DNS
-
-``` sh
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 
 cat >/mnt/gentoo/etc/resolv.conf <<EOF
 nameserver 1.1.1.1
 nameserver 8.8.8.8
 EOF
-```
 
 ## Chroot
-
-``` sh
 mount -t proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys
@@ -117,11 +105,8 @@ mount --make-slave /mnt/gentoo/run
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) ${PS1}"
-```
 
 ## Portage
-
-``` sh
 emerge --sync
 
 eselect profile list | less
@@ -134,14 +119,11 @@ mkdir -p \
 /etc/portage/package.use \
 /etc/portage/package.accept_keywords \
 /etc/portage/package.license
-```
 
 # chroot
 export PS1="(chroot) $PS1"
 
 ## Kernel
-
-``` sh
 echo "sys-kernel/installkernel systemd dracut grub" \
 >/etc/portage/package.use/installkernel
 
@@ -161,10 +143,8 @@ sys-kernel/gentoo-kernel-bin
 
 grub-install --recheck /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
-```
-## Fstab
 
-``` sh
+## Fstab
 blkid
 
 nano /etc/fstab
@@ -172,14 +152,10 @@ nano /etc/fstab
 UUID="7f787592-31eb-4092-b01d-ba49e9a43eb1"     /boot   ext4    noatime     1 2
 UUID="f39e4e5b-3b6f-453e-9168-46fa9e6f3901"     /       ext4    noatime     0 1
 
-```
-
-/dev/sda1   /boot   ext4    noatime     1 2
-/dev/sda2   /       ext4    noatime     0 1
+# /dev/sda1   /boot   ext4    noatime     1 2
+# /dev/sda2   /       ext4    noatime     0 1
 
 ## Local
-
-``` sh
 echo Europe/Moscow >/etc/timezone
 emerge --config sys-libs/timezone-data
 
@@ -192,11 +168,8 @@ locale-gen
 eselect locale set en_US.utf8
 env-update
 source /etc/profile
-```
 
 ## Network
-
-``` sh
 echo gentoo >/etc/hostname
 
 emerge --ask net-misc/networkmanager net-wireless/iwd net-misc/dhcpcd
@@ -204,11 +177,9 @@ emerge --ask net-misc/networkmanager net-wireless/iwd net-misc/dhcpcd
 systemctl enable NetworkManager
 systemctl enable iwd
 systemctl enable dbus
-```
+
 
 ## X11
-
-``` sh
 emerge --ask \
 x11-base/xorg-server \
 x11-base/xinit \
@@ -218,13 +189,10 @@ sys-apps/dbus \
 app-admin/sudo
 
 visudo
-```
 
 %wheel ALL=(ALL:ALL) ALL
 
 ## Keyboard
-
-``` sh
 mkdir -p /etc/X11/xorg.conf.d
 
 cat >/etc/X11/xorg.conf.d/00-keyboard.conf <<EOF
@@ -235,10 +203,8 @@ Section "InputClass"
     Option "XkbOptions" "grp:alt_shift_toggle"
 EndSection
 EOF
-```
-# keyboard swith
 
-``` sh
+# keyboard swith
 git clone https://github.com/Y-Forks/xkb-switch
 cd xkb-switch
 mkdir build && cd build
@@ -246,74 +212,68 @@ cmake ..
 make
 sudo make install
 sudo ldconfig
-```
 
 ## GURU
-
-``` sh
 emerge --ask app-eselect/eselect-repository dev-vcs/git
 eselect repository enable guru
 emaint sync -r guru
-```
 
-## Spectrwm 
-
-``` sh
+# ----------------------------------
+# pkgs
+# ---------------------------------- 
 emerge --ask \
-x11-wm/spectrwm \
-x11-terms/alacritty \
-x11-misc/rofi \
-x11-misc/picom \
-media-gfx/feh \
-app-misc/fastfetch \
-x11-misc/dunst \
-x11-misc/xclip \
-media-gfx/maim \
-x11-misc/slop \
-x11-apps/xsetroot \
-www-client/firefox \
-xfce-base/thunar \
-xfce-extra/thunar-archive-plugin \
-xfce-base/thunar-volman \
-xfce-base/tumbler \
-app-editors/mousepad \
-app-arch/file-roller \
-gnome-base/gvfs \
-sys-fs/udisks \
-x11-libs/gdk-pixbuf \
-app-editors/vim \
-app-misc/mc \
-sys-process/bottom \
-media-video/celluloid \
-media-gfx/imagemagick \
-media-video/ffmpeg \
-media-video/ffmpegthumbnailer \
-media-gfx/imv \
-x11-base/xorg-apps \
-x11-misc/lxappearance \
-media-fonts/noto
-fonts/noto
-```
+    app-misc/fastfetch \
+    www-client/firefox \
+    xfce-base/thunar \
+    xfce-extra/thunar-archive-plugin \
+    xfce-base/thunar-volman \
+    xfce-base/tumbler \
+    app-editors/mousepad \
+    app-arch/file-roller \
+    gnome-base/gvfs \
+    sys-fs/udisks \
+    app-editors/vim \
+    app-misc/mc \
+    sys-process/bottom \
+    media-video/celluloid \
+    media-gfx/imagemagick \
+    x11-libs/gdk-pixbuf \
+    media-video/ffmpeg \
+    media-video/ffmpegthumbnailer \
+    x11-base/xorg-apps \
+    x11-misc/lxappearance \
+    media-fonts/noto
+
+# ----------------------------------
+# bspwm
+# ----------------------------------
+emerge --ask --getbinpkg \
+    x11-wm/bspwm  \
+    x11-misc/sxhkd \
+    x11-terms/alacritty \
+    x11-misc/rofi \
+    x11-misc/picom \
+    x11-misc/polybar \
+    media-gfx/feh \
+    x11-misc/dunst \
+    media-gfx/maim \
+    x11-misc/slop \
+    media-gfx/imv \
+    x11-misc/xclip
 
 ## User
-
-``` sh
 passwd
 
 useradd -m -G wheel,audio,video,input,,usb,plugdev -s /bin/bash yopy
 
 passwd yopy
-```
 
 # SHELL FISH
-
 emerge --ask app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
 
 chsh -s /usr/bin/fish yopy
 
 ## .xinitrc
-
-``` sh
 cat >/home/yopy/.xinitrc <<'EOF'
 if [ -z "$XDG_RUNTIME_DIR" ]; then
     export XDG_RUNTIME_DIR="/run/user/$(id -u)"
@@ -327,18 +287,11 @@ exec spectrwm
 EOF
 
 chown yopy:users /home/yopy/.xinitrc
-```
 
 ## Unmount
-
-``` sh
 exit
 umount -lR /mnt/gentoo
 reboot
-```
 
 # After reboot
-
-``` sh
 startx
-```

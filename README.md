@@ -3,7 +3,7 @@
 
 Linux Dotfiles   
 
-<img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="24"/><img alt="Crux" src="https://img.shields.io/badge/Crux-f7f1e3?style=for-the-badge" height="24"/><img alt="Gentoo" src="https://img.shields.io/badge/Gentoo-54487A?style=for-the-badge&logo=gentoo&logoColor=white" height="24"/><img alt="Fedora" src="https://img.shields.io/badge/Fedora-51A2DA?style=for-the-badge&logo=fedora&logoColor=white" height="24"/><img alt="Alpine" src="https://img.shields.io/badge/Alpine-0D597F?logo=alpinelinux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Arch" src="https://img.shields.io/badge/Arch-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Debian" src="https://img.shields.io/badge/Debian-A81D33?style=for-the-badge&logo=debian&logoColor=white" height="24"/>
+<img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="24"/><img alt="Crux" src="https://img.shields.io/badge/Crux-dfe4ea?style=for-the-badge" height="24"/><img alt="Gentoo" src="https://img.shields.io/badge/Gentoo-546de5?style=for-the-badge&logo=gentoo&logoColor=white" height="24"/><img alt="Debian" src="https://img.shields.io/badge/Debian-ff4757?style=for-the-badge&logo=debian&logoColor=white" height="24"/><img alt="Arch" src="https://img.shields.io/badge/Arch-0fbcf9?logo=arch-linux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Alpine" src="https://img.shields.io/badge/Alpine-60a3bc?logo=alpinelinux&logoColor=fff&style=for-the-badge" height="24"/>
 
 <img alt="Linux" src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" height="40"/>   
 
@@ -44,7 +44,42 @@ Material Symbols
 Symbols Nerd Font Mono
 ```   
 
-### Fonts for Boot
+### Boot Fonts   
+
+#### arch    
+
+cd /usr/share/kbd/consolefonts/
+ls   
+sudo pacman -Syu terminus-font   
+pwd   
+setfont ter-d22b.psf.gz   
+
+sudo nano /etc/vconsole.conf   
+FONT=ter-d22b.psf.gz   
+save   
+## -------------
+####   debian   
+
+dpkg-reconfigure console-setup   
+UTF-8   
+Latin1   
+Terminus   
+14x28   
+uname -sr   
+
+# -------------
+####   fedora   
+
+yum update   
+yum install terminus-fonts-console   
+ls /usr/lib/kbd/consolefonts/   
+setfont ter-v22n
+
+nano .bashrc   
+sudo nano /etc/vconsole.conf   
+FONT="ter-v22n"   
+
+setfont ter-v22n   
 
 ### Icons   
 

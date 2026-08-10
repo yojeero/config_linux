@@ -6,10 +6,6 @@ su -
 
 control sudowheel enabled
 
-exit
-
-su -
-
 apt-get update
 
 apt-get dist-upgrade
@@ -20,18 +16,6 @@ apt-get clean
 
 remove-old-kernels
 
-epm update && epm full-upgrade
-
-# epm / apt-get install eepm
-
-epm play имя программы
-
-epm play --list
-
-epm play --update имя программы
-
-epm play --update all
-
 apt-get install flatpak
 
 apt-get install flatpak-repo-flathub
@@ -41,51 +25,51 @@ epm -i fish
 su -
 usermod yopy -s /usr/bin/fish
 
-# Установка тем
-
-fish
-
-curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
-
-fisher install jorgebucaran/nvm.fish
-
-fisher install IlanCosman/tide@v5
-
-# убрать приветствие
-
-set -U fish_greeting
-
 # cursor
 epmi x-cursor-themes-Bibata
 
-# bitwarden
-epm play bitwarden
-
 # ----------------------------------
-# SPECTRWM 
+# HLWM 
 # ----------------------------------
+sudo apt-get update
 
-apt-get install spectrwm alacritty rofi picom feh maim slop xclip dunst xsecurelock
+sudo apt-get -y install git gcc make libX11-devel libXft-devel libXrandr-devel libXcursor-devel libfreetype-devel libbsd-devel libxcbutil-icccm-devel libxcbutil-keysyms-devel libxcbutil-devel libXt-devel
 
-chmod +x ~/.config/spectrwm/bar_action.sh
-chmod +x ~/.config/spectrwm/.spectrwm.conf
+git clone https://github.com/Y-Forks/herbstluftwm
+cd herbstluftwm
+make
+# make clean
+sudo make install
 
+herbstluftwm -v
+
+apt-get install alacritty polybar sxhkd rofi picom feh maim slop xclip dunst i3lock dmenu xterm
+
+# xinitrc
 apt-get install xinitrc
 
 mkdir -p /usr/share/xsessions
 
-nano /usr/share/xsessions/spectrwm-custom.desktop
+nano /usr/share/xsessions/herbstluftwm.desktop
 
 [Desktop Entry]
-Name=Spectrwm (Custom)
-Comment=Пользовательская сессия Spectrwm через .xinitrc
+Name=herbstluftwm
+Comment=herbstluftwm .xinitrc
 Exec=xinitrc
 Type=Application
-DesktopNames=spectrwm
+DesktopNames=hlwm
 
-# .xinitrc
+# ----------------------------------
+# PKGS
+# ----------------------------------
 
-chmod +x ~/.xinitrc
+apt-get install -y firefox kitty mousepad vim-X11 \
+    thunar thunar-archive-plugin thunar-volman-plugin \
+    bottom fastfetch mc file-roller tumbler \
+    ripgrep zoxide xfce4-screenshooter kcolorchooser GraphicsMagick \
+    celluloid rhythmbox ffmpeg imv \
+    xsetroot lxde-lxappearance
+
 
 
 
