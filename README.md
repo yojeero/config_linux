@@ -9,7 +9,7 @@ Linux Dotfiles
 
 ###
 
-<img src="Pictures/git.png" width="100%" max-width="800px"> 
+<img src="Pictures/opel.jpg" width="100%" max-width="800px"> 
 
 </h1>
 
@@ -83,5 +83,4 @@ Arch
 Alpine   
 Debian   
 Gentoo   
-openSUSE
 ```   
