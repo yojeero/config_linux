@@ -1,5 +1,5 @@
 Xcursor.theme: Bibata-Modern-Ice
-Xcursor.size: 24
+Xcursor.size: 16
 
 ! Enable 256-color support permanently
 xterm*termName: xterm-256color

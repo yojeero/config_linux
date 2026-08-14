@@ -31,10 +31,8 @@ w
 EOF
 
 # Formatting partitions in ext4
-
 mkfs.ext4 /dev/sda1
 mkfs.ext4 /dev/sda2
-```
 
 ## Stage3
 mkdir -p /mnt/gentoo
@@ -67,7 +65,6 @@ INPUT_DEVICES="libinput"
 USE="X systemd udev dbus alsa pulseaudio vaapi"
 
 GENTOO_MIRRORS="https://distfiles.gentoo.org"
-
 
 ## Repo
 mkdir -p /mnt/gentoo/etc/portage/{repos.conf,binrepos.conf}
@@ -177,7 +174,6 @@ emerge --ask net-misc/networkmanager net-wireless/iwd net-misc/dhcpcd
 systemctl enable NetworkManager
 systemctl enable iwd
 systemctl enable dbus
-
 
 ## X11
 emerge --ask \

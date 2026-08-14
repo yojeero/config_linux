@@ -116,11 +116,11 @@ pkginfo -o /usr/bin/wget
 pkginfo -i
 
 # ----------------------------------
-# herbstluftwm
+# bspwm
 # ----------------------------------
 prt-get depinst \
     xorg \
-    herbstluftwm \
+    bspwm \
     sxhkd \
     polybar \
     alacritty \

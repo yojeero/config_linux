@@ -4,7 +4,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 24
 # ----------------------------------
 # HLWM
 # ----------------------------------
-spectrwm herbstluftwm polybar sxhkd rofi picom feh maim slop xclip dunst i3lock
+herbstluftwm polybar rofi picom feh maim slop xclip dunst i3lock
 
 # ----------------------------------
 # BSPWM
