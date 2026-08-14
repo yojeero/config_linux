@@ -7,7 +7,7 @@ Linux Dotfiles
 
 ###
 
-<img src="Pictures/tokyo.jpg" width="100%" max-width="800px"> 
+<img src="Pictures/nohara.jpg" width="100%" max-width="800px"> 
 
 </h1>
 
