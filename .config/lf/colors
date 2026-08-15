@@ -1,0 +1,196 @@
+# vim:ft=dircolors
+# (This is not a dircolors file but it helps to highlight colors and comments)
+
+# default values from dircolors
+# (entries with a leading # are not implemented in lf)
+# #no     00              # NORMAL
+# fi      00              # FILE
+# #rs     0               # RESET
+# di      01;34           # DIR
+# ln      01;36           # LINK
+# #mh     00              # MULTIHARDLINK
+# pi      40;33           # FIFO
+# so      01;35           # SOCK
+# #do     01;35           # DOOR
+# bd      40;33;01        # BLK
+# cd      40;33;01        # CHR
+# or      40;31;01        # ORPHAN
+# #mi     00              # MISSING
+# su      37;41           # SETUID
+# sg      30;43           # SETGID
+# #ca     30;41           # CAPABILITY
+# tw      30;42           # STICKY_OTHER_WRITABLE
+# ow      34;42           # OTHER_WRITABLE
+# st      37;44           # STICKY
+# ex      01;32           # EXEC
+
+# default values from lf (with matching order)
+# ln      01;36   # LINK
+# or      31;01   # ORPHAN
+# tw      01;34   # STICKY_OTHER_WRITABLE
+# ow      01;34   # OTHER_WRITABLE
+# st      01;34   # STICKY
+# di      01;34   # DIR
+# pi      33      # FIFO
+# so      01;35   # SOCK
+# bd      33;01   # BLK
+# cd      33;01   # CHR
+# su      01;32   # SETUID
+# sg      01;32   # SETGID
+# ex      01;32   # EXEC
+# fi      00      # FILE
+
+#
+# nord theme inspired colors for lf
+#
+
+# file types (with matching order)
+ln      03;36 # LINK
+or      31 # ORPHAN
+tw      34 # STICKY_OTHER_WRITABLE
+ow      34 # OTHER_WRITABLE
+st      36 # STICKY
+di      34 # DIR
+pi      36 # FIFO
+so      33 # SOCK
+bd      33 # BLK
+cd      33 # CHR
+su      37 # SETUID
+sg      37 # SETGID
+ex      32 # EXEC
+fi      00 # FILE
+
+# custom 256 colors for special dirs
+#~/back      38;5;63   # darker blue
+#~/bin       38;5;70   # green1
+#~/dev       38;5;106  # green2
+#~/docs      38;5;74   # blue
+#~/downloads 38;5;74   # blue
+#~/pics      38;5;136  # orange
+#~/share     38;5;74   # blue
+#~/tmp       38;5;74   # blue
+#~/videos    38;5;74   # blue
+#~/vms       38;5;69   # dark blue
+#~/work      38;5;74   # blue
+#~/zik       38;5;74   # blue
+
+# archives or compressed
+*.tar   31
+*.tgz   31
+*.arc   31
+*.arj   31
+*.taz   31
+*.lha   31
+*.lz4   31
+*.lzh   31
+*.lzma  31
+*.tlz   31
+*.txz   31
+*.tzo   31
+*.t7z   31
+*.zip   31
+*.z     31
+*.dz    31
+*.gz    31
+*.lrz   31
+*.lz    31
+*.lzo   31
+*.xz    31
+*.zst   31
+*.tzst  31
+*.bz2   31
+*.bz    31
+*.tbz   31
+*.tbz2  31
+*.tz    31
+*.deb   31
+*.rpm   31
+*.jar   31
+*.war   31
+*.ear   31
+*.sar   31
+*.rar   31
+*.alz   31
+*.ace   31
+*.zoo   31
+*.cpio  31
+*.7z    31
+*.rz    31
+*.cab   31
+*.wim   31
+*.swm   31
+*.dwm   31
+*.esd   31
+*.iso   31
+*.qcow  31
+
+# image formats
+*.jpg   33
+*.jpeg  33
+*.mjpg  33
+*.mjpeg 33
+*.gif   33
+*.bmp   33
+*.pbm   33
+*.pgm   33
+*.ppm   33
+*.tga   33
+*.xbm   33
+*.xpm   33
+*.xcf   33
+*.tif   33
+*.tiff  33
+*.png   33
+*.svg   33
+*.svgz  33
+*.mng   33
+*.pcx   33
+
+# video formats
+*.mov   35
+*.mpg   35
+*.mpeg  35
+*.m2v   35
+*.mkv   35
+*.webm  35
+*.ogm   35
+*.mp4   35
+*.m4v   35
+*.mp4v  35
+*.vob   35
+*.qt    35
+*.nuv   35
+*.wmv   35
+*.asf   35
+*.rm    35
+*.rmvb  35
+*.flc   35
+*.avi   35
+*.fli   35
+*.flv   35
+*.gl    35
+*.dl    35
+*.xwd   35
+*.yuv   35
+*.cgm   35
+*.emf   35
+*.ogv   35
+*.ogx   35
+
+# audio formats (dircolors defaults)
+*.aac   35
+*.au    35
+*.flac  35
+*.m4a   35
+*.mid   35
+*.midi  35
+*.mka   35
+*.mp3   35
+*.mpc   35
+*.ogg   35
+*.ra    35
+*.wav   35
+*.oga   35
+*.opus  35
+*.spx   35
+*.xspf  35
