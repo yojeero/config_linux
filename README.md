@@ -3,7 +3,7 @@
 
 Linux 🐧 Dotfiles   
 
-<img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="24"/><img alt="Crux" src="https://img.shields.io/badge/Crux-dfe4ea?style=for-the-badge&logo=gnubash&logoColor=black" height="24"/><img alt="Gentoo" src="https://img.shields.io/badge/Gentoo-546de5?style=for-the-badge&logo=gentoo&logoColor=white" height="24"/><img alt="Debian" src="https://img.shields.io/badge/Debian-ff4757?style=for-the-badge&logo=debian&logoColor=white" height="24"/><img alt="Void" src="https://img.shields.io/badge/Void-58B19F?logo=void-linux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Alpine" src="https://img.shields.io/badge/Alpine-60a3bc?logo=alpinelinux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Arch" src="https://img.shields.io/badge/Arch-0fbcf9?logo=arch-linux&logoColor=fff&style=for-the-badge" height="24"/>
+<img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="24"/><img alt="Crux" src="https://img.shields.io/badge/Crux-dfe4ea?style=for-the-badge&logo=gnubash&logoColor=black" height="24"/><img alt="Gentoo" src="https://img.shields.io/badge/Gentoo-546de5?style=for-the-badge&logo=gentoo&logoColor=white" height="24"/><img alt="Debian" src="https://img.shields.io/badge/Debian-ff4757?style=for-the-badge&logo=debian&logoColor=white" height="24"/><img alt="Alpine" src="https://img.shields.io/badge/Alpine-60a3bc?logo=alpinelinux&logoColor=fff&style=for-the-badge" height="24"/><img alt="Arch" src="https://img.shields.io/badge/Arch-0fbcf9?logo=arch-linux&logoColor=fff&style=for-the-badge" height="24"/>
 
 ###
 
@@ -22,9 +22,12 @@ All dotfiles inside .config folder.
 
 ### Normal Fonts   
 ```
+Noto   
+Adwaita   
 Iosevka   
+Clear Sans   
+Liberation   
 JetBrains Mono   
-iA Writer Duo S
 ```   
 
 ### Nerd Fonts   
@@ -52,13 +55,15 @@ Terminus
 
 ```
 Papirus   
-Gruvbox
+Gruvbox   
+Evolvere
 ```   
 
 ### Themes   
 
 ```
 Gruvbox   
+Breeze-X   
 Kanagawa   
 Catppuccin Frappe
 ```   
