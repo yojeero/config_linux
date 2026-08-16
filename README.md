@@ -55,15 +55,13 @@ Terminus
 
 ```
 Papirus   
-Gruvbox   
-Evolvere
+Gruvbox
 ```   
 
 ### Themes   
 
 ```
 Gruvbox   
-Breeze-X   
 Kanagawa   
 Catppuccin Frappe
 ```   
