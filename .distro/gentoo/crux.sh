@@ -107,7 +107,7 @@ pkgmk -d -i
 # The -i (install) flag will install the compiled binary on the system.
 
 # Найти пакет по имени:
-ports -l | grep vim
+ports -l | grep nano
 
 # Find out which package owns a file on the system
 pkginfo -o /usr/bin/wget

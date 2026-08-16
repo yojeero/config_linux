@@ -1,10 +1,30 @@
+# ----------------------------------
+# SHELL FISH
+# ----------------------------------
+sudo apt install fish eza fzf
+
+chsh -s $(command -v fish)
+
+# ----------------------------------
 # set cursor size via terminal
+# ---------------------------------- 
 xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
+
+# ----------------------------------
+# PKGS
+# ----------------------------------
+sudo apt install alacritty kitty micro \
+    fastfetch mc engrampa tumbler btop \
+    p7zip-full unzip zip tar atool \
+    wget git curl gvfs udisks2 ntfs-3g \
+    xdg-utils ripgrep zoxide xfce4-screenshooter \
+    celluloid rhythmbox imagemagick ffmpeg imv \
+    lxappearance libglib2.0-0t64 libglib2.0-dev
 
 # ----------------------------------
 # HLWM
 # ----------------------------------
-
+sudo apt install \
    herbstluftwm \
    polybar rofi picom feh \
    maim slop xclip dunst i3lock
@@ -12,7 +32,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 # ----------------------------------
 # BSPWM
 # ----------------------------------
-
+sudo apt install \
    bspwm sxhkd \
    polybar rofi picom feh \
    maim slop xclip dunst i3lock
@@ -20,7 +40,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 # ----------------------------------
 # SWAY
 # ----------------------------------
-   
+sudo apt install \
    sway swaybg swaylock swayidle swaylock-effects \
    foot waybar fuzzel picom \
    wl-clipboard grim slurp mako xdg-desktop-portal-gtk
@@ -28,29 +48,72 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 # ----------------------------------
 # RIVER
 # ----------------------------------
-   
+sudo apt install \
    river river-tile \
    swaybg swaylock swayidle swaylock-effects \
    foot waybar fuzzel \
    wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
 # ----------------------------------
-# PKGS
+# thunar archiver
 # ----------------------------------
 
-   alacritty kitty micro \
-   fastfetch mc engrampa tumbler btop \
-   p7zip-full unzip zip tar atool \
-   wget git curl gvfs udisks2 ntfs-3g \
-   xdg-utils ripgrep zoxide xfce4-screenshooter \
-   celluloid rhythmbox imagemagick ffmpeg imv \
-   lxappearance glib2
+# thunar archiver in terminal run
+xdg-mime default engrampa.desktop application/zip application/x-tar application/x-7z-compressed application/x-rar
+
+# xdg-mime default xarchiver.desktop application/zip application/x-tar application/x-7z-compressed application/x-rar
+
+------------------
+
+# Thunar > Edit > Configure custom actions...
+# Имя: Быстрая распаковка
+# Описание: Распаковать архив в текущую директорию без открытия
+# Команда 
+mkdir -p "${F%.*}" && cd "${F%/*}" && if [ "${F##*.}" = "zip" ]; then unzip "%f" -d "${f%.*}"; elif [ "${F##*.}" = "rar" ]; then unrar x "%f" "${f%.*}"; else 7z x "%f" -o"${f%.*}"; fi
+
+# Перейдите на вкладку Условия появления (Appearance Conditions):
+# Шаблон имен: *Появляется, если выделен: Поставьте галочку только на «Другие файлы» (Other files).
+
+# Вкладка Условия появления (Appearance Conditions):
+# Поставьте галочки на «Каталоги» (Directories), «Текстовые файлы», «Изображения» и «Другие файлы».
+
+---------
+
+# Create a new action 
+# Name: Unpack ALL selections
+# Command
+for f in %F; do if [ "${f##*.}" = "zip" ]; then unzip -o "$f" -d "${f%.*}"; else 7z x -y "$f" -o"${f%.*}"; fi; done
+
+---------------------
+
+# Name: Compress each into a separate .tar.xz
+# Description: Pack each element into its own tar.xz archive
+# Command
+for f in %F; do tar -cJf "${f%%/}.tar.xz" -C "$(dirname "$f")" "$(basename "$f")"; done
 
 # ----------------------------------
-# SHELL FISH
-# ----------------------------------
-   fish eza fzf fd
-   chsh -s $(command -v fish)
+# open Micro via thunar
+# ---------------------------------- 
+mkdir -p ~/.local/share/applications && nano ~/.local/share/applications/micro-terminal.desktop
+
+[Desktop Entry]
+Type=Application
+Name=Micro (Terminal)
+Comment=Modern and intuitive terminal-based text editor
+Exec=alacritty -e micro %F
+# Exec=kitty -e micro %F
+# Exec=xfce4-terminal -e "micro %F"
+Icon=text-editor
+Terminal=false
+MimeType=text/plain;text/x-chdr;text/x-csrc;text/x-c++;text/x-c++src;text/x-java;text/x-makefile;text/x-pascal;text/x-perl;text/x-python;application/x-php;text/x-sh;text/x-tcl;text/x-tex;text/x-c++hdr;text/x-yaml;text/x-toml;
+Categories=Utility;TextEditor;Development;
+
+# update 
+update-desktop-database ~/.local/share/applications
+
+# set Micro via terminal for Thunar
+xdg-mime default micro-terminal.desktop text/plain
+
 
 # ----------------------------------
 # swaylock-effects Screen lock
@@ -77,6 +140,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
      --line-color 00000000 \
      --inside-color 2e3440e6 \
      --text-color d8dee9
+
 
 # ----------------------------------
 # mpd ncmpcpp
@@ -118,5 +182,4 @@ nano ~/.config/ncmpcpp/config
 # p -Pause.
 # > /< — Next /previous track.
 # q -Exit ncmpcpp (music will continue to play in the background, since MPD is a daemon).
-
 

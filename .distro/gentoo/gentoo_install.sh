@@ -225,12 +225,12 @@ emerge --ask \
     xfce-base/thunar-volman \
     xfce-base/tumbler \
     app-editors/mousepad \
-    app-arch/file-roller \
+    app-arch/engrampa \
     gnome-base/gvfs \
     sys-fs/udisks \
-    app-editors/vim \
+    app-editors/micro \
     app-misc/mc \
-    sys-process/bottom \
+    sys-process/btop \
     media-video/celluloid \
     media-gfx/imagemagick \
     x11-libs/gdk-pixbuf \
@@ -279,7 +279,7 @@ gentoo-pipewire-launcher &
 
 systemctl --user import-environment DISPLAY XAUTHORITY
 
-exec spectrwm
+exec bspwm
 EOF
 
 chown yopy:users /home/yopy/.xinitrc

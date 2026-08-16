@@ -10,12 +10,12 @@ emerge --ask \
     xfce-base/thunar-volman \
     xfce-base/tumbler \
     app-editors/mousepad \
-    app-arch/file-roller \
+    app-arch/engrampa \
     gnome-base/gvfs \
     sys-fs/udisks \
-    app-editors/vim \
+    app-editors/micro \
     app-misc/mc \
-    sys-process/bottom \
+    sys-process/btop \
     media-video/celluloid \
     media-gfx/imagemagick \
     x11-libs/gdk-pixbuf \
@@ -47,7 +47,6 @@ emerge --ask --getbinpkg \
 # ---------------------------------- 
 emerge --ask \
     x11-wm/herbsluftwm \
-    x11-misc/sxhkd \
     x11-terms/alacritty \
     x11-misc/rofi \
     x11-misc/picom \

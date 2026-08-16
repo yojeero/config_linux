@@ -1,0 +1,47 @@
+# btop theme in the style of Cobalt2
+
+# theme[main_bg]="#193549"
+theme[main_bg]=""
+
+# Main text color (White)
+theme[main_fg]="#ffffff"
+
+# Title text color (Cyan/Teal)
+theme[title]="#00e5ff"
+
+# Highlight color for keyboard shortcuts (Bright Yellow)
+theme[hi_fg]="#ffc600"
+
+# Inactive info text (Muted Gray-Blue)
+theme[inactive_fg]="#5f7e97"
+
+# Graphic borders (Darker Slate Blue)
+theme[graph_text]="#66879f"
+theme[grid_wire]="#122738"
+theme[div_line]="#122738"
+
+# Temperature graph colors (Teal -> Orange -> Red)
+theme[temp_start]="#00f5d4"
+theme[temp_mid]="#ff9f1c"
+theme[temp_end]="#ff007f"
+
+# CPU graph colors (Vibrant Light Blue to Cobalt Yellow)
+theme[cpu_start]="#00b4d8"
+theme[cpu_mid]="#0077b6"
+theme[cpu_end]="#ffc600"
+
+# Mem graph colors (Purple to Pink)
+theme[mem_start]="#9d4edd"
+theme[mem_mid]="#c77dff"
+theme[mem_end]="#e0aaff"
+
+# Net graph colors (Cyan to Blue)
+theme[net_start]="#00f5d4"
+theme[net_mid]="#014f86"
+theme[net_end]="#2a6f97"
+
+# Processes box colors
+theme[proc_misc]="#ff9f1c"
+theme[proc_box]="#122738"
+theme[select_bg]="#1f4662"
+theme[select_fg]="#ffc600"

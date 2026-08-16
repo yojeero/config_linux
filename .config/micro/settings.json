@@ -1,0 +1,13 @@
+{
+    "colorscheme": "cobalt2",
+    "cursorline": true,
+    "gutter": true,
+    "mkparents": true,
+    "mouse": true,
+    "rmtrailingws": true,
+    "savehistory": true,
+    "scrollmargin": 3,
+    "scrollspeed": 2,
+    "tabsize": 4,
+    "tabstospaces": true
+}

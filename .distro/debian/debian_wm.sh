@@ -6,14 +6,13 @@ sudo apt update && sudo apt install -y git wget curl
 # ----------------------------------
 # PKGS
 # ----------------------------------
-sudo apt install mousepad vim \
-    thunar thunar-archive-plugin thunar-volman \
-    fastfetch mc file-roller \
-    p7zip unzip zip tumbler \
-    gvfs udisks2 ntfs-3g btop \
+sudo apt install alacritty kitty micro \
+    fastfetch mc engrampa tumbler btop \
+    p7zip-full unzip zip unrar-free tar atool \
+    wget git curl gvfs udisks2 ntfs-3g \
     xdg-utils ripgrep zoxide xfce4-screenshooter \
     celluloid rhythmbox imagemagick ffmpeg imv \
-    lxappearance x11-xserver-utils gcolor3
+    lxappearance libglib2.0-0t64 libglib2.0-dev
 
 # ----------------------------------
 # SHELL FISH

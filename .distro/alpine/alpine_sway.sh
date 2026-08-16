@@ -169,7 +169,7 @@ apk add \
     thunar \
     thunar-archive-plugin \
     thunar-volman \
-    file-roller \
+    engrampa \
     tumbler \
     mousepad \
     imv \
@@ -181,11 +181,12 @@ apk add \
     p7zip \
     unzip \
     zip \
-    file
+    tar \
+    atool
 
 # CLI-инструменты
 apk add \
-    bottom \
+    btop \
     fastfetch \
     mc \
     ripgrep \
@@ -195,7 +196,7 @@ apk add \
 
 # Дополнительные программы
 apk add \
-    vim \
+    micro \
     curl \
     wget \
     git

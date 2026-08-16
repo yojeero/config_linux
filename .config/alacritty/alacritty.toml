@@ -10,7 +10,7 @@ opacity = 0.90
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
-size = 11.0
+size = 13.0
 
 [selection]
 save_to_clipboard = true
