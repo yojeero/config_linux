@@ -33,46 +33,4 @@ nano ~/.profile
 export XDG_SESSION_TYPE=wayland
 export MOZ_ENABLE_WAYLAND=1 # Для Firefox
 
-# ----------------------------------
-# autostart scipt
-# ----------------------------------
-nano ~/.bash_profile
 
-# If this is an interactive session and we are on the first virtual console (TTY1)
-if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    
-    echo "---------------------------------------"
-    echo " Выберите графическое окружение:"
-    echo " 1) River (Wayland)"
-    echo " 3) Остаться в консоли (TTY)"
-    echo "---------------------------------------"
-    read -p "Ваш выбор [1-3]: " choice
-
-    case $choice in
-        1)
-            export XDG_SESSION_TYPE=wayland
-            export XDG_CURRENT_DESKTOP=river
-            export MOZ_ENABLE_WAYLAND=1
-            
-# Launch River (via dbus for PipeWire integration)
-            exec dbus-run-session river
-            ;;
-        2)
-# Start an X11 session (calls your ~/.xinitrc)
-            exec startx
-            ;;
-        *)
-           echo "We remain in the console. To start graphics, reboot the session."
-            ;;
-    esac
-fi
-
-# ----------------------------------
-# launch River (Wayland)
-# ----------------------------------
-mkdir -p ~/.config/river
-
-# Setting environment variables within a session
-riverctl spawn "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-
-chmod +x ~/.config/river/init

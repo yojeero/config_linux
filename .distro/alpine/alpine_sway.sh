@@ -1,29 +1,5 @@
 # Alpine Linux + Sway
 
-## TTY Login → автоматический запуск Sway
-
-Цель:
-
-* Alpine Linux `latest-stable`
-* обычный `sys` installation
-* OpenRC
-* без GDM/SDDM/LightDM
-* вход через TTY
-* автоматический запуск Sway на `tty1`
-* `seatd`
-* PipeWire + WirePlumber
-* Firefox
-* Waybar
-* Fuzzel
-* Foot
-* Thunar
-* XDG portals
-* нормальная работа Wayland
-
----
-
-# Установка Alpine
-
 root
 
 setup-alpine
@@ -56,7 +32,7 @@ apk upgrade
 
 # Базовые инструменты
 
-apk add nano vim git curl wget sudo
+apk add nano micro git curl wget sudo
 
 # Создать пользователя
 
@@ -194,13 +170,6 @@ apk add \
     fzf \
     eza
 
-# Дополнительные программы
-apk add \
-    micro \
-    curl \
-    wget \
-    git
-
 # Иконки
 apk add papirus-icon-theme
 
@@ -218,8 +187,6 @@ addgroup yopy audio
 addgroup yopy seat
 
 # Первый запуск Sway вручную
-
-# Перед автоматическим запуском лучше сначала проверить Sway вручную.
 
 # Переключиться на пользователя:
 # su - USERNAME
@@ -261,79 +228,6 @@ exit
 
 reboot
 
-# После загрузки появится:
-
-alpine login
-
-USERNAME
-и пароль.
-
-# После входа `.profile` автоматически выполнит и запустится Sway
-
-dbus-run-session sway
-
-# Если нужно выйти из Sway
-Super + Shift + E
-
-# После выхода должен появиться обычный TTY.
-
-# Можно снова запустить:
-dbus-run-session sway
-
-# Проверка PipeWire
-
-# Внутри Sway открыть терминал:
-Super + Enter
-
-wpctl status
-
-# Должны отображаться:
-
-Audio
- ├─ Devices
- ├─ Sinks
- └─ Sources
-
-pactl info
-
-# Если PipeWire PulseAudio compatibility работает, будет видно PipeWire.
-
-# Проверка Wayland
-
-# В терминале:
-echo $XDG_SESSION_TYPE
-
-# Ожидаемый результат
-wayland
-
-# Проверить
-echo $WAYLAND_DISPLAY
-
-# Например
-wayland-1
-
-# Проверка seatd
-rc-service seatd status
-
-# Должно быть:
-status: started
-
-# Проверить пользователя
-groups
-
-# В списке должна быть
-seat
-
-# Проверка Firefox
-firefox
-
-# Если Firefox работает нормально — базовая Wayland-система готова.
-
-# Проверить в Firefox
-about:support
-
-# и посмотреть Window Protocol.
-wayland
 
 # Конфигурация Sway
 ~/.config/sway/config
@@ -393,76 +287,7 @@ mv ~/.profile ~/.profile.backup
 
 # После этого можно войти в TTY без автоматического запуска Sway.
 
-
-# Если хочется полностью ручной режим
-
-# Можно вообще не использовать `.profile`.
-alpine login:
-
-dbus-run-session sway
-
-# Это самый простой и надежный вариант для первоначальной настройки.
-
 # Автозапуск лучше включать только после того, как Sway стабильно запускается вручную.
-
-# Финальный набор пакетов
-apk add \
-    sway \
-    swaybg \
-    swaylock \
-    swayidle \
-    foot \
-    waybar \
-    fuzzel \
-    wl-clipboard \
-    grim \
-    slurp \
-    xwayland \
-    seatd \
-    dbus \
-    xdg-desktop-portal \
-    xdg-desktop-portal-wlr \
-    pipewire \
-    pipewire-pulse \
-    wireplumber \
-    pavucontrol \
-    firefox
-
-# Файловый менеджер
-apk add \
-    thunar \
-    thunar-archive-plugin \
-    thunar-volman \
-    gvfs \
-    udisks2 \
-    ntfs-3g \
-    tumbler \
-    file-roller
-
-# Утилиты
-apk add \
-    fastfetch \
-    bottom \
-    mc \
-    eza \
-    fd \
-    fzf \
-    ripgrep \
-    fzf \
-    curl \
-    wget \
-    git \
-    vim \
-    nano
-
-# Мультимедиа
-apk add \
-    mpv \
-    imv
-
-# Ноутбук
-apk add \
-    xfce4-power-manager
 
 # Включение системных сервисов
 
@@ -510,31 +335,5 @@ reboot
 
 # После входа в `tty1` должен автоматически запускаться Sway.
 
----
 
-# Итоговая схема
 
-```text
-BIOS/UEFI
-    ↓
-Alpine Linux
-    ↓
-OpenRC
-    ↓
-TTY1
-    ↓
-login USERNAME
-    ↓
-~/.profile
-    ↓
-dbus-run-session sway
-    ↓
-Sway
-    ├── Waybar
-    ├── Fuzzel
-    ├── Foot
-    ├── Firefox
-    ├── Thunar
-    ├── PipeWire
-    ├── WirePlumber
-    └── XWayland

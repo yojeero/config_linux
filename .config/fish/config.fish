@@ -7,7 +7,7 @@ set -g theme_display_user yes
 set -g theme_hide_hostname no
 set -g theme_hostname always
 
-# vi
+# nano
 abbr -a n nano
 abbr -a _ sudo
 abbr -a _e sudoedit

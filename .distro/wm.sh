@@ -1,4 +1,13 @@
+# ----------------------------------
+# SHELL FISH
+# ----------------------------------
+   fish eza fzf fd
+
+   chsh -s $(command -v fish)
+
+# ----------------------------------
 # set cursor size via terminal
+# ----------------------------------
 xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 
 # ----------------------------------
@@ -6,7 +15,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 # ----------------------------------
 
    herbstluftwm \
-   polybar rofi picom feh \
+   polybar rofi bemenu picom feh \
    maim slop xclip dunst i3lock
 
 # ----------------------------------
@@ -14,7 +23,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 # ----------------------------------
 
    bspwm sxhkd \
-   polybar rofi picom feh \
+   polybar rofi bemenu picom feh \
    maim slop xclip dunst i3lock
 
 # ----------------------------------
@@ -22,7 +31,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 # ----------------------------------
    
    sway swaybg swaylock swayidle swaylock-effects \
-   foot waybar fuzzel picom \
+   foot waybar fuzzel tofi picom \
    wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
 # ----------------------------------
@@ -31,26 +40,49 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
    
    river river-tile \
    swaybg swaylock swayidle swaylock-effects \
-   foot waybar fuzzel \
+   foot waybar fuzzel tofi \
    wl-clipboard grim slurp mako xdg-desktop-portal-gtk
 
 # ----------------------------------
 # PKGS
 # ----------------------------------
 
-   alacritty kitty micro \
+   firefox alacritty kitty foot micro mousepad \
+   thunar thunar-archive-plugin thunar-volman \
    fastfetch mc engrampa tumbler btop \
-   p7zip-full unzip zip tar atool \
+   p7zip unzip zip tar atool \
    wget git curl gvfs udisks2 ntfs-3g \
    xdg-utils ripgrep zoxide xfce4-screenshooter \
    celluloid rhythmbox imagemagick ffmpeg imv \
-   lxappearance glib2
+   lxappearance glib2 tofi bemenu
 
 # ----------------------------------
-# SHELL FISH
+# thunar archiver
 # ----------------------------------
-   fish eza fzf fd
-   chsh -s $(command -v fish)
+
+# thunar archiver in terminal run
+xdg-mime default engrampa.desktop application/zip application/x-tar application/x-7z-compressed application/x-rar
+
+# xdg-mime default xarchiver.desktop application/zip application/x-tar application/x-7z-compressed application/x-rar
+
+------------------
+
+# Fast unpack
+# Command 
+mkdir -p "${F%.*}" && cd "${F%/*}" && if [ "${F##*.}" = "zip" ]; then unzip "%f" -d "${f%.*}"; elif [ "${F##*.}" = "rar" ]; then unrar x "%f" "${f%.*}"; else 7z x "%f" -o"${f%.*}"; fi
+
+---------
+
+# Unpack ALL selections
+# Command
+for f in %F; do if [ "${f##*.}" = "zip" ]; then unzip -o "$f" -d "${f%.*}"; else 7z x -y "$f" -o"${f%.*}"; fi; done
+
+---------------------
+
+# Compress each into a separate .tar.xz
+# Command
+for f in %F; do tar -cJf "${f%%/}.tar.xz" -C "$(dirname "$f")" "$(basename "$f")"; done
+
 
 # ----------------------------------
 # swaylock-effects Screen lock
@@ -118,5 +150,4 @@ nano ~/.config/ncmpcpp/config
 # p -Pause.
 # > /< — Next /previous track.
 # q -Exit ncmpcpp (music will continue to play in the background, since MPD is a daemon).
-
 
