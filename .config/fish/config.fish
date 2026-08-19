@@ -7,6 +7,8 @@ set -g theme_display_user yes
 set -g theme_hide_hostname no
 set -g theme_hostname always
 
+set -gx MICRO_TRUECOLOR 1
+
 # nano
 abbr -a n nano
 abbr -a _ sudo

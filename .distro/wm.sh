@@ -54,7 +54,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
    wget git curl gvfs udisks2 ntfs-3g \
    xdg-utils ripgrep zoxide xfce4-screenshooter \
    celluloid rhythmbox imagemagick ffmpeg imv \
-   lxappearance glib2 tofi bemenu
+   lxappearance glib2 
 
 # ----------------------------------
 # thunar archiver
