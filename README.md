@@ -79,9 +79,7 @@ Set in the .xprofile, .Xresources, .gtk3, .gtk4
 Different commands for distros.
 
 ```
-Crux
 Arch
-Alpine
 Debian
 Gentoo
 ```
