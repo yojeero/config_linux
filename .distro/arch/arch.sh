@@ -24,7 +24,7 @@ sudo pacman -S \
 
 sudo pacman -S \
     bspwm sxhkd \
-    alacritty polybar rofi bemenu picom feh \
+    alacritty polybar rofi picom feh \
     maim slop xclip dunst i3lock 
 
 sudo pacman -S \

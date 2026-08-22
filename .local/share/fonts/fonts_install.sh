@@ -8,8 +8,6 @@ fc-list : family | sort -u
 
 cd /usr/share/kbd/consolefonts/
 ls
-sudo pacman -Syu terminus-font
-pwd
 setfont ter-d22b.psf.gz
 
 sudo nano /etc/vconsole.conf

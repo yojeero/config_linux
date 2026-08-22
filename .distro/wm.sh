@@ -23,7 +23,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 # ----------------------------------
 
    bspwm sxhkd \
-   polybar rofi bemenu picom feh \
+   alacritty polybar rofi picom feh \
    maim slop xclip dunst i3lock
 
 # ----------------------------------
