@@ -28,14 +28,14 @@ sudo pacman -S \
     maim slop xclip dunst i3lock 
 
 sudo pacman -S \
-    firefox kitty micro mousepad \
-    thunar thunar-archive-plugin thunar-volman \
-    gvfs udisks2 ntfs-3g tumbler \
-    fastfetch mc engrampa btop \
-    p7zip unzip zip tar atool \
-    wget git curl xdg-utils ripgrep zoxide \
-    xfce4-screenshooter celluloid rhythmbox imv \
-    imagemagick ffmpeg lxappearance glib2
+   firefox alacritty kitty micro mousepad \
+   thunar thunar-archive-plugin thunar-volman \
+   fastfetch mc xarchiver tumbler btop \
+   p7zip unzip zip tar atool \
+   wget git curl gvfs udisks2 ntfs-3g \
+   xdg-utils ripgrep zoxide xfce4-screenshooter \
+   celluloid rhythmbox imagemagick ffmpeg imv \
+   lxappearance glib2 gcolor3
 
 # ----------------------------------
 # pipeware audio

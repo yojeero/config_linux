@@ -49,21 +49,19 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 
    firefox alacritty kitty foot micro mousepad \
    thunar thunar-archive-plugin thunar-volman \
-   fastfetch mc engrampa tumbler btop \
+   fastfetch mc xarchiver tumbler btop \
    p7zip unzip zip tar atool \
    wget git curl gvfs udisks2 ntfs-3g \
    xdg-utils ripgrep zoxide xfce4-screenshooter \
    celluloid rhythmbox imagemagick ffmpeg imv \
-   lxappearance glib2 
+   lxappearance glib2 gcolor3
 
 # ----------------------------------
 # thunar archiver
 # ----------------------------------
 
 # thunar archiver in terminal run
-xdg-mime default engrampa.desktop application/zip application/x-tar application/x-7z-compressed application/x-rar
-
-# xdg-mime default xarchiver.desktop application/zip application/x-tar application/x-7z-compressed application/x-rar
+xdg-mime default xarchiver.desktop application/zip application/x-tar application/x-7z-compressed application/x-rar
 
 ------------------
 
