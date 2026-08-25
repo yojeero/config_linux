@@ -6,6 +6,26 @@
    chsh -s $(command -v fish)
 
 # ----------------------------------
+# greetd + tuigreet
+# ----------------------------------
+sudo pacman -S greetd
+yay -S greetd-tuigreet
+
+sudo nano /etc/greetd/config.toml
+
+
+[default_session]
+command = "tuigreet --time --remember --remember-session --sessions /usr/share/xsessions"
+user = "greeter"
+
+sudo systemctl enable greetd.service
+
+# Since the session is now started by greetd, your old ~/.xinitrc file will no longer be executed.
+# If you had the launch of the polybar, feh, nitrogen, picom or sxhkd registered in ~/.xinitrc, they need to be moved to the autostart of the window managers themselves.
+
+sudo reboot
+
+# ----------------------------------
 # set cursor size via terminal
 # ----------------------------------
 xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
