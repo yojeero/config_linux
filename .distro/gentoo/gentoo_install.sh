@@ -225,7 +225,7 @@ emerge --ask \
     xfce-base/thunar-volman \
     xfce-base/tumbler \
     app-editors/mousepad \
-    app-arch/engrampa \
+    app-arch/xarchiver \
     gnome-base/gvfs \
     sys-fs/udisks \
     app-editors/micro \

@@ -6,8 +6,8 @@ sudo apt update && sudo apt install -y git wget curl
 # ----------------------------------
 # PKGS
 # ----------------------------------
-sudo apt install alacritty kitty micro \
-    fastfetch mc engrampa tumbler btop \
+sudo apt install alacritty kitty micro mousepad \
+    fastfetch mc xarchiver tumbler btop \
     p7zip-full unzip zip unrar-free tar atool \
     wget git curl gvfs udisks2 ntfs-3g \
     xdg-utils ripgrep zoxide xfce4-screenshooter \
