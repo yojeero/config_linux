@@ -1,6 +1,6 @@
 Edit your ~/.xinitrc. Replace the final exec bspwm run line with
 
-# 1.... ваши начальные настройки (feh, picom, xset и т.д.) ...
+#1....your initial settings (feh, picom, xset, etc.) ...
 
 case "$1" in
     herbstluftwm|hlwm)

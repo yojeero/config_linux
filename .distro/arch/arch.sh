@@ -50,21 +50,21 @@ cp /etc/X11/xinit/xinitrc ~/.xinitrc
 
 nano ~/.xinitrc
 
-# Прокрутите файл в самый низ. Удалите или закомментируйте стандартные строки запуска с twm &, xclock & и заканчиваются на exec xterm....
+# Scroll to the bottom of the file. Remove or comment out the standard startup lines with twm &, xclock & and ending with exec xterm....
 
-#  В самом конце файла добавьте строки для запуска sxhkd + bspwm
+# At the very end of the file add lines to run sxhkd + bspwm
 
 sxhkd &
 exec bspwm
 
 sudo chown -R yopy:yopy ~/.xinitrc ~/.Xauthority
 
-# Чтобы настроить автоматический запуск bspwm сразу после ввода логина и пароля в tty (минуя ручной ввод startx), вам нужно добавить специальное условие в конфигурационный файл оболочки fish
+# To configure bspwm to start automatically immediately after entering the login and password into the tty (bypassing manual entry of startx), you need to add a special condition to the fish shell configuration file
 
 nano ~/.config/fish/config.fish
 
-# Добавьте в конец файла 
-# Автозапуск X11 при логине в tty1
+# Add to the end of the file 
+# Autostart X11 when logging into tty1
 
 if status is-login
     if test -z "$DISPLAY" -a "$XDG_VTNR" = 1

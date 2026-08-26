@@ -14,7 +14,7 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
 # PKGS
 # ----------------------------------
 sudo apt install alacritty kitty micro \
-    fastfetch mc engrampa tumbler btop \
+    fastfetch mc xarchiver tumbler btop \
     p7zip-full unzip zip tar atool \
     wget git curl gvfs udisks2 ntfs-3g \
     xdg-utils ripgrep zoxide xfce4-screenshooter \
@@ -26,7 +26,7 @@ sudo apt install alacritty kitty micro \
 # ----------------------------------
 sudo apt install \
    herbstluftwm \
-   polybar rofi picom feh \
+   alacritty polybar rofi picom feh \
    maim slop xclip dunst i3lock
 
 # ----------------------------------
@@ -34,7 +34,7 @@ sudo apt install \
 # ----------------------------------
 sudo apt install \
    bspwm sxhkd \
-   polybar rofi picom feh \
+   alacritty polybar rofi picom feh \
    maim slop xclip dunst i3lock
 
 # ----------------------------------

@@ -99,3 +99,7 @@ bind \cg fzf_change_directory
 if test -f /etc/profile.env
     sed -E 's/^export ([A-Za-z0-9_]+)=(.*)$/set -gx \1 \2/' /etc/profile.env | source
 end
+
+# login session
+abbr -a sx-bspwm 'startx'
+abbr -a sx-hlwm 'startx ~/.xinitrc herbstluftwm'
