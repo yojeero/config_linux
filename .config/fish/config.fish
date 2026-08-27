@@ -103,3 +103,10 @@ end
 # login session
 abbr -a sx-bspwm 'startx'
 abbr -a sx-hlwm 'startx ~/.xinitrc herbstluftwm'
+
+if status is-login
+    if test -z "$DISPLAY" -a (tty) = "/dev/tty1"
+        exec startx
+    end
+end
+
