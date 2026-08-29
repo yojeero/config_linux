@@ -1,6 +1,6 @@
 
 # ----------------------------------
-# Gentoo systemd Binary / MBR / TTY / Spectrwm
+# Gentoo systemd Binary / MBR / TTY / Hlwm
 # ----------------------------------
 
 ## Erase disks
@@ -241,11 +241,10 @@ emerge --ask \
     media-fonts/noto
 
 # ----------------------------------
-# bspwm
+# hlwm
 # ----------------------------------
 emerge --ask --getbinpkg \
-    x11-wm/bspwm  \
-    x11-misc/sxhkd \
+    x11-wm/herbstluftwm  \
     x11-terms/alacritty \
     x11-misc/rofi \
     x11-misc/picom \
@@ -279,7 +278,7 @@ gentoo-pipewire-launcher &
 
 systemctl --user import-environment DISPLAY XAUTHORITY
 
-exec bspwm
+exec herbstluftwm
 EOF
 
 chown yopy:users /home/yopy/.xinitrc

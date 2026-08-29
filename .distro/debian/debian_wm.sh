@@ -20,17 +20,5 @@ sudo apt install alacritty kitty micro mousepad \
 sudo apt install fish eza fzf 
 chsh -s $(command -v fish)
 
-# ----------------------------------
-# wayland
-# ----------------------------------
-sudo apt install sway swaybg swaylock swayidle swaylock-effects \
-        foot waybar fuzzel picom \
-        wl-clipboard grim slurp mako xdg-desktop-portal-gtk
-
-# Launch Wayland sessions, explicitly specifying the backend for the libraries
-nano ~/.profile
-
-export XDG_SESSION_TYPE=wayland
-export MOZ_ENABLE_WAYLAND=1 # Для Firefox
 
 

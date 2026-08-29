@@ -1,0 +1,31 @@
+XTerm*faceName: JetBrainsMono Nerd Font
+XTerm*faceSize: 12
+XTerm*boldFace: JetBrainsMono Nerd Font
+XTerm*italicFace: JetBrainsMono Nerd Font
+XTerm*boldItalicFace: JetBrainsMono Nerd Font
+
+XTerm*cursorColor: #586e75
+XTerm*cursorShape: 0
+XTerm*cursorThickness: 1.8
+
+XTerm*foreground: #839496
+XTerm*background: #002b36
+XTerm*color0: #073642
+XTerm*color1: #dc322f
+XTerm*color2: #859900
+XTerm*color3: #b58900
+XTerm*color4: #268bd2
+XTerm*color5: #d33682
+XTerm*color6: #2aa198
+XTerm*color7: #eee8d5
+XTerm*color8: #002b36
+XTerm*color9: #cb4b16
+XTerm*color10: #586e75
+XTerm*color11: #657b83
+XTerm*color12: #839496
+XTerm*color13: #6c71c4
+XTerm*color14: #93a1a1
+XTerm*color15: #fdf6e3
+
+XTerm*selectionForeground: #002b36
+XTerm*selectionBackground: #93a1a1

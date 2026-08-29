@@ -27,21 +27,31 @@ xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
    maim slop xclip dunst i3lock
 
 # ----------------------------------
-# SWAY
+# HYPRLAND
 # ----------------------------------
    
-   sway swaybg swaylock swayidle swaylock-effects \
-   foot waybar fuzzel picom \
-   wl-clipboard grim slurp mako xdg-desktop-portal-gtk
+sudo pacman -S hyprland wl-clipboard
 
-# ----------------------------------
-# RIVER
-# ----------------------------------
-   
-   river river-tile \
-   swaybg swaylock swayidle swaylock-effects \
-   foot waybar fuzzel \
-   wl-clipboard grim slurp mako xdg-desktop-portal-gtk
+#wayle bar
+yay -S wayle-bin
+
+sudo pacman -S --needed \
+	git gtk4 gtk4-layer-shell gtksourceview5 \
+  	libpulse fftw libpipewire \
+	systemd-libs clang base-devel
+
+sudo pacman -S --needed \
+	bluez bluez-utils networkmanager upower \
+  	power-profiles-daemon \
+	pipewire wireplumber pipewire-pulse
+
+sudo systemctl enable --now bluetooth NetworkManager upower power-profiles-daemon
+
+# seatd
+sudo usermod -aG video yopy
+sudo systemctl enable --now seatd
+
+sudo systemctl enable --now seatd
 
 # ----------------------------------
 # PKGS
@@ -80,33 +90,6 @@ for f in %F; do if [ "${f##*.}" = "zip" ]; then unzip -o "$f" -d "${f%.*}"; else
 # Compress each into a separate .tar.xz
 # Command
 for f in %F; do tar -cJf "${f%%/}.tar.xz" -C "$(dirname "$f")" "$(basename "$f")"; done
-
-
-# ----------------------------------
-# swaylock-effects Screen lock
-# ----------------------------------
-# Create a lock script ~/.local/bin/lock.sh:
-   
-   mkdir -p ~/.local/bin
-   touch ~/.local/bin/lock.sh
-   chmod +x ~/.local/bin/lock.sh
-   
-# Open the file and paste the command into it with nice blur and input ring options:
-   
-   #!/bin/sh
-   swaylock \
-     --screenshots \
-     --clock \
-     --indicator \
-     --indicator-radius 100 \
-     --indicator-thickness 7 \
-     --effect-blur 7x5 \
-     --effect-vignette 0.5:0.5 \
-     --ring-color 81a1c1 \
-     --key-hl-color a3be8c \
-     --line-color 00000000 \
-     --inside-color 2e3440e6 \
-     --text-color d8dee9
 
 # ----------------------------------
 # mpd ncmpcpp

@@ -15,7 +15,7 @@ cd yay-bin
 makepkg -si
 
 # ----------------------------------
-# arch + bspwm 
+# ARCH + BSPWM 
 # ----------------------------------
 
 sudo pacman -S \
@@ -36,6 +36,33 @@ sudo pacman -S \
    xdg-utils ripgrep zoxide xfce4-screenshooter \
    celluloid rhythmbox imagemagick ffmpeg imv \
    lxappearance glib2 gcolor3
+
+# ----------------------------------
+# HYPRLAND
+# ----------------------------------
+
+sudo pacman -S hyprland wl-clipboard
+
+#wayle bar
+yay -S wayle-bin
+
+sudo pacman -S --needed \
+	git gtk4 gtk4-layer-shell gtksourceview5 \
+  	libpulse fftw libpipewire \
+	systemd-libs clang base-devel
+
+sudo pacman -S --needed \
+	bluez bluez-utils networkmanager upower \
+  	power-profiles-daemon \
+	pipewire wireplumber pipewire-pulse
+
+sudo systemctl enable --now bluetooth NetworkManager upower power-profiles-daemon
+
+# seatd
+sudo usermod -aG video yopy
+sudo systemctl enable --now seatd
+
+sudo systemctl enable --now seatd
 
 # -------------------------------
 # LightDM remove

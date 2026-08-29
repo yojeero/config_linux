@@ -36,20 +36,3 @@ sudo apt install \
    bspwm sxhkd \
    alacritty polybar rofi picom feh \
    maim slop xclip dunst i3lock
-
-# ----------------------------------
-# SWAY
-# ----------------------------------
-sudo apt install \
-   sway swaybg swaylock swayidle swaylock-effects \
-   foot waybar fuzzel picom \
-   wl-clipboard grim slurp mako xdg-desktop-portal-gtk
-
-# ----------------------------------
-# RIVER
-# ----------------------------------
-sudo apt install \
-   river river-tile \
-   swaybg swaylock swayidle swaylock-effects \
-   foot waybar fuzzel \
-   wl-clipboard grim slurp mako xdg-desktop-portal-gtk
