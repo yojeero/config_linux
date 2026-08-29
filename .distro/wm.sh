@@ -1,79 +1,183 @@
+
 # ----------------------------------
 # SHELL FISH
 # ----------------------------------
-   fish eza fzf fd
 
-   chsh -s $(command -v fish)
+fish \
+   eza \
+   fzf \
+   fd
+
+# go to fish
+chsh -s $(command -v fish)
 
 # ----------------------------------
-# set cursor size via terminal
+# x11
 # ----------------------------------
-xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s 16
+
+xorg-server \
+    xorg-xinit \
+    xorg-xrandr \
+    xorg-xset \
+    xorg-xsetroot
 
 # ----------------------------------
 # HLWM
 # ----------------------------------
 
-   herbstluftwm \
-   alacritty polybar rofi picom feh \
-   maim slop xclip dunst i3lock
+herbstluftwm \
+      alacritty \
+      polybar \
+      rofi \
+      picom \
+      feh \
+      maim \
+      slop \
+      xclip \
+      dunst \
+      i3lock
 
 # ----------------------------------
 # BSPWM
 # ----------------------------------
 
-   bspwm sxhkd \
-   alacritty polybar rofi picom feh \
-   maim slop xclip dunst i3lock
+bspwm \
+sxhkd \
+   alacritty \
+   polybar \
+   rofi \
+   picom \
+   feh \
+   maim \
+   slop \
+   xclip \
+   dunst \
+   i3lock
+
+# ----------------------------------
+# SWAY
+# ----------------------------------
+
+swayfx \
+swaylock \
+swayidle \
+swaybg \
+   i3blocks \
+   autotiling-rs \
+   fuzzel \
+   foot \
+   mako \
+   wl-clipboard \
+   satty \
+   grim \
+   slurp \
+   xdg-desktop-portal-wlr
+
+waybar \
 
 # ----------------------------------
 # HYPRLAND
 # ----------------------------------
-   
-sudo pacman -S hyprland wl-clipboard
 
-#wayle bar
-yay -S wayle-bin
+hyprland \
+hyprlock \
+hypridle \
+hyprpaper \
+      uwsm \
+      foot \
+      rofi-wayland \
+      dunst \
+      wl-clipboard \
+      satty \
+      grim \
+      slurp \
+      swayidle \
+      swaylock \
+      polkit-kde-agent \
+      qt5-wayland \
+      qt6-wayland \
+      xdg-desktop-portal-hyprland
 
-sudo pacman -S --needed \
-	git gtk4 gtk4-layer-shell gtksourceview5 \
-  	libpulse fftw libpipewire \
-	systemd-libs clang base-devel
+waybar \
 
-sudo pacman -S --needed \
-	bluez bluez-utils networkmanager upower \
-  	power-profiles-daemon \
-	pipewire wireplumber pipewire-pulse
+# ----------------------------------
+# wayle bar
+# ----------------------------------
+
+wayle-bin \
+      git \
+      gtk4 \
+      gtk4-layer-shell \
+      gtksourceview5 \
+      libpulse \
+      fftw \
+      libpipewire \
+      systemd-libs \
+      clang \
+      base-devel \
+      bluez \
+      bluez-utils \
+      networkmanager \
+      upower \
+      power-profiles-daemon \
+      pipewire \
+      wireplumber \
+      pipewire-pulse
 
 sudo systemctl enable --now bluetooth NetworkManager upower power-profiles-daemon
-
-# seatd
-sudo usermod -aG video yopy
-sudo systemctl enable --now seatd
-
-sudo systemctl enable --now seatd
 
 # ----------------------------------
 # PKGS
 # ----------------------------------
 
-   firefox alacritty kitty foot micro mousepad \
-   thunar thunar-archive-plugin thunar-volman \
-   fastfetch mc xarchiver tumbler btop \
-   p7zip unzip zip tar atool \
-   wget git curl gvfs udisks2 ntfs-3g \
-   xdg-utils ripgrep zoxide xfce4-screenshooter \
-   celluloid rhythmbox imagemagick ffmpeg imv \
-   lxappearance glib2 gcolor3
+alacritty \
+   kitty \
+   foot \
+   micro \
+   mousepad \
+   firefox 
+
+thunar \
+   thunar-archive-plugin \
+   thunar-volman
+
+fastfetch \
+   mc \
+   xarchiver \
+   tumbler \
+   btop 
+
+p7zip \
+   unzip \
+   zip \
+   tar \
+   atool 
+
+wget \
+   git \
+   curl \
+   gvfs \
+   udisks2 \
+   ntfs-3g 
+
+xdg-utils \
+   ripgrep \
+   zoxide \
+   xfce4-screenshooter 
+
+imv \
+   celluloid \
+   rhythmbox \
+   imagemagick \
+   ffmpeg
+
+lxappearance \
+   glib2 \
+   gcolor3
 
 # ----------------------------------
 # thunar archiver
 # ----------------------------------
-
-# thunar archiver in terminal run
-xdg-mime default xarchiver.desktop application/zip application/x-tar application/x-7z-compressed application/x-rar
-
-------------------
 
 # Fast unpack
 # Command 
