@@ -132,7 +132,7 @@ swayfx \
 swaylock \
 swayidle \
 swaybg \
-   i3blocks \
+   waybar \
    autotiling-rs \
    fuzzel \
    foot \
@@ -141,71 +141,22 @@ swaybg \
    satty \
    grim \
    slurp \
-   xdg-desktop-portal-wlr
-
-waybar \
+   xdg-desktop-portal-wlr \
+   xdg-desktop-portal-gtk
 
 # ----------------------------------
-# HYPRLAND
+#  NIRI
 # ----------------------------------
 
 sudo pacman -S \
-hyprland \
-hyprlock \
-hypridle \
-hyprpaper \
-    uwsm \
-    foot \
-    rofi-wayland \
-    dunst \
-    wl-clipboard \
-    satty \
-    grim \
-    slurp \
-    swayidle \
-    swaylock \
-    polkit-kde-agent \
-    qt5-wayland \
-    qt6-wayland \
-    xdg-desktop-portal-hyprland
 
-sudo pacman -S \
-   waybar \
-
-# ----------------------------------
-# wayle bar
-# ----------------------------------
-
-yay -S wayle-bin
-
-sudo pacman -S --needed \
-	   git \
-      gtk4 \
-      gtk4-layer-shell \
-      gtksourceview5 \
-      libpulse \
-      fftw \
-      libpipewire \
-      systemd-libs \
-      clang \
-      base-devel \
-      bluez \
-      bluez-utils \
-      networkmanager \
-      upower \
-      power-profiles-daemon \
-      pipewire \
-      wireplumber \
-      pipewire-pulse
-
-sudo systemctl enable --now bluetooth NetworkManager upower power-profiles-daemon
 
 # ----------------------------------
 # seatd
 # ----------------------------------
 
-sudo usermod -aG video yopy
+sudo pacman -S seatd
 sudo systemctl enable --now seatd
 
-sudo systemctl enable --now seatd
+sudo usermod -aG video yopy
 

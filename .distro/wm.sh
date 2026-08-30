@@ -62,7 +62,7 @@ swayfx \
 swaylock \
 swayidle \
 swaybg \
-   i3blocks \
+   waybar \
    autotiling-rs \
    fuzzel \
    foot \
@@ -71,60 +71,13 @@ swaybg \
    satty \
    grim \
    slurp \
-   xdg-desktop-portal-wlr
-
-waybar \
-
-# ----------------------------------
-# HYPRLAND
-# ----------------------------------
-
-hyprland \
-hyprlock \
-hypridle \
-hyprpaper \
-      uwsm \
-      foot \
-      rofi-wayland \
-      dunst \
-      wl-clipboard \
-      satty \
-      grim \
-      slurp \
-      swayidle \
-      swaylock \
-      polkit-kde-agent \
-      qt5-wayland \
-      qt6-wayland \
-      xdg-desktop-portal-hyprland
-
-waybar \
+   xdg-desktop-portal-wlr \
+   xdg-desktop-portal-gtk
 
 # ----------------------------------
-# wayle bar
+# NIRI
 # ----------------------------------
 
-wayle-bin \
-      git \
-      gtk4 \
-      gtk4-layer-shell \
-      gtksourceview5 \
-      libpulse \
-      fftw \
-      libpipewire \
-      systemd-libs \
-      clang \
-      base-devel \
-      bluez \
-      bluez-utils \
-      networkmanager \
-      upower \
-      power-profiles-daemon \
-      pipewire \
-      wireplumber \
-      pipewire-pulse
-
-sudo systemctl enable --now bluetooth NetworkManager upower power-profiles-daemon
 
 # ----------------------------------
 # PKGS
