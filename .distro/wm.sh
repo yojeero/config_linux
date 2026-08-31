@@ -63,7 +63,6 @@ swaylock \
 swayidle \
 swaybg \
    waybar \
-   autotiling-rs \
    fuzzel \
    foot \
    mako \
@@ -75,9 +74,35 @@ swaybg \
    xdg-desktop-portal-gtk
 
 # ----------------------------------
-# NIRI
+#  MANGO
 # ----------------------------------
 
+yay -Syu \
+mangowm-git \
+      swaybg \
+      swaylock-effects-git \
+      swaync \
+      sway-audio-idle-inhibit-git \
+      swayidle \
+      waybar \
+      wlogout \
+      foot \
+      xdg-desktop-portal-wlr \
+      wl-clip-persist \
+      cliphist \
+      wl-clipboard \
+      wlsunset \
+      xfce-polkit \
+      pamixer \
+      wlr-dpms \
+      dimland-git \
+      brightnessctl \
+      swayosd \
+      wlr-randr \
+      grim \
+      slurp \
+      satty \
+      sox
 
 # ----------------------------------
 # PKGS
