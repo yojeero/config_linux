@@ -28,7 +28,9 @@ abbr -a gco git checkout
 abbr -a c clear
 abbr -a ka killall
 
+# ----------------------------------
 # Import Gentoo system environment 
+# ----------------------------------
 if test -f /etc/profile.env
     sed -E 's/^export ([A-Za-z0-9_]+)=(.*)$/set -gx \1 \2/' /etc/profile.env | source
 end
