@@ -135,6 +135,7 @@ swaybg \
    waybar \
    fuzzel \
    foot \
+   wlogout \
    mako \
    wl-clipboard \
    satty \
