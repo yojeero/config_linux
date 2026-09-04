@@ -17,7 +17,6 @@ Linux Dotfiles
 1920 x 1080 px  
 2560 x 1440 px  
 3840 x 2160 px  
-5120 x 2880 px
 
 ### Dotfiles
 

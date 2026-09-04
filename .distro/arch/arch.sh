@@ -15,6 +15,15 @@ cd yay-bin
 makepkg -si
 
 # ----------------------------------
+# paru
+# ----------------------------------
+
+sudo pacman -S --needed base-devel git
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+
+# ----------------------------------
 # SHELL FISH
 # ----------------------------------
 sudo pacman -S \
@@ -73,10 +82,80 @@ sxhkd \
     i3lock
 
 # ----------------------------------
+# SWAY
+# ----------------------------------
+
+paru -S \
+sway-git \
+   wlroots-git \
+   waybar-git \
+   swaylock \
+   swayidle \
+   swaybg \
+   wl-clipboard \
+   wlogout \
+   fuzzel \
+   foot \
+   mako \
+   grim \
+   slurp \
+   xdg-desktop-portal-wlr \
+   xdg-desktop-portal-gtk
+
+# update sway-git 
+paru -Sua --devel
+
+# ----------------------------------
+#  MANGO
+# ----------------------------------
+
+paru -Syu \
+mangowm-git \
+      swaybg \
+      swaylock-effects-git \
+      swaync \
+      sway-audio-idle-inhibit-git \
+      swayidle \
+      waybar \
+      wlogout \
+      foot \
+      xdg-desktop-portal-wlr \
+      wl-clip-persist \
+      cliphist \
+      wl-clipboard \
+      wlsunset \
+      xfce-polkit \
+      pamixer \
+      wlr-dpms \
+      dimland-git \
+      brightnessctl \
+      swayosd \
+      wlr-randr \
+      grim \
+      slurp
+
+# ----------------------------------
+# seatd
+# ----------------------------------
+
+sudo pacman -S seatd
+sudo systemctl enable --now seatd
+
+sudo usermod -aG video yopy
+
+# ----------------------------------
+# pulseaudio
+# ----------------------------------
+
+sudo pacman -S pulseaudio pulseaudio-alsa pavucontrol
+
+systemctl --user enable --now pulseaudio
+
+# ----------------------------------
 # PKGS
 # ----------------------------------
 
-sudo pacman -S \
+paru -S \
 
 alacritty \
    kitty \
@@ -122,65 +201,4 @@ imv \
 lxappearance \
    glib2 \
    gcolor3
-
-# ----------------------------------
-# SWAY
-# ----------------------------------
-
-sudo pacman -S \
-swayfx \
-swaylock \
-swayidle \
-swaybg \
-   waybar \
-   fuzzel \
-   foot \
-   wlogout \
-   mako \
-   wl-clipboard \
-   satty \
-   grim \
-   slurp \
-   xdg-desktop-portal-wlr \
-   xdg-desktop-portal-gtk
-
-# ----------------------------------
-#  MANGO
-# ----------------------------------
-
-yay -Syu \
-mangowm-git \
-      swaybg \
-      swaylock-effects-git \
-      swaync \
-      sway-audio-idle-inhibit-git \
-      swayidle \
-      waybar \
-      wlogout \
-      foot \
-      xdg-desktop-portal-wlr \
-      wl-clip-persist \
-      cliphist \
-      wl-clipboard \
-      wlsunset \
-      xfce-polkit \
-      pamixer \
-      wlr-dpms \
-      dimland-git \
-      brightnessctl \
-      swayosd \
-      wlr-randr \
-      grim \
-      slurp \
-      satty \
-      sox
-
-# ----------------------------------
-# seatd
-# ----------------------------------
-
-sudo pacman -S seatd
-sudo systemctl enable --now seatd
-
-sudo usermod -aG video yopy
 

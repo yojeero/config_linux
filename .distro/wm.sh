@@ -58,17 +58,17 @@ sxhkd \
 # SWAY
 # ----------------------------------
 
-swayfx \
-swaylock \
-swayidle \
-swaybg \
-   waybar \
+sway-git \
+   wlroots-git \
+   waybar-git \
+   swaylock \
+   swayidle \
+   swaybg \
+   wl-clipboard \
+   wlogout \
    fuzzel \
    foot \
-   wlogout \
    mako \
-   wl-clipboard \
-   satty \
    grim \
    slurp \
    xdg-desktop-portal-wlr \
@@ -78,7 +78,6 @@ swaybg \
 #  MANGO
 # ----------------------------------
 
-yay -Syu \
 mangowm-git \
       swaybg \
       swaylock-effects-git \
@@ -101,9 +100,7 @@ mangowm-git \
       swayosd \
       wlr-randr \
       grim \
-      slurp \
-      satty \
-      sox
+      slurp
 
 # ----------------------------------
 # PKGS
