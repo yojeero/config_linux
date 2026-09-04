@@ -115,7 +115,8 @@ alacritty \
 
 thunar \
    thunar-archive-plugin \
-   thunar-volman
+   thunar-volman \
+   xfce4-terminal
 
 fastfetch \
    mc \
@@ -150,6 +151,11 @@ imv \
 lxappearance \
    glib2 \
    gcolor3
+
+# ----------------------------------
+# thunar > open via micro 
+# ----------------------------------
+foot -e micro %f
 
 # ----------------------------------
 # thunar archiver

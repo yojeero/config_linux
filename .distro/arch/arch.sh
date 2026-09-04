@@ -166,7 +166,8 @@ alacritty \
 
 thunar \
    thunar-archive-plugin \
-   thunar-volman
+   thunar-volman \
+   xfce4-terminal
 
 fastfetch \
    mc \
