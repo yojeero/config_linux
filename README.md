@@ -56,7 +56,6 @@ Terminus
 ```
 Papirus
 Gruvbox
-Elementary
 ```
 
 ### Themes
@@ -65,6 +64,8 @@ Elementary
 Gruvbox
 Kanagawa
 Catppuccin Frappe
+Osaka-Solarized
+Zorin-Light
 ```
 
 ### Cursors
@@ -74,8 +75,6 @@ Breeze Black
 Bibata White
 ```
 
-Set in the .xprofile, .Xresources, .gtk3, .gtk4
-
 ### Distro
 
 Different commands for distros.
@@ -84,4 +83,6 @@ Different commands for distros.
 Arch
 Debian
 Gentoo
+Suse
+Alma
 ```
