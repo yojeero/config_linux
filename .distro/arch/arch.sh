@@ -26,13 +26,10 @@ makepkg -si
 # ----------------------------------
 # SHELL FISH
 # ----------------------------------
-sudo pacman -S \
-fish \
-   eza \
-   fzf \
-   fd
 
-# go to fish
+sudo pacman -S fish   
+
+# set fish
 chsh -s $(command -v fish)
 
 # ----------------------------------
@@ -61,7 +58,8 @@ herbstluftwm \
     slop \
     xclip \
     dunst \
-    i3lock
+    i3lock \
+    lxappearance
 
 # ----------------------------------
 # BSPWM 
@@ -79,7 +77,8 @@ sxhkd \
     slop \
     xclip \
     dunst \
-    i3lock
+    i3lock \
+    lxappearance
 
 # ----------------------------------
 # SWAY
@@ -100,23 +99,21 @@ sway-git \
    grim \
    slurp \
    xdg-desktop-portal-wlr \
-   xdg-desktop-portal-gtk
-
-# update sway-git 
-paru -Sua --devel
-
+   xdg-desktop-portal-gtk \
+   nwg-look
+   
 # ----------------------------------
 #  MANGO
 # ----------------------------------
 
 paru -Syu \
 mangowm-git \
+      waybar-git \
       swaybg \
       swaylock-effects-git \
       swaync \
       sway-audio-idle-inhibit-git \
       swayidle \
-      waybar \
       wlogout \
       foot \
       xdg-desktop-portal-wlr \
@@ -132,7 +129,8 @@ mangowm-git \
       swayosd \
       wlr-randr \
       grim \
-      slurp
+      slurp \
+      nwg-look
 
 # ----------------------------------
 # seatd
@@ -158,7 +156,6 @@ systemctl --user enable --now pulseaudio
 paru -S \
 
 alacritty \
-   kitty \
    foot \
    micro \
    mousepad \
@@ -167,7 +164,7 @@ alacritty \
 thunar \
    thunar-archive-plugin \
    thunar-volman \
-   xfce4-terminal
+   xfce4-screenshooter 
 
 fastfetch \
    mc \
@@ -191,15 +188,12 @@ wget \
 xdg-utils \
    ripgrep \
    zoxide \
-   xfce4-screenshooter 
+   eza \
+   fzf \
+   fd
 
 imv \
    celluloid \
    rhythmbox \
    imagemagick \
-   ffmpeg
-
-lxappearance \
-   glib2 \
-   gcolor3
-
+   ffmpeg 

@@ -1,18 +1,42 @@
+# =========================================
+# Gentoo systemd / Binary / MBR / Sway 
+# Intel Sandy Bridge
+# =========================================
 
-# ----------------------------------
-# Gentoo systemd Binary / MBR / TTY / Hlwm
-# ----------------------------------
+# -----------------------------------------
+# Variables
+# -----------------------------------------
 
-## Erase disks
+DISK="/dev/sda"
+ROOT="/mnt/gentoo"
+HOSTNAME="gentoo"
+USERNAME="yopy"
+TIMEZONE="Europe/Moscow"
 
-``` sh
+# Stage3
+STAGE3="/media/live/Verbatim/TUX/stage3.tar.xz"
+
+
+# =========================================
+# 1. Check disk
+# =========================================
+
 lsblk
-sudo su
 
-sgdisk --zap-all /dev/sda
-dd if=/dev/zero of=/dev/sda bs=1M count=10
+# =========================================
+# 2. Partition disk
+# =========================================
 
-# Automatic fdisk partitioning (MBR: 1GB boot, 50GB root)
+sudo -i
+
+sgdisk --zap-all "$DISK"
+dd if=/dev/zero of="$DISK" bs=1M count=10
+
+sync
+
+# MBR partition table:
+# /dev/sda1 = 1G boot
+# /dev/sda2 = 50G root
 
 fdisk /dev/sda <<EOF
 o
@@ -30,24 +54,45 @@ p
 w
 EOF
 
-# Formatting partitions in ext4
+sync
+
+# =========================================
+# 3. Format
+# =========================================
+
 mkfs.ext4 /dev/sda1
 mkfs.ext4 /dev/sda2
 
-## Stage3
+# =========================================
+# 4. Mount
+# =========================================
+
 mkdir -p /mnt/gentoo
 mount /dev/sda2 /mnt/gentoo
 
 mkdir -p /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
 
-cd /mnt/gentoo
-tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz --xattrs-include='*.*' --numeric-owner
+# =========================================
+# 5. Stage3
+# =========================================
 
-# date
+cd /mnt/gentoo
+
+tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz \
+    --xattrs-include='*.*' \
+    --numeric-owner
+
+# =========================================
+# 6. Date
+# =========================================
+
 date 072915272026
 
-## make.conf
+# =========================================
+# 7. make.conf
+# =========================================
+
 nano /mnt/gentoo/etc/portage/make.conf
 
 COMMON_FLAGS="-O2 -pipe -march=sandybridge"
@@ -62,11 +107,14 @@ MAKEOPTS="-j8"
 VIDEO_CARDS="intel"
 INPUT_DEVICES="libinput"
 
-USE="X systemd udev dbus alsa pulseaudio vaapi"
+USE="systemd udev dbus alsa pipewire vaapi"
 
 GENTOO_MIRRORS="https://distfiles.gentoo.org"
 
-## Repo
+# =========================================
+# 8. Gentoo repository
+# =========================================
+
 mkdir -p /mnt/gentoo/etc/portage/{repos.conf,binrepos.conf}
 
 cat >/mnt/gentoo/etc/portage/repos.conf/gentoo.conf <<EOF
@@ -82,7 +130,10 @@ cat >/mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf <<EOF
 sync-uri=https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
 EOF
 
-## DNS
+# =========================================
+# 9. DNS
+# =========================================
+
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 
 cat >/mnt/gentoo/etc/resolv.conf <<EOF
@@ -90,7 +141,10 @@ nameserver 1.1.1.1
 nameserver 8.8.8.8
 EOF
 
-## Chroot
+# =========================================
+# 10. Chroot mounts
+# =========================================
+
 mount -t proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys
@@ -99,11 +153,18 @@ mount --make-rslave /mnt/gentoo/dev
 mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
 
+# =========================================
+# 11. Enter chroot
+# =========================================
+
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 
-## Portage
+# =========================================
+# 12. Portage
+# =========================================
+
 emerge --sync
 
 eselect profile list | less
@@ -120,7 +181,10 @@ mkdir -p \
 # chroot
 export PS1="(chroot) $PS1"
 
-## Kernel
+# =========================================
+# 13. Kernel / firmware / GRUB
+# =========================================
+
 echo "sys-kernel/installkernel systemd dracut grub" \
 >/etc/portage/package.use/installkernel
 
@@ -131,17 +195,28 @@ echo "sys-firmware/intel-microcode intel-ucode" \
 >/etc/portage/package.license/intel-microcode
 
 emerge --ask \
-sys-boot/grub \
-sys-kernel/dracut \
-sys-kernel/installkernel \
-sys-kernel/linux-firmware \
-sys-firmware/intel-microcode \
-sys-kernel/gentoo-kernel-bin
+    sys-boot/grub \
+    sys-kernel/dracut \
+    sys-kernel/installkernel \
+    sys-kernel/linux-firmware \
+    sys-firmware/intel-microcode \
+    sys-kernel/gentoo-kernel-bin
 
-grub-install --recheck /dev/sda
+# =========================================
+# 14. GRUB BIOS / MBR
+# =========================================
+
+grub-install \
+    --target=i386-pc \
+    --recheck \
+    /dev/sda
+
 grub-mkconfig -o /boot/grub/grub.cfg
 
-## Fstab
+# =========================================
+# 15. Fstab
+# =========================================
+
 blkid
 
 nano /etc/fstab
@@ -152,9 +227,17 @@ UUID="f39e4e5b-3b6f-453e-9168-46fa9e6f3901"     /       ext4    noatime     0 1
 # /dev/sda1   /boot   ext4    noatime     1 2
 # /dev/sda2   /       ext4    noatime     0 1
 
-## Local
+# =========================================
+# 16. Timezone
+# =========================================
+
 echo Europe/Moscow >/etc/timezone
+
 emerge --config sys-libs/timezone-data
+
+# =========================================
+# 17. Locale
+# =========================================
 
 cat >/etc/locale.gen <<EOF
 en_US.UTF-8 UTF-8
@@ -166,63 +249,89 @@ eselect locale set en_US.utf8
 env-update
 source /etc/profile
 
-## Network
+# =========================================
+# 18. Hostname
+# =========================================
+
 echo gentoo >/etc/hostname
 
-emerge --ask net-misc/networkmanager net-wireless/iwd net-misc/dhcpcd
+# =========================================
+# 19. Network
+# =========================================
+
+emerge --ask \
+    net-misc/networkmanager \
+    net-wireless/iwd \
 
 systemctl enable NetworkManager
 systemctl enable iwd
 systemctl enable dbus
 
-## X11
-emerge --ask \
-x11-base/xorg-server \
-x11-base/xinit \
-media-libs/mesa \
-x11-drivers/xf86-input-libinput \
-sys-apps/dbus \
-app-admin/sudo
+# =========================================
+# 20. Sudo
+# =========================================
 
-visudo
+emerge --ask --getbinpkg app-admin/sudo
 
-%wheel ALL=(ALL:ALL) ALL
+sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-## Keyboard
-mkdir -p /etc/X11/xorg.conf.d
+# =========================================
+# 21. Wayland / Sway USE flags
+# =========================================
 
-cat >/etc/X11/xorg.conf.d/00-keyboard.conf <<EOF
-Section "InputClass"
-    Identifier "system-keyboard"
-    MatchIsKeyboard "on"
-    Option "XkbLayout" "us,ru"
-    Option "XkbOptions" "grp:alt_shift_toggle"
-EndSection
+cat > /etc/portage/package.use/sway <<'EOF'
+gui-wm/sway X
+gui-libs/wlroots X
 EOF
 
-# keyboard swith
-git clone https://github.com/Y-Forks/xkb-switch
-cd xkb-switch
-mkdir build && cd build
-cmake ..
-make
-sudo make install
-sudo ldconfig
+echo "gui-wm/sway X" >> /etc/portage/package.use/sway
+echo "gui-libs/wlroots X x11-backend" >> /etc/portage/package.use/sway
 
-## GURU
-emerge --ask app-eselect/eselect-repository dev-vcs/git
-eselect repository enable guru
-emaint sync -r guru
+# =========================================
+# 22. Sway / Wayland
+# =========================================
 
-# ----------------------------------
-# pkgs
-# ---------------------------------- 
+emerge --ask --getbinpkg \
+    gui-wm/sway \
+    gui-apps/waybar \
+    gui-apps/swaylock \
+    gui-apps/swayidle \
+    gui-apps/swaybg \
+    gui-apps/wl-clipboard \
+    gui-apps/fuzzel \
+    gui-apps/foot \
+    gui-apps/mako \
+    gui-apps/grim \
+    gui-apps/slurp \
+    gui-apps/wlogout \
+    gui-libs/xdg-desktop-portal-wlr \
+    gui-desktop/xdg-desktop-portal-gtk \
+    app-misc/nwg-look
+
+# =========================================
+# 23. Video + PipeWire
+# =========================================
+
+emerge --ask --getbinpkg \
+    media-libs/mesa \
+    media-libs/libglvnd
+
+emerge --ask --getbinpkg \
+    media-video/pipewire \
+    media-video/wireplumber \
+    media-sound/alsa-utils
+
+# =========================================
+# 24. Desktop applications
+# =========================================
+
 emerge --ask \
     app-misc/fastfetch \
     www-client/firefox \
     xfce-base/thunar \
     xfce-extra/thunar-archive-plugin \
     xfce-base/thunar-volman \
+    xfce-extra/xfce4-screenshooter \
     xfce-base/tumbler \
     app-editors/mousepad \
     app-arch/xarchiver \
@@ -237,56 +346,79 @@ emerge --ask \
     media-video/ffmpeg \
     media-video/ffmpegthumbnailer \
     x11-base/xorg-apps \
-    x11-misc/lxappearance \
-    media-fonts/noto
+    media-fonts/noto \
+    sys-apps/eza \
+    app-shells/fzf \
+    sys-apps/fd 
 
-# ----------------------------------
-# hlwm
-# ----------------------------------
+# =========================================
+# 25. GURU / Git
+# =========================================
+
 emerge --ask --getbinpkg \
-    x11-wm/herbstluftwm  \
-    x11-terms/alacritty \
-    x11-misc/rofi \
-    x11-misc/picom \
-    x11-misc/polybar \
-    media-gfx/feh \
-    x11-misc/dunst \
-    media-gfx/maim \
-    x11-misc/slop \
-    media-gfx/imv \
-    x11-misc/xclip
+    app-eselect/eselect-repository \
+    dev-vcs/git
 
-## User
-passwd
+eselect repository enable guru
 
-useradd -m -G wheel,audio,video,input,,usb,plugdev -s /bin/bash yopy
+emaint sync -r guru
 
-passwd yopy
+# =========================================
+# 26. Fish / utilities
+# =========================================
 
-# SHELL FISH
-emerge --ask app-shells/fish sys-apps/eza app-shells/fzf sys-apps/fd
+emerge --ask --getbinpkg app-shells/fish
 
 chsh -s /usr/bin/fish yopy
 
-## .xinitrc
-cat >/home/yopy/.xinitrc <<'EOF'
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-fi
+# =========================================
+# 27. User
+# =========================================
 
-gentoo-pipewire-launcher &
+passwd
 
-systemctl --user import-environment DISPLAY XAUTHORITY
+useradd -m \
+    -G wheel,audio,video,input,usb,plugdev \
+    -s /bin/bash \
+    yopy
 
-exec herbstluftwm
-EOF
+passwd yopy
 
-chown yopy:users /home/yopy/.xinitrc
+# =========================================
+# 33. Fish auto-start Sway on tty1
+# =========================================
 
-## Unmount
+nano ~/.config/fish/config.fish
+
+if test -z "$WAYLAND_DISPLAY"
+    and test (tty) = /dev/tty1
+    exec sway
+end
+
+# =========================================
+# 34. Ownership
+# =========================================
+
+chown -R yopy:users /home/yopy
+
+# =========================================
+# 35. Enable user PipeWire services
+# =========================================
+
+loginctl enable-linger yopy
+
+# =========================================
+# 36. Final
+# =========================================
+
 exit
+
 umount -lR /mnt/gentoo
+
 reboot
 
-# After reboot
-startx
+# =========================================
+# 37. After reboot > Enter to Sway
+# =========================================
+login
+pass

@@ -8,8 +8,7 @@ set -g theme_hide_hostname no
 set -g theme_hostname always
 
 set -gx MICRO_TRUECOLOR 1
-# set -gx TERMINAL foot
-# set -gx TERMINAL alacritty
+set -gx TERMINAL foot
 
 # nano
 abbr -a n nano
@@ -36,3 +35,28 @@ abbr -a ka killall
 if test -f /etc/profile.env
     sed -E 's/^export ([A-Za-z0-9_]+)=(.*)$/set -gx \1 \2/' /etc/profile.env | source
 end
+
+# ----------------------------------
+# sway TTY1
+# ----------------------------------
+
+if status is-login
+    if test (tty) = /dev/tty1
+
+         set -gx XDG_CURRENT_DESKTOP mango
+            set -gx XDG_SESSION_DESKTOP mango
+            set -gx XDG_SESSION_TYPE wayland
+            set -gx MOZ_ENABLE_WAYLAND 1
+            set -gx QT_QPA_PLATFORM wayland
+            
+            exec mango
+    end
+end
+
+
+
+ 
+
+
+
+
