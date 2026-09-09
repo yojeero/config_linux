@@ -5,8 +5,6 @@
 # Intel Sandy Bridge
 # =========================================
 
-set -e
-
 # -------------------------------------------
 # Variables
 # --------------------------------------------
@@ -27,26 +25,13 @@ STAGE3="/media/live/Verbatim/TUX/stage3.tar.xz"
 
 lsblk
 
-echo
-echo "!!! WARNING !!!"
-echo "THIS WILL ERASE: $DISK"
-echo
-read -rp "Type YES to continue: " CONFIRM
-
-if [ "$CONFIRM" != "YES" ]; then
-    echo "Aborted."
-    exit 1
-fi
-
 
 # =========================================
 # 2. Partition disk
 # =========================================
 
-sudo -i
-
-sgdisk --zap-all "$DISK"
-dd if=/dev/zero of="$DISK" bs=1M count=10
+sgdisk --zap-all /dev/sda
+dd if=/dev/zero of=/dev/sda bs=1M count=10
 
 sync
 
@@ -54,7 +39,7 @@ sync
 # /dev/sda1 = 1G boot
 # /dev/sda2 = 50G root
 
-fdisk "$DISK" <<EOF
+fdisk /dev/sda <<EOF
 o
 n
 p
@@ -77,30 +62,28 @@ sync
 # 3. Format
 # =========================================
 
-mkfs.ext4 -F "${DISK}1"
-mkfs.ext4 -F "${DISK}2"
+mkfs.ext4 -F /dev/sda1
+mkfs.ext4 -F /dev/sda2
 
 
 # =========================================
 # 4. Mount
 # =========================================
 
-mkdir -p "$ROOT"
+mkdir -p /mnt/gentoo
+mount /dev/sda2 /mnt/gentoo
 
-mount "${DISK}2" "$ROOT"
-
-mkdir -p "$ROOT/boot"
-
-mount "${DISK}1" "$ROOT/boot"
+mkdir -p /mnt/gentoo/boot
+mount /dev/sda1 /mnt/gentoo/boot
 
 
 # =========================================
 # 5. Stage3
 # =========================================
 
-cd "$ROOT"
+cd /mnt/gentoo
 
-tar xpvf "$STAGE3" \
+tar xpvf /media/live/Verbatim/TUX/stage3.tar.xz \
     --xattrs-include='*.*' \
     --numeric-owner
 
@@ -116,7 +99,7 @@ date 072915272026
 # 7. make.conf
 # =========================================
 
-cat > "$ROOT/etc/portage/make.conf" <<'EOF'
+cat > "/mnt/gentoo/etc/portage/make.conf" <<'EOF'
 
 COMMON_FLAGS="-O2 -pipe -march=sandybridge"
 
@@ -145,10 +128,10 @@ EOF
 # =========================================
 
 mkdir -p \
-    "$ROOT/etc/portage/repos.conf" \
-    "$ROOT/etc/portage/binrepos.conf"
+    "/mnt/gentoo/etc/portage/repos.conf" \
+    "/mnt/gentoo/etc/portage/binrepos.conf"
 
-cat > "$ROOT/etc/portage/repos.conf/gentoo.conf" <<'EOF'
+cat > "/mnt/gentoo/etc/portage/repos.conf/gentoo.conf" <<'EOF'
 [gentoo]
 
 location=/var/db/repos/gentoo
@@ -161,7 +144,7 @@ auto-sync=yes
 EOF
 
 
-cat > "$ROOT/etc/portage/binrepos.conf/gentoo.conf" <<'EOF'
+cat > "/mnt/gentoo/etc/portage/binrepos.conf/gentoo.conf" <<'EOF'
 [binhost]
 
 sync-uri=https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
@@ -172,7 +155,7 @@ EOF
 # 9. DNS
 # =========================================
 
-cat > "$ROOT/etc/resolv.conf" <<'EOF'
+cat > "/mnt/gentoo/etc/resolv.conf" <<'EOF'
 nameserver 1.1.1.1
 nameserver 8.8.8.8
 EOF
@@ -182,23 +165,23 @@ EOF
 # 10. Chroot mounts
 # =========================================
 
-mount -t proc /proc "$ROOT/proc"
+mount -t proc /proc /mnt/gentoo/proc
 
-mount --rbind /sys "$ROOT/sys"
-mount --make-rslave "$ROOT/sys"
+mount --rbind /sys /mnt/gentoo/sys
+mount --make-rslave /mnt/gentoo/sys
 
-mount --rbind /dev "$ROOT/dev"
-mount --make-rslave "$ROOT/dev"
+mount --rbind /dev /mnt/gentoo/dev
+mount --make-rslave /mnt/gentoo/dev
 
-mount --bind /run "$ROOT/run"
-mount --make-slave "$ROOT/run"
+mount --bind /run /mnt/gentoo/run
+mount --make-slave /mnt/gentoo/run
 
 
 # =========================================
 # 11. Enter chroot
 # =========================================
 
-chroot "$ROOT" /bin/bash <<'CHROOT'
+chroot /mnt/gentoo /bin/bash 
 
 source /etc/profile
 
@@ -266,12 +249,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # 15. Fstab
 # ==========================================================
 
-BOOT_UUID=$(blkid -s UUID -o value /dev/sda1)
-ROOT_UUID=$(blkid -s UUID -o value /dev/sda2)
-
 cat > /etc/fstab <<EOF
-UUID=${BOOT_UUID}    /boot    ext4    noatime    1 2
-UUID=${ROOT_UUID}    /        ext4    noatime    0 1
+/dev/sda1    /boot    ext4    noatime    1 2
+/dev/sda2    /        ext4    noatime    0 1
 EOF
 
 
@@ -458,10 +438,6 @@ cat > /home/yopy/.config/sway/config <<'EOF'
 
 set $mod Mod4
 
-set $term foot
-set $menu fuzzel
-
-
 ### Keyboard
 
 input * {
@@ -469,15 +445,14 @@ input * {
     xkb_options grp:alt_shift_toggle
 }
 
-
 ### Terminal
 
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec foot
 
 
 ### Application launcher
 
-bindsym $mod+d exec $menu
+bindsym $mod+d exec fuzzel
 
 
 ### Kill window
@@ -490,46 +465,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+Shift+c reload
 
 
-### Exit Sway
-
-bindsym $mod+Shift+e exec wlogout
-
-
-### Screenshot
-
-bindsym Print exec grim ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
-
-bindsym $mod+Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
-
-
-### Background
-
-output * bg ~/.config/sway/wallpaper.jpg fill
-
-
-### Waybar
-
 exec_always waybar
-
-
-### Notifications
-
-exec mako
-
-
-### Idle
-
-exec swayidle -w \
-    timeout 300 'swaylock -f' \
-    timeout 600 'swaymsg "output * power off"' \
-    resume 'swaymsg "output * power on"' \
-    before-sleep 'swaylock -f'
-
-
-### Clipboard
-
-# wl-clipboard is available system-wide
-
 
 ### Environment
 
@@ -550,28 +486,10 @@ mkdir -p \
     /home/yopy/.config/foot \
     /home/yopy/.config/waybar \
     /home/yopy/.config/fuzzel \
-    /home/yopy/.config/mako
 
 
 # ==========================================================
-# 30. Foot config
-# ==========================================================
-
-cat > /home/yopy/.config/foot/foot.ini <<'EOF'
-
-[main]
-
-font=Noto Sans Mono:size=11
-
-[colors]
-
-alpha=0.95
-
-EOF
-
-
-# ==========================================================
-# 31. Waybar config
+# 30. Waybar config
 # ==========================================================
 
 cat > /home/yopy/.config/waybar/config <<'EOF'
@@ -583,60 +501,20 @@ cat > /home/yopy/.config/waybar/config <<'EOF'
         "sway/workspaces"
     ],
 
-    "modules-center": [
-        "clock"
-    ],
-
     "modules-right": [
-        "network",
-        "pulseaudio",
-        "battery"
+        "clock"
     ],
 
     "clock": {
         "format": "{:%H:%M  %d.%m.%Y}"
-    },
-
-    "battery": {
-        "format": "{capacity}%"
-    },
-
-    "network": {
-        "format-wifi": "  {essid}",
-        "format-ethernet": "󰈀 {ipaddr}",
-        "format-disconnected": "󰤮"
-    },
-
-    "pulseaudio": {
-        "format": "  {volume}%"
     }
+
 }
 EOF
 
 
 # ==========================================================
-# 32. Mako
-# ==========================================================
-
-cat > /home/yopy/.config/mako/config <<'EOF'
-
-font=Noto Sans 11
-
-default-timeout=5000
-
-max-visible=5
-
-padding=10
-
-border-size=2
-
-border-radius=8
-
-EOF
-
-
-# ==========================================================
-# 33. Fish auto-start Sway on tty1
+# 31. Fish auto-start Sway on tty1
 # ==========================================================
 
 cat > /home/yopy/.config/fish/config.fish <<'EOF'
@@ -653,67 +531,34 @@ EOF
 
 
 # ==========================================================
-# 34. Ownership
+# 32. Ownership
 # ==========================================================
 
 chown -R yopy:users /home/yopy
 
 
 # ==========================================================
-# 35. Enable user PipeWire services
+# 33. Enable user PipeWire services
 # ==========================================================
 
 loginctl enable-linger yopy
 
 
 # ==========================================================
-# 36. Final
+# 34. Final
 # ==========================================================
 
-echo
-echo "============================================"
-echo " Gentoo Sway installation is ready"
-echo "============================================"
-echo
-echo "Disk:"
-lsblk
-
-echo
-echo "Fstab:"
-cat /etc/fstab
-
-echo
-echo "Sway:"
 sway --version
-
-echo
-echo "Reboot:"
-echo
-echo "exit"
-echo "umount -lR /mnt/gentoo"
-echo "reboot"
-echo
 
 CHROOT
 
 
 # =========================================
-# 37. Leave chroot
+# 35. Leave chroot
 # =========================================
 
-echo
-echo "============================================"
-echo " CHROOT FINISHED"
-echo "============================================"
-echo
-
-umount -lR "$ROOT"
+umount -lR /mnt/gentoo
 
 sync
-
-echo
-echo "Installation complete."
-echo "Remove installation media and reboot."
-echo
 
 reboot
