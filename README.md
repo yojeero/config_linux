@@ -1,11 +1,10 @@
 <h1 align="center">
 
-🐧
+🐧   
 
-Linux Dotfiles
+Linux Dotfiles   
 
-
-`Gentoo` . `Debian`. `SUSE` . `Arch` . `Alma`   
+`Gentoo` . `Debian`. `Arch`
 
 :secret:   
 
@@ -13,19 +12,19 @@ Linux Dotfiles
 
 <img src="Pictures/nohara.jpg" width="100%" max-width="800px">
 
-</h1>
+</h1>   
+
+### Dotfiles   
+
+alacritty, foot, fish, micro, xterm, fastfetch, btop...   
 
 ### Wallpapers
 
-1920 x 1080 px  
-2560 x 1440 px  
-3840 x 2160 px  
+1920 x 1080 px   
+2560 x 1440 px   
+3840 x 2160 px   
 
-### Dotfiles
-
-All dotfiles inside .config folder.
-
-### Normal Fonts
+### Normal Fonts   
 
 ```
 Noto
@@ -76,14 +75,4 @@ Zorin-Light
 ```
 Breeze Black
 Bibata White
-```
-
-### Distro
-
-Different commands for distros.
-
-```
-Arch
-Debian
-Gentoo
 ```
