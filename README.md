@@ -1,14 +1,8 @@
-<h1 align="center">  
-
-Linux Dotfiles   
-
-`Gentoo` . `Debian`. `Arch`
-
-<br>
-
 <img src="Pictures/nohara.jpg" width="100%" max-width="800px">
 
-</h1>   
+## Linux Dotfiles   
+
+### `Gentoo` . `Debian`. `Arch`   
 
 ### Dotfiles   
 
