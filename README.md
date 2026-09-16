@@ -4,8 +4,6 @@ Linux Dotfiles
 
 `Gentoo` . `Debian`. `Arch`
 
-:secret:   
-
 <br>
 
 <img src="Pictures/nohara.jpg" width="100%" max-width="800px">
