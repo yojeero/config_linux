@@ -4,8 +4,6 @@
 
 alacritty, foot, fish, micro, xterm, fastfetch, btop...   
 
-### Wallpapers
+#### Wallpapers
 
-1920 x 1080 px   
-2560 x 1440 px   
-3840 x 2160 px   
+1920 x 1080 / 2560 x 1440 / 3840 x 2160 px   
