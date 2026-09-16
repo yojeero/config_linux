@@ -2,7 +2,7 @@
 
 # Linux Dotfiles   
 
-## `Gentoo` . `Debian`. `Arch`   
+### `Gentoo` . `Debian`. `Arch`   
 
 alacritty, foot, fish, micro, xterm, fastfetch, btop...   
 
