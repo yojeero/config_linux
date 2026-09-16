@@ -1,6 +1,6 @@
 <img src="Pictures/nohara.jpg" width="100%" max-width="800px">
 
-## Linux Dotfiles   
+# Linux Dotfiles   
 
 ### `Gentoo` . `Debian`. `Arch`   
 
