@@ -1,18 +1,16 @@
 <img src="Pictures/nohara.jpg" width="100%" max-width="800px">
 
-## Linux Dotfiles   
-
-### `Gentoo` . `Debian`. `Arch`   
+# Configs `Gentoo` . `Debian`. `Arch`   
 
 alacritty, foot, fish, micro, xterm, fastfetch, btop...   
 
-### Wallpapers
+## Wallpapers
 
 1920 x 1080 px   
 2560 x 1440 px   
 3840 x 2160 px   
 
-### Normal Fonts   
+## Normal Fonts   
 
 ```
 Noto
@@ -20,7 +18,7 @@ Adwaita
 Clear Sans
 ```
 
-### Nerd Fonts
+## Nerd Fonts
 
 ```
 Iosevka Nerd Font
@@ -28,27 +26,27 @@ Terminess Nerd Font
 JetBrainsMono Nerd Font
 ```
 
-### Icon Fonts
+## Icon Fonts
 
 ```
 Material Symbols
 Symbols Nerd Font Mono
 ```
 
-### Boot Fonts
+## Boot Fonts
 
 ```
 Terminus
 ```
 
-### Icons
+## Icons
 
 ```
 Papirus
 Gruvbox
 ```
 
-### Themes
+## Themes
 
 ```
 Gruvbox
@@ -58,7 +56,7 @@ Osaka-Solarized
 Zorin-Light
 ```
 
-### Cursors
+## Cursors
 
 ```
 Breeze Black
