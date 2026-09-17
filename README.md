@@ -2,8 +2,8 @@
 
 <img src="https://img.shields.io/badge/Config-7678ed?style=for-the-badge" width="40%" alt="Config">   
 
-alacritty, foot, fish, micro, xterm, fastfetch, btop...   
+🐧 alacritty, foot, fish, micro, fastfetch, btop...   
 
-## :dart: Wallpapers
+### 🎨 Wallpapers
 
-1920 x 1080 / 2560 x 1440 / 3840 x 2160 px   
+1920x1080 / 2560x1440 / 3840x2160px   
