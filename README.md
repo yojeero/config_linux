@@ -1,6 +1,6 @@
 <img src="Pictures/nohara.jpg" width="100%" max-width="800px">
 
-### `Gentoo` . `Debian`. `Arch`   
+### Gentoo . Debian. Arch   
 
 alacritty, foot, fish, micro, xterm, fastfetch, btop...   
 
