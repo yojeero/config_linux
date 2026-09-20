@@ -1,4 +1,4 @@
-<img src="Pictures/nohara.jpg" width="100%">
+<img src="Pictures/cd.jpg" width="100%">
 
 <img src="https://img.shields.io/badge/Config-7678ed?style=for-the-badge" width="40%" alt="Config">   
 
